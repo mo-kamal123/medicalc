@@ -11,7 +11,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login()); 
+    dispatch(login());
   };
   const handleShowPass = () => {
     setShowPass((prev) => !prev);

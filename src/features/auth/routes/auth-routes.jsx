@@ -1,6 +1,3 @@
-import Login from "../pages/login";
+import Login from '../pages/login';
 
-
-export const authRoutes = [
-    {index: true,  element: <Login />}
-]
+export const authRoutes = [{ index: true, element: <Login /> }];
