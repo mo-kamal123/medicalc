@@ -10,15 +10,7 @@ const RootLayout = () => {
     <div className="bg-body min-h-svh flex flex-col">
       <div className="w-[90%] m-auto pt-5 flex flex-col flex-1">
         <Navbar />
-        <Header
-          heading={
-            'Smart Self-Management Calculator Empowering Smarter Program Control'
-          }
-          desc={
-            'The Smart Self-Management Calculator is an intelligent tool designed to help healthcare and insurance'
-          }
-        />
-        <div className="bgImg flex-1 flex">
+        <div className="bgImg flex-1 flex ">
           <Outlet />
         </div>
       </div>

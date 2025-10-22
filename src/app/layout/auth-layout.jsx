@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 const AuthLayout = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   return loggedIn ? (
-    <Navigate to={'/'} replace />
+    <Navigate to={'/location'} replace />
   ) : (
     <div className="flex justify-between items-center w-[90%] m-auto h-svh gap-10">
       <div className="auth-content w-1/2 flex flex-col items-center justify-between gap-20">
