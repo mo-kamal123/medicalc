@@ -1,17 +1,17 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 @theme {
-  --color-body: #FBFBFB;
-  --color-main: #3C79E7;
+  --color-body: #fbfbfb;
+  --color-main: #3c79e7;
   --color-sec: #32323299;
-  --color-text: #1C1C1CCC;
+  --color-text: #1c1c1ccc;
   --color-label: #475467;
-  --color-borders: #98A2B3;
-  --color-delete: #F95555;
+  --color-borders: #98a2b3;
+  --color-delete: #f95555;
 }
 
 .bgImg {
@@ -20,7 +20,7 @@ body {
 }
 
 .bgImg::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background-image: url('/src/app/assets/illustration-bg.png');
@@ -28,5 +28,5 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.03;
-  z-index: -1; 
+  z-index: -1;
 }

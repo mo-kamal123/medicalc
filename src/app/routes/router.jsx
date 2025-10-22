@@ -6,7 +6,9 @@ import Hero from '../../features/home/pages/hero';
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthLayout />, children: [...authRoutes] },
-  { path: '/', element: <RootLayout />, children: [
-    {index: true, element: <Hero /> } 
-  ] }
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [{ index: true, element: <Hero /> }],
+  },
 ]);
