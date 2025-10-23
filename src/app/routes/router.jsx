@@ -6,6 +6,7 @@ import Hero from '../../features/home/pages/hero';
 import { locationRoutes } from '../../features/location/routes/routes.jsx';
 import { clientInfoRoutes } from '../../features/client/routes/routes.jsx';
 import { packagesRoutes } from '../../features/packages/routes/routes.jsx';
+import { standardPacksRoutes } from '../../features/ready-packags/standard-packs/routes/routes.jsx';
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthLayout />, children: [...authRoutes] },
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
       ...locationRoutes,
       ...clientInfoRoutes,
       ...packagesRoutes,
+      ...standardPacksRoutes,
     ],
   },
 ]);
