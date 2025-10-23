@@ -49,12 +49,14 @@ const ReadyPacks = () => {
         header={'Premium Package'}
         plans={premiumPlans}
         btnTitle={'Choose Premium'}
+        navigate={'premium'}
       />
       <PackageCard
         img={standard}
         header={'Standard Package'}
         plans={standardPlans}
         btnTitle={'Choose Standard'}
+        navigate={'/standard-package/plan-data'}
       />
     </div>
   );
