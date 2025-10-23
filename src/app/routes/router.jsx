@@ -4,12 +4,19 @@ import { authRoutes } from '../../features/auth/routes/auth-routes';
 import RootLayout from '../layout/root-layout';
 import Hero from '../../features/home/pages/hero';
 import { locationRoutes } from '../../features/location/routes/routes.jsx';
+import { clientInfoRoutes } from '../../features/client/routes/routes.jsx';
+import { packagesRoutes } from '../../features/packages/routes/routes.jsx';
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthLayout />, children: [...authRoutes] },
   {
     path: '/',
     element: <RootLayout />,
-    children: [{ index: true, element: <Hero /> }, ...locationRoutes],
+    children: [
+      { index: true, element: <Hero /> },
+      ...locationRoutes,
+      ...clientInfoRoutes,
+      ...packagesRoutes,
+    ],
   },
 ]);
