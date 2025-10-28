@@ -32,7 +32,7 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex justify-between items-center w-full px-4 py-2 border rounded-xl bg-white text-gray-700 shadow-sm hover:shadow-md transition-all duration-200 ${
+        className={`flex justify-between items-center w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 ${
           isOpen ? 'border-main/50' : 'border-gray-300'
         }`}
       >
@@ -61,8 +61,10 @@ export default function Dropdown({
               <li
                 key={i}
                 onClick={() => handleSelect(item)}
-                className={`px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-dark transition-colors ${
-                  selected === item ? 'bg-main text-white' : ''
+                className={`px-4 py-2 cursor-pointer hover: hover:text-main transition-colors ${
+                  selected === item
+                    ? 'bg-main text-white hover:bg-main hover:text-white'
+                    : ''
                 }`}
               >
                 {item}

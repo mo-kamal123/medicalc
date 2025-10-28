@@ -4,10 +4,6 @@ import Header from '../../../shared/UI/header';
 import { NavLink, Outlet } from 'react-router-dom';
 
 const PackagesLayout = () => {
-  const [selected, setSelected] = useState(null);
-
-  const options = ['Basic', 'Standard', 'Premium'];
-
   return (
     <div className="flex flex-col items-center gap-10 w-full h-full pb-10">
       <Header
@@ -45,12 +41,6 @@ const PackagesLayout = () => {
             Ready Packages
           </NavLink>
         </div>
-        <Dropdown
-          data={options}
-          defaultValue="Standard"
-          onChange={(value) => setSelected(value)}
-        />
-
         <Outlet />
       </div>
     </div>

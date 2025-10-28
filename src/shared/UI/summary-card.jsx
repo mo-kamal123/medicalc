@@ -1,6 +1,4 @@
-import Dropdown from './drop-down';
-
-const PlanCard = ({ header, inputs }) => {
+const SummaryCard = ({ header, inputs }) => {
   return (
     <div className="bg-white w-full p-7 rounded-xl shadow flex flex-col gap-10">
       <div className="flex items-center gap-2 text-dark">
@@ -17,10 +15,15 @@ const PlanCard = ({ header, inputs }) => {
                 <label className="text-sm text-dark font-semibold">
                   {input.label}
                 </label>
-                <Dropdown
-                  data={input.data}
-                  defaultValue={input.defaultValue}
-                  placeholder={input.placeholder}
+                <input
+                  type="text"
+                  value={input.defaultValue}
+                  // onChange={(e) =>
+                  //   handleManualChange(planKey, ageKey, e.target.value)
+                  // }
+                  className="w-full rounded-md p-2  focus:outline-none ring ring-main placeholder:text-sec"
+                  placeholder="Enter employees"
+                  readOnly={true}
                 />
               </div>
             ))}
@@ -31,4 +34,4 @@ const PlanCard = ({ header, inputs }) => {
   );
 };
 
-export default PlanCard;
+export default SummaryCard;
