@@ -15,10 +15,10 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Hero /> },
-      ...locationRoutes,
       ...clientInfoRoutes,
       ...packagesRoutes,
       ...standardPacksRoutes,
     ],
   },
+  ...locationRoutes,
 ]);
