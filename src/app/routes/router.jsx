@@ -8,6 +8,7 @@ import { clientInfoRoutes } from '../../features/client/routes/routes.jsx';
 import { packagesRoutes } from '../../features/packages/routes/routes.jsx';
 import { standardPacksRoutes } from '../../features/ready-packags/standard-packs/routes/routes.jsx';
 import { premiumPacksRoutes } from '../../features/ready-packags/premium-packs/routes/routes.jsx';
+import { customPacksRoutes } from '../../features/costum-packages/routes/routes.jsx';
 
 export const router = createBrowserRouter([
   { path: '/auth', element: <AuthLayout />, children: [...authRoutes] },
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
       ...packagesRoutes,
       ...standardPacksRoutes,
       ...premiumPacksRoutes,
+      ...customPacksRoutes,
     ],
   },
   ...locationRoutes,

@@ -1,4 +1,3 @@
-import { FaStar, FaMedal, FaCrown } from 'react-icons/fa';
 import Reimbursement from '../../../../shared/components/reimbursement';
 
 const PremiumReimbursement = () => {

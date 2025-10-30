@@ -1,4 +1,4 @@
-import PlanByAge from './PlanByAge';
+import PlanByAge from '../../../shared/components/PlanByAge';
 
 const CustomPlanByAge = () => {
   return <PlanByAge />;
