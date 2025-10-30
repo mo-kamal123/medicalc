@@ -4,9 +4,11 @@ const PlanCard = ({ header, inputs }) => {
   return (
     <div className="bg-white w-full p-7 rounded-xl shadow flex flex-col gap-10">
       <div className="flex items-center gap-2 text-dark">
-        <p className="bg-[#EBEBEB3D] w-8 h-8 flex items-center justify-center rounded-lg">
-          {header.icon}
-        </p>
+        {header.icon && (
+          <p className="bg-[#EBEBEB3D] w-8 h-8 flex items-center justify-center rounded-lg">
+            {header.icon}
+          </p>
+        )}
         <p className="text-xl font-semibold">{header.title}</p>
       </div>
       {inputs && (

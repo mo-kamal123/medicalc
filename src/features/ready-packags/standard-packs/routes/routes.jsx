@@ -1,32 +1,32 @@
-import PlanAgeTable from '../components/plan-age-table';
 import StandardPack from '../pages/standard-pack';
-import PlanByAge from '../steps/PlanByAge';
-import CoverageDetails from '../steps/coverage-details';
 import CustomizeByAge from '../steps/customize-by-age';
-import HealthcareServices from '../steps/healthcare-services';
 import Installments from '../steps/installments';
-import PlanData from '../steps/plan-data';
-import PlanSummaryByAge from '../steps/plan-summary-by-age';
-import Reimbursement from '../steps/reimbursement';
+import PlanSummaryByAge from '../steps/standard-plan-summary-by-age';
 import Summary from '../steps/summary';
+import StandardPlanData from '../steps/standard-plan-data';
+import StandardHealthcareServices from '../steps/standard-healthcare-services';
+import StandardReimbursement from '../steps/standard-reimbursement';
+import StandardPlanByAge from '../steps/standard-PlanByAge';
+import StandardPlanSummaryByAge from '../steps/standard-plan-summary-by-age';
+import StandardCoverageDetails from '../steps/STANDARD-coverage-details';
 
 export const standardPacksRoutes = [
   {
     path: 'standard-package',
     element: <StandardPack />,
     children: [
-      { path: 'plan-data', element: <PlanData /> },
-      { path: 'healthcare-services', element: <HealthcareServices /> },
-      { path: 'reimbursement-details', element: <Reimbursement /> },
+      { path: 'plan-data', element: <StandardPlanData /> },
+      { path: 'healthcare-services', element: <StandardHealthcareServices /> },
+      { path: 'reimbursement-details', element: <StandardReimbursement /> },
       {
         path: 'plan-by-age',
-        element: <PlanByAge />,
+        element: <StandardPlanByAge />,
         children: [
-          { path: 'summary', element: <PlanSummaryByAge /> },
+          { path: 'summary', element: <StandardPlanSummaryByAge /> },
           { path: 'custom', element: <CustomizeByAge /> },
         ],
       },
-      { path: 'coverage-details', element: <CoverageDetails /> },
+      { path: 'coverage-details', element: <StandardCoverageDetails /> },
       { path: 'installments', element: <Installments /> },
       { path: 'summary', element: <Summary /> },
     ],

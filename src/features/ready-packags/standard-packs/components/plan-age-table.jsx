@@ -1,27 +1,8 @@
 import { useState } from 'react';
-import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 import PlanCard from '../../../../shared/UI/plan-card';
 import { Link } from 'react-router-dom';
 
-const PLAN_META = {
-  _100000: {
-    name: 'White Plan',
-    color: 'text-blue-400',
-    icon: <FaStar className="text-blue-400 text-2xl" />,
-  },
-  _50000: {
-    name: 'Silver Plan',
-    color: 'text-gray-400',
-    icon: <FaMedal className="text-gray-400 text-2xl" />,
-  },
-  _20000: {
-    name: 'Gold Plan',
-    color: 'text-yellow-400',
-    icon: <FaCrown className="text-yellow-400 text-2xl" />,
-  },
-};
-
-const PlanAgeTable = ({ navigation, plans }) => {
+const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
   // Fallback: if no plans are passed, define empty plan keys and age groups
   const defaultPlanKeys = Object.keys(PLAN_META);
   const defaultAgeGroups = [

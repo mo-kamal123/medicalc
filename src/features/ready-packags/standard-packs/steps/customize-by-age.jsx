@@ -27,7 +27,7 @@ const CustomizeByAge = () => {
           Browse File
         </button>
       </div>
-      <PlanAgeTable navigation={'/standard-package/coverage-details'} />
+      <PlanAgeTable navigation={'/premium-package/coverage-details'} />
       <Modal
         isOpen={showModal}
         onClose={() => {
