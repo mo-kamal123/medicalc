@@ -1,4 +1,11 @@
-import { FaCrown, FaEye, FaMedal, FaStar } from 'react-icons/fa';
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaCrown,
+  FaEye,
+  FaMedal,
+  FaStar,
+} from 'react-icons/fa';
 import {
   FaHospital,
   FaUserInjured,
@@ -8,10 +15,14 @@ import {
   FaHeartbeat,
   FaBaby,
 } from 'react-icons/fa';
-import PlanCard from '../../../../shared/UI/plan-card';
 import { Link } from 'react-router-dom';
+import PlanCard from '../UI/plan-card';
+import { useState } from 'react';
+import usePagination from '../hooks/usePagination';
 
-const HealthcareServices = () => {
+const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
+  const [page, setPage] = useState(1);
+  const pageplans = usePagination(page, plans);
   const planData = [
     {
       header: {
@@ -200,56 +211,50 @@ const HealthcareServices = () => {
   ];
   return (
     <div className="flex flex-col gap-6">
+      {plans.length > 3 && (
+        <div className="flex justify-between items-center w-full gap-3">
+          <p className="text-main text-2xl font-semibold">
+            Swap or use arrow to explore more program
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              disabled={pageplans[0].id === 1}
+              className={`${pageplans[0].id === 1 ? 'bg-[#D8D8D8]' : 'bg-main'} text-white p-2 rounded transition-all duration-200`}
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              <FaArrowLeft />
+            </button>
+            <button
+              disabled={pageplans[pageplans.length - 1].id === plans.length}
+              className={`${pageplans[pageplans.length - 1].id === plans.length ? 'bg-[#D8D8D8]' : 'bg-main'} text-white p-2 rounded transition-all duration-200`}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-5">
-        <div className="flex flex-col gap-10">
-          <PlanCard
-            header={{
-              icon: <FaStar className="text-blue-400 text-2xl" />,
-              title: 'Standard White Plan',
-            }}
-          />
-          {planData.map((data) => (
-            <>
-              <PlanCard header={data.header} inputs={data.inputs} />
-            </>
-          ))}
-        </div>
-        <div className="flex flex-col gap-10">
-          <PlanCard
-            header={{
-              icon: <FaMedal className="text-gray-400 text-2xl" />,
-              title: 'Silver Plan',
-            }}
-          />
-          {planData.map((data) => (
-            <>
-              <PlanCard header={data.header} inputs={data.inputs} />
-            </>
-          ))}
-        </div>
-        <div className="flex flex-col gap-10">
-          <PlanCard
-            header={{
-              icon: <FaCrown className="text-yellow-400 text-2xl" />,
-              title: 'premium Gold Plan',
-            }}
-          />
-          {planData.map((data) => (
-            <>
-              <PlanCard header={data.header} inputs={data.inputs} />
-            </>
-          ))}
-        </div>
+        {pageplans.map((plan) => (
+          <div className="flex flex-col gap-10">
+            <PlanCard header={plan} />
+            {planData.map((data) => (
+              <>
+                <PlanCard header={data.header} inputs={data.inputs} />
+              </>
+            ))}
+          </div>
+        ))}
       </div>
       <div className="flex gap-5 justify-end w-full mb-10">
         <Link
-          to={-1}
+          to={prevNavigation}
           className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl"
         >
           Previse
         </Link>
         <Link
-          to={'/standard-package/reimbursement-details'}
+          to={nextNavigation}
           className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl"
         >
           Next Step

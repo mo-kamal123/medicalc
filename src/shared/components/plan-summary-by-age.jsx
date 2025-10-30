@@ -1,4 +1,4 @@
-import PlanAgeTable from '../components/plan-age-table';
+import PlanAgeTable from '../../features/ready-packags/standard-packs/components/plan-age-table';
 
 const plans = {
   _100000: {
