@@ -1,4 +1,3 @@
-import { id } from 'zod/locales';
 import PlanAgeTable from '../../standard-packs/components/plan-age-table';
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 

@@ -3,6 +3,7 @@ import DragAndDrop from '../../../../shared/UI/drag-drop';
 import PlanAgeTable from '../components/plan-age-table';
 import Modal from '../../../../shared/UI/modal';
 import Dropdown from '../../../../shared/UI/drop-down';
+import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 
 const CustomizeByAge = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,29 @@ const CustomizeByAge = () => {
     'image/gif',
     'image/svg+xml',
   ];
+
+  const PLAN_META = {
+    _100000: {
+      name: 'Plan 1',
+      color: 'text-blue-400',
+      icon: <FaStar className="text-blue-400 text-2xl" />,
+    },
+    _50000: {
+      name: 'Plan 2',
+      color: 'text-gray-400',
+      icon: <FaMedal className="text-gray-400 text-2xl" />,
+    },
+    _20000: {
+      name: 'Plan 3',
+      color: 'text-yellow-400',
+      icon: <FaCrown className="text-yellow-400 text-2xl" />,
+    },
+    _30000: {
+      name: 'Plan 4',
+      color: 'text-yellow-400',
+      icon: <FaCrown className="text-yellow-400 text-2xl" />,
+    },
+  };
   return (
     <div className="mt-5">
       <div className="bg-white p-5 rounded-lg flex flex-col gap-5">
@@ -27,7 +51,10 @@ const CustomizeByAge = () => {
           Browse File
         </button>
       </div>
-      <PlanAgeTable navigation={'/premium-package/coverage-details'} />
+      <PlanAgeTable
+        PLAN_META={PLAN_META}
+        navigation={'/premium-package/coverage-details'}
+      />
       <Modal
         isOpen={showModal}
         onClose={() => {

@@ -94,7 +94,7 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation }) => {
       <div className="grid grid-cols-3 gap-5">
         {pageplans.map((plan) => (
           <div className="flex flex-col gap-10">
-            <PlanCard header={plan} />
+            <PlanCard header={plan.header || plan} />
             {planData.map((data) => (
               <>
                 <PlanCard header={data.header} inputs={data.inputs} />

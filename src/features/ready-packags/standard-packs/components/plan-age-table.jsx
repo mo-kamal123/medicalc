@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import PlanCard from '../../../../shared/UI/plan-card';
 import { Link } from 'react-router-dom';
+import usePagination from '../../../../shared/hooks/usePagination';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
-  // Fallback: if no plans are passed, define empty plan keys and age groups
-  const defaultPlanKeys = Object.keys(PLAN_META);
   const defaultAgeGroups = [
     '_0_17',
     '_18_24',
@@ -22,14 +22,13 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
     '_plus_80',
   ];
 
-  // Use provided plans or undefined
-  const hasPlans = !!plans;
-  const planKeys = hasPlans ? Object.keys(plans) : defaultPlanKeys;
-  const ageGroups = hasPlans
-    ? Object.keys(plans[planKeys[0]])
-    : defaultAgeGroups;
+  const planKeys = Object.keys(PLAN_META);
+  const [page, setPage] = useState(1);
+  const pageSize = 4;
 
-  // Local state for manual entries
+  // ✅ Paginated plan keys for current page
+  const pagePlans = usePagination(page, planKeys, pageSize);
+
   const [manualValues, setManualValues] = useState({});
 
   const handleManualChange = (planKey, ageKey, value) => {
@@ -42,13 +41,47 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
     }));
   };
 
+  // ✅ Check if prev/next buttons should be disabled
+  const isFirstPage = page === 1;
+  const isLastPage = page * pageSize >= planKeys.length;
+
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6 min-h-screen flex flex-col gap-5">
+      {/* --- Pagination Controls --- */}
+      {planKeys.length > pageSize && (
+        <div className="flex justify-between items-center w-full gap-3 mb-4">
+          <p className="text-main text-2xl font-semibold">
+            Swap or use arrows to explore more plans
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              disabled={isFirstPage}
+              className={`${
+                isFirstPage ? 'bg-[#D8D8D8]' : 'bg-main'
+              } text-white p-2 rounded transition-all duration-200`}
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              <FaArrowLeft />
+            </button>
+            <button
+              disabled={isLastPage}
+              className={`${
+                isLastPage ? 'bg-[#D8D8D8]' : 'bg-main'
+              } text-white p-2 rounded transition-all duration-200`}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* --- Table --- */}
       <div className="overflow-x-auto">
         <table className="min-w-full border-separate border-spacing-4">
           <thead>
             <tr>
-              {planKeys.map((planKey) => (
+              {pagePlans.map((planKey) => (
                 <th
                   key={planKey}
                   className="text-left font-medium text-gray-700"
@@ -56,7 +89,7 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
                   <PlanCard
                     header={{
                       icon: PLAN_META[planKey]?.icon,
-                      title: PLAN_META[planKey]?.name || planKey,
+                      title: PLAN_META[planKey]?.name,
                     }}
                   />
                 </th>
@@ -66,14 +99,12 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
               </th>
             </tr>
           </thead>
-
           <tbody>
-            {ageGroups.map((ageKey, idx) => (
-              <tr key={idx}>
-                {planKeys.map((planKey) => {
-                  const value = hasPlans ? plans[planKey][ageKey] : undefined;
+            {defaultAgeGroups.map((ageKey) => (
+              <tr key={ageKey}>
+                {pagePlans.map((planKey) => {
+                  const value = plans?.[planKey]?.[ageKey];
                   const manualValue = manualValues?.[planKey]?.[ageKey] ?? '';
-
                   return (
                     <td
                       key={planKey}
@@ -91,8 +122,8 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
                           onChange={(e) =>
                             handleManualChange(planKey, ageKey, e.target.value)
                           }
-                          className="w-full rounded-md p-2  focus:outline-none focus:ring focus:ring-main placeholder:text-sec"
-                          placeholder="Enter employees"
+                          className="w-full rounded-md p-2  focus:outline-none font-medium placeholder:text-sec"
+                          placeholder="Enter value"
                         />
                       )}
                     </td>
@@ -111,6 +142,7 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
         </table>
       </div>
 
+      {/* --- Navigation Buttons --- */}
       <div className="flex gap-5 justify-end w-full mb-10 mt-6">
         <Link
           to={-1}
