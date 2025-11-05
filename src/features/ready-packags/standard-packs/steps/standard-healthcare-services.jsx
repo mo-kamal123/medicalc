@@ -1,5 +1,6 @@
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 import HealthcareServices from '../../../../shared/components/healthcare-services';
+import Breadcrumb from '../../../../shared/UI/breadcrumb';
 
 const StandardHealthcareServices = () => {
   const plans = [
@@ -16,16 +17,56 @@ const StandardHealthcareServices = () => {
     {
       id: 3,
       icon: <FaCrown className="text-yellow-400 text-2xl" />,
-      title: 'premium Gold Plan',
+      title: 'Premium Gold Plan',
     },
   ];
 
+  const breadcrumbItems = [
+    { title: 'Plan Data', url: '/standard-package/plan-data', active: true },
+    {
+      title: 'Healthcare Services',
+      url: '/standard-package/healthcare-services',
+      active: true,
+    },
+    {
+      title: 'Reimbursement Details',
+      url: '/standard-package/reimbursement-details',
+      active: false,
+    },
+    {
+      title: 'Plan Summary',
+      url: '/standard-package/plan-summary',
+      active: false,
+    },
+    {
+      title: 'Customize plan by age',
+      url: '/standard-package/customize-plan-by-age',
+      active: false,
+    },
+    {
+      title: 'Coverage & Expense Details',
+      url: '/standard-package/coverage-details',
+      active: false,
+    },
+    {
+      title: 'Installments',
+      url: '/standard-package/installments',
+      active: false,
+    },
+    { title: 'Summary', url: '/standard-package/summary', active: false },
+  ];
+
   return (
-    <HealthcareServices
-      plans={plans}
-      nextNavigation={'/standard-package/reimbursement-details'}
-      prevNavigation={'/standard-package/plan-data'}
-    />
+    <div className="flex flex-col gap-5">
+      <Breadcrumb items={breadcrumbItems} />
+
+      <HealthcareServices
+        type="standard"
+        plans={plans}
+        nextNavigation="/standard-package/reimbursement-details"
+        prevNavigation="/standard-package/plan-data"
+      />
+    </div>
   );
 };
 

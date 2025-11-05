@@ -8,7 +8,6 @@ const PremiumPack = () => {
         heading={'Premium Package'}
         desc={'plan 1 , plan 2 , plan 3 , plan 4'}
       />
-      {/* <Breadcrumb items={breadcrumbItems} /> */}
       <div className="w-full">
         <Outlet />
       </div>

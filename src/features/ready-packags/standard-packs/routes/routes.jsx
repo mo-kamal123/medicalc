@@ -8,7 +8,7 @@ import StandardHealthcareServices from '../steps/standard-healthcare-services';
 import StandardReimbursement from '../steps/standard-reimbursement';
 import StandardPlanByAge from '../steps/standard-PlanByAge';
 import StandardPlanSummaryByAge from '../steps/standard-plan-summary-by-age';
-import StandardCoverageDetails from '../steps/STANDARD-coverage-details';
+import StandardCoverageDetails from '../steps/standard-coverage-details';
 
 export const standardPacksRoutes = [
   {

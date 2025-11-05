@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import Dropdown from '../../../shared/UI/drop-down';
 import Header from '../../../shared/UI/header';
 import { NavLink, Outlet } from 'react-router-dom';
 

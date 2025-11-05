@@ -1,28 +1,57 @@
 import {
   FaArrowLeft,
   FaArrowRight,
-  FaCrown,
-  FaEye,
-  FaMedal,
-  FaStar,
-} from 'react-icons/fa';
-import {
   FaHospital,
   FaUserInjured,
   FaPills,
   FaTooth,
+  FaEye,
   FaRunning,
   FaHeartbeat,
   FaBaby,
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PlanCard from '../UI/plan-card';
 import { useState } from 'react';
 import usePagination from '../hooks/usePagination';
+import useValidation from '../hooks/useValidation';
+import { useDispatch, useSelector } from 'react-redux';
 
-const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
+// import actions from all slices
+import { updateHealthcareService as updateStandardHealthcare } from '../../features/ready-packags/standard-packs/store/standard-plan-slice';
+import { updateHealthcareService as updatePremiumHealthcare } from '../../features/ready-packags/premium-packs/store/premium-plan-slice';
+import { updateHealthcareService as updateCustomHealthcare } from '../../features/costum-packages/store/custom-plan-slice';
+
+const HealthcareServices = ({
+  plans,
+  prevNavigation,
+  nextNavigation,
+  type = 'standard',
+}) => {
   const [page, setPage] = useState(1);
   const pageplans = usePagination(page, plans);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Get correct slice state
+  const healthcareData = useSelector((state) => {
+    if (type === 'premium') return state.premiumPlan.healthcareServices;
+    if (type === 'custom') return state.customPlan.healthcareServices;
+    return state.standardPlan.healthcareServices;
+  });
+
+  // Get correct update action based on type
+  const updateAction =
+    type === 'premium'
+      ? updatePremiumHealthcare
+      : type === 'custom'
+        ? updateCustomHealthcare
+        : updateStandardHealthcare;
+
+  const handleChange = (planName, key, value) => {
+    dispatch(updateAction({ planName, key, value }));
+  };
+
   const planData = [
     {
       header: {
@@ -31,15 +60,15 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'roomType',
           label: 'Room Type',
           data: ['LUX', 'PRIVATE', 'SHARED'],
-          defaultValue: 'Applied Network',
           placeholder: 'Room Type',
         },
         {
+          key: 'inpatientCopayment',
           label: 'Inpatient Copayment',
           data: ['0%', '5%', '10%', '15%'],
-          defaultValue: 'Inpatient Copayment',
           placeholder: 'Inpatient Copayment',
         },
       ],
@@ -51,9 +80,9 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'outpatientCopayment',
           label: 'Outpatient Copayment',
           data: ['0%', '10%', '15%', '20%'],
-          defaultValue: 'Outpatient Copayment',
           placeholder: 'Outpatient Copayment',
         },
       ],
@@ -65,9 +94,9 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'prescriptionMedicinesCopayment',
           label: 'Prescription Medicines Copayment',
           data: ['0%', '10%', '15%', '20%', '25%'],
-          defaultValue: 'Prescription Medicines Copayment',
           placeholder: 'Prescription Medicines Copayment',
         },
       ],
@@ -79,12 +108,13 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
-          label: 'Prescription Medicines Copayment',
+          key: 'dentalCopayment',
+          label: 'Dental Copayment',
           data: ['0%', '10%', '20%', '30%'],
-          defaultValue: 'Prescription Medicines Copayment',
-          placeholder: 'Prescription Medicines Copayment',
+          placeholder: 'Dental Copayment',
         },
         {
+          key: 'dentalMoney',
           label: 'Dental Money',
           data: [
             'Excluded',
@@ -93,13 +123,11 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
             'EGP 700',
             'EGP 750',
             'EGP 1,000',
-            'EGP 1,200',
             'EGP 1,500',
             'EGP 2,000',
             'EGP 2,500',
             'EGP 3,000',
           ],
-          defaultValue: 'Dental Money',
           placeholder: 'Dental Money',
         },
       ],
@@ -111,12 +139,13 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'opticalCopayment',
           label: 'Optical Copayment',
           data: ['0%', '10%', '20%', '30%'],
-          defaultValue: 'Optical Copayment',
           placeholder: 'Optical Copayment',
         },
         {
+          key: 'opticalAnnualFees',
           label: 'Optical Annual Fees',
           data: [
             'Excluded',
@@ -125,13 +154,11 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
             'EGP 700',
             'EGP 750',
             'EGP 1,000',
-            'EGP 1,200',
             'EGP 1,500',
             'EGP 2,000',
             'EGP 2,500',
             'EGP 3,000',
           ],
-          defaultValue: 'Optical Annual Fees',
           placeholder: 'Optical Annual Fees',
         },
       ],
@@ -143,9 +170,9 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'physioTherapyCount',
           label: 'Physio Therapy Count',
           data: ['Covered', 'Sessions 12', 'Sessions 24', 'Sessions 36'],
-          defaultValue: 'Physio Therapy Count',
           placeholder: 'Physio Therapy Count',
         },
       ],
@@ -157,6 +184,7 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'chronicAndPreExisting',
           label: 'Chronic And Pre Existing',
           data: [
             'Excluded',
@@ -168,20 +196,13 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
             '20,000',
             '25,000',
             '30,000',
-            '35,000',
             '40,000',
             '50,000',
-            '60,000',
             '75,000',
-            '80,000',
             '100,000',
-            '120,000',
             '150,000',
             '200,000',
-            '250,000',
-            '300,000',
           ],
-          defaultValue: 'Chronic And Pre Existing',
           placeholder: 'Chronic And Pre Existing',
         },
       ],
@@ -193,6 +214,7 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
       },
       inputs: [
         {
+          key: 'maternityCare',
           label: 'Maternity Care',
           data: [
             'Excluded',
@@ -200,15 +222,58 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
             '3,000',
             '5,000',
             '7,000',
-            '8,000',
             '10,000',
+            '15,000',
           ],
-          defaultValue: 'Maternity Care',
           placeholder: 'Maternity Care',
         },
       ],
     },
   ];
+
+  // Plan name detection
+  const getPlanKey = (title, id) => {
+    const lower = title?.toLowerCase?.() || '';
+    if (type === 'custom') return `plan${id}`;
+    if (lower.includes('white')) return 'whitePlan';
+    if (lower.includes('silver')) return 'silverPlan';
+    if (lower.includes('gold')) return 'goldPlan';
+    if (lower.includes('1')) return 'planOne';
+    if (lower.includes('2')) return 'planTwo';
+    if (lower.includes('3')) return 'planThree';
+    if (lower.includes('4')) return 'planFour';
+    return `plan${id}`;
+  };
+
+  // 🔥 BUILD VALIDATION DATA
+  // Transform healthcare plans into validation-friendly format
+  const validationPlans = pageplans.flatMap((plan) => {
+    const planKey = getPlanKey(plan.header?.title || plan.title, plan.id);
+
+    return planData.map((section) => ({
+      id: `${plan.id}-${section.header.title}`,
+      inputs: section.inputs.map((input) => ({
+        ...input,
+        label: input.label,
+        defaultValue: healthcareData?.[planKey]?.[input.key] || '',
+        placeholder: input.placeholder,
+      })),
+    }));
+  });
+
+  // 🔥 USE VALIDATION HOOK
+  const { validateDropdowns, invalidFields, clearInvalidField } = useValidation(
+    validationPlans,
+    'defaultValue'
+  );
+
+  // 🔥 HANDLE NEXT WITH VALIDATION
+  const handleNext = () => {
+    if (validateDropdowns()) {
+      navigate(nextNavigation);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       {plans.length > 3 && (
@@ -219,14 +284,20 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
           <div className="flex items-center gap-3">
             <button
               disabled={pageplans[0].id === 1}
-              className={`${pageplans[0].id === 1 ? 'bg-[#D8D8D8]' : 'bg-main'} text-white p-2 rounded transition-all duration-200`}
+              className={`${
+                pageplans[0].id === 1 ? 'bg-[#D8D8D8]' : 'bg-main'
+              } text-white p-2 rounded transition-all duration-200`}
               onClick={() => setPage((prev) => prev - 1)}
             >
               <FaArrowLeft />
             </button>
             <button
               disabled={pageplans[pageplans.length - 1].id === plans.length}
-              className={`${pageplans[pageplans.length - 1].id === plans.length ? 'bg-[#D8D8D8]' : 'bg-main'} text-white p-2 rounded transition-all duration-200`}
+              className={`${
+                pageplans[pageplans.length - 1].id === plans.length
+                  ? 'bg-[#D8D8D8]'
+                  : 'bg-main'
+              } text-white p-2 rounded transition-all duration-200`}
               onClick={() => setPage((prev) => prev + 1)}
             >
               <FaArrowRight />
@@ -234,31 +305,48 @@ const HealthcareServices = ({ plans, prevNavigation, nextNavigation }) => {
           </div>
         </div>
       )}
+
       <div className="grid grid-cols-3 gap-5">
-        {pageplans.map((plan) => (
-          <div className="flex flex-col gap-10">
-            <PlanCard header={plan.header || plan} />
-            {planData.map((data) => (
-              <>
-                <PlanCard header={data.header} inputs={data.inputs} />
-              </>
-            ))}
-          </div>
-        ))}
+        {pageplans.map((plan) => {
+          const planKey = getPlanKey(plan.header?.title || plan.title, plan.id);
+
+          return (
+            <div key={plan.id} className="flex flex-col gap-10">
+              <PlanCard header={plan.header || plan} />
+              {planData.map((data) => (
+                <PlanCard
+                  key={data.header.title}
+                  header={data.header}
+                  planId={`${plan.id}-${data.header.title}`}
+                  invalidFields={invalidFields}
+                  clearInvalidField={clearInvalidField}
+                  inputs={data.inputs.map((input) => ({
+                    ...input,
+                    defaultValue:
+                      healthcareData?.[planKey]?.[input.key] ||
+                      input.placeholder,
+                    onChange: (item) => handleChange(planKey, input.key, item),
+                  }))}
+                />
+              ))}
+            </div>
+          );
+        })}
       </div>
+
       <div className="flex gap-5 justify-end w-full mb-10">
-        <Link
-          to={prevNavigation}
+        <button
+          onClick={() => navigate(prevNavigation)}
           className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl"
         >
-          Previse
-        </Link>
-        <Link
-          to={nextNavigation}
+          Previous
+        </button>
+        <button
+          onClick={handleNext}
           className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl"
         >
           Next Step
-        </Link>
+        </button>
       </div>
     </div>
   );

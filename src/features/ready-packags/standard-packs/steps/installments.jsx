@@ -1,6 +1,7 @@
 import { IoPrintOutline } from 'react-icons/io5';
 import Dropdown from '../../../../shared/UI/drop-down';
 import { Link } from 'react-router-dom';
+import Breadcrumb from '../../../../shared/UI/breadcrumb';
 
 const Installments = () => {
   const schedule = [
@@ -15,8 +16,45 @@ const Installments = () => {
       payment: 'Payment 2',
     },
   ];
+  // Breadcrumbs — mark all steps before current as active
+  const breadcrumbItems = [
+    { title: 'Plan Data', url: '/standard-package/plan-data', active: true },
+    {
+      title: 'Healthcare Services',
+      url: '/standard-package/healthcare-services',
+      active: true,
+    },
+    {
+      title: 'Reimbursement Details',
+      url: '/standard-package/reimbursement-details',
+      active: true,
+    },
+    {
+      title: 'Plan Summary',
+      url: '/standard-package/plan-by-age/summary',
+      active: true,
+    },
+    {
+      title: 'Customize plan by age',
+      url: '/standard-package/plan-by-age/summary',
+      active: true,
+    },
+    {
+      title: 'Coverage & Expense Details',
+      url: '/standard-package/coverage-details',
+      active: true,
+    },
+    {
+      title: 'Installments',
+      url: '/standard-package/installments',
+      active: true,
+    },
+    { title: 'Summary', url: '/standard-package/summary', active: false },
+  ];
   return (
     <div>
+      <Breadcrumb items={breadcrumbItems} />
+
       <div>
         <h3 className="text-2xl font-semibold">Installments</h3>
         <div className="bg-white p-5 my-5 rounded-xl flex flex-col gap-8 ">

@@ -4,7 +4,7 @@ const usePagination = (page, data) => {
   const endIndex = startIndex + limit;
   const pageData = data.slice(startIndex, endIndex);
 
-  console.log(pageData);
+  // console.log(pageData);
   return pageData;
 };
 
