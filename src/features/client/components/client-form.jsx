@@ -1,10 +1,14 @@
-import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
+import { useState } from 'react';
 import DragAndDrop from '../../../shared/UI/drag-drop';
 import { FaRegUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addClientData } from '../store/client-slice';
 
 const ClientForm = () => {
   const navigate = useNavigate();
+  const [clientData, setClientData] = useState({ name: '', logo: '' });
+  const dispatch = useDispatch();
   // Allowed file types
   const allowedTypes = [
     'image/png',
@@ -16,7 +20,11 @@ const ClientForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/select-package');
+    if (clientData.name.length > 2 && clientData.logo) {
+      dispatch(addClientData(clientData));
+      navigate('/select-package/ready');
+      console.log(clientData);
+    }
   };
   return (
     <form
@@ -35,6 +43,9 @@ const ClientForm = () => {
             id="client-name"
             className="border border-borders w-full p-3 pl-12 rounded-xl placeholder-sec"
             placeholder="Client Name"
+            onChange={(e) =>
+              setClientData((prev) => ({ ...prev, name: e.target.value }))
+            }
           />
         </div>
       </div>
@@ -42,14 +53,14 @@ const ClientForm = () => {
         <label htmlFor="logo" className="text-label">
           Client Logo
         </label>
-        <DragAndDrop allowedTypes={allowedTypes} />
+        <DragAndDrop changeLogo={setClientData} allowedTypes={allowedTypes} />
       </div>
-      <Link
-        to={'/select-package/ready'}
+      <button
+        // to={'/select-package/ready'}
         className="flex items-center justify-center gap-2 w-full bg-main text-white p-3 rounded-xl"
       >
         Next
-      </Link>
+      </button>
     </form>
   );
 };

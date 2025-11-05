@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Dropdown({
   data = [],
   defaultValue = null,
   onChange = () => {},
   placeholder = 'Select an option',
+  isInvalid = false,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(defaultValue);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -33,7 +33,11 @@ export default function Dropdown({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`flex justify-between items-center w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 ${
-          isOpen ? 'border-main/50' : 'border-gray-300'
+          isInvalid
+            ? 'border-red-500'
+            : isOpen
+              ? 'border-main/50'
+              : 'border-gray-300'
         }`}
       >
         <span>{selected || placeholder}</span>
@@ -61,7 +65,7 @@ export default function Dropdown({
               <li
                 key={i}
                 onClick={() => handleSelect(item)}
-                className={`px-4 py-2 cursor-pointer hover: hover:text-main transition-colors ${
+                className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
                   selected === item
                     ? 'bg-main text-white hover:bg-main hover:text-white'
                     : ''

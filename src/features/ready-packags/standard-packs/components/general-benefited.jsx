@@ -1,5 +1,6 @@
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 import SummaryCard from '../../../../shared/UI/summary-card';
+import { useSelector } from 'react-redux';
 
 const whitePlan = {
   header: {
@@ -98,6 +99,8 @@ const goldPlan = {
   ],
 };
 const GeneralBenefited = () => {
+  const standardPlanData = useSelector((state) => state.standardPlan);
+  console.log(standardPlanData);
   return (
     <div className="flex flex-col gap-5 w-full">
       <h2 className="text-dark font-semibold text-2xl">General Benefited</h2>

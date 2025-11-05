@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 
-const DragAndDrop = ({ allowedTypes }) => {
+const DragAndDrop = ({ allowedTypes, changeLogo }) => {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
@@ -41,6 +41,7 @@ const DragAndDrop = ({ allowedTypes }) => {
     }
 
     setFile(file);
+    changeLogo((prev) => ({ ...prev, logo: file }));
     console.log('✅ File selected:', file.name);
   };
 

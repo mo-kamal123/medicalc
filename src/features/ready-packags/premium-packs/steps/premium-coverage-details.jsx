@@ -38,15 +38,7 @@ const PremiumCoverageDetails = () => {
         total: '8,965,698',
       },
     },
-    {
-      icon: <FaCrown className="text-yellow-400 text-2xl" />,
-      title: 'Plan 5',
-      data: {
-        employees: 50,
-        pooled: '8,965,698',
-        total: '8,965,698',
-      },
-    },
+
     {
       title: 'Employees',
       data: {
