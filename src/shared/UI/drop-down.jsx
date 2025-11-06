@@ -8,8 +8,44 @@ export default function Dropdown({
   isInvalid = false,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(defaultValue);
   const dropdownRef = useRef(null);
+
+  // Check if data items are objects with title/value
+  const isObjectData =
+    data.length > 0 && typeof data[0] === 'object' && data[0].title;
+
+  // Initialize selected state with defaultValue
+  const [selected, setSelected] = useState(defaultValue);
+
+  // Update selected when defaultValue changes
+  useEffect(() => {
+    setSelected(defaultValue);
+  }, [defaultValue]);
+
+  // Get display text for selected value
+  const getDisplayText = () => {
+    if (!selected) return placeholder;
+
+    if (isObjectData) {
+      const item = data.find((d) => d.value === selected);
+      return item ? item.title : placeholder;
+    }
+    return selected;
+  };
+
+  const handleSelect = (item) => {
+    // Store value, not title
+    const valueToStore = isObjectData ? item.value : item;
+    setSelected(valueToStore);
+    setIsOpen(false);
+    onChange(valueToStore);
+  };
+
+  // Check if item is currently selected
+  const isSelected = (item) => {
+    const itemValue = isObjectData ? item.value : item;
+    return selected === itemValue;
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -20,12 +56,6 @@ export default function Dropdown({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleSelect = (item) => {
-    setSelected(item);
-    setIsOpen(false);
-    onChange(item);
-  };
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
@@ -40,7 +70,7 @@ export default function Dropdown({
               : 'border-gray-300'
         }`}
       >
-        <span>{selected || placeholder}</span>
+        <span>{getDisplayText()}</span>
         <svg
           className={`w-5 h-5 transform transition-transform ${
             isOpen ? 'rotate-180' : 'rotate-0'
@@ -66,12 +96,12 @@ export default function Dropdown({
                 key={i}
                 onClick={() => handleSelect(item)}
                 className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
-                  selected === item
+                  isSelected(item)
                     ? 'bg-main text-white hover:bg-main hover:text-white'
                     : ''
                 }`}
               >
-                {item}
+                {isObjectData ? item.title : item}
               </li>
             ))
           ) : (

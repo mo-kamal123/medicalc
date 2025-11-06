@@ -1,7 +1,10 @@
 import React from 'react';
 import LoginForm from '../components/login-form';
+import { useLogin } from '../hooks/useLogin';
 
 const Login = () => {
+  const { mutate: login, isPending } = useLogin(); // login mutation hook
+
   return (
     <div className="flex flex-col gap-5 w-[90%] m-auto">
       <h1 className="text-3xl text-text font-bold">
@@ -14,7 +17,7 @@ const Login = () => {
         stay covered anytime. secure platform designed to make healthcare simple
         and stress-free
       </p>
-      <LoginForm />
+      <LoginForm login={login} loading={isPending} />
     </div>
   );
 };

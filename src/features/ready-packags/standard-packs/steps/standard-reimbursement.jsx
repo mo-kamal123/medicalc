@@ -57,13 +57,17 @@ const StandardReimbursement = () => {
     { title: 'Summary', url: '/standard-package/summary', active: false },
   ];
 
+  const plansNames = ['white', 'silver', 'gold'];
+
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />
 
       <Reimbursement
         type="standard"
+        packName="standardPlan"
         plans={plans}
+        planNames={plansNames}
         prevNavigation="/standard-package/healthcare-services"
         nextNavigation="/standard-package/plan-by-age/summary"
       />

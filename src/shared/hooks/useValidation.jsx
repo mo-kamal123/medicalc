@@ -9,11 +9,17 @@ const useValidation = (plans = [], valueKey = 'defaultValue') => {
 
     plans.forEach((plan) => {
       plan.inputs?.forEach((input) => {
-        if (
-          !input[valueKey] ||
-          input[valueKey] === '' ||
-          input[valueKey] === input.placeholder
-        ) {
+        const value = input[valueKey];
+
+        // Check if value is empty, null, undefined, or matches placeholder
+        const isEmpty =
+          !value ||
+          value === '' ||
+          value === input.placeholder ||
+          value === null ||
+          value === undefined;
+
+        if (isEmpty) {
           isValid = false;
           invalid[`${plan.id}-${input.label}`] = true;
         }
@@ -24,7 +30,7 @@ const useValidation = (plans = [], valueKey = 'defaultValue') => {
     return isValid;
   };
 
-  // 👇 new helper: clear invalid state for a field when it’s updated
+  // Clear invalid state for a field when it's updated
   const clearInvalidField = (fieldKey) => {
     setInvalidFields((prev) => {
       const updated = { ...prev };

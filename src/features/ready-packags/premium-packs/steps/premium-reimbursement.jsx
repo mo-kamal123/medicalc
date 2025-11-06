@@ -55,12 +55,15 @@ const PremiumReimbursement = () => {
     },
     { title: 'Summary', url: '/premium-package/summary', active: false },
   ];
+  const plansNames = ['planOne', 'planTwo', 'planThree', 'planFour'];
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />
       <Reimbursement
         type="premium"
+        packName="premiumPlan"
         plans={plans}
+        planNames={plansNames}
         nextNavigation={'/premium-package/plan-by-age/summary'}
         prevNavigation={'/premium-package/healthcare-services'}
       />
