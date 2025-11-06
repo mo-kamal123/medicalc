@@ -17,7 +17,6 @@ import usePagination from '../hooks/usePagination';
 import useValidation from '../hooks/useValidation';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import actions from all slices
 import { updateHealthcareService as updateStandardHealthcare } from '../../features/ready-packags/standard-packs/store/standard-plan-slice';
 import { updateHealthcareService as updatePremiumHealthcare } from '../../features/ready-packags/premium-packs/store/premium-plan-slice';
 import { updateHealthcareService as updateCustomHealthcare } from '../../features/costum-packages/store/custom-plan-slice';
@@ -33,14 +32,12 @@ const HealthcareServices = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Get correct slice state
   const healthcareData = useSelector((state) => {
     if (type === 'premium') return state.premiumPlan.healthcareServices;
     if (type === 'custom') return state.customPlan.healthcareServices;
     return state.standardPlan.healthcareServices;
   });
 
-  // Get correct update action based on type
   const updateAction =
     type === 'premium'
       ? updatePremiumHealthcare
@@ -62,13 +59,22 @@ const HealthcareServices = ({
         {
           key: 'roomType',
           label: 'Room Type',
-          data: ['LUX', 'PRIVATE', 'SHARED'],
+          data: [
+            { title: 'LUX', value: 'LUX' },
+            { title: 'PRIVATE', value: 'PRIVATE' },
+            { title: 'SHARED', value: 'SHARED' },
+          ],
           placeholder: 'Room Type',
         },
         {
           key: 'inpatientCopayment',
           label: 'Inpatient Copayment',
-          data: ['0%', '5%', '10%', '15%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '5%', value: '_5' },
+            { title: '10%', value: '_10' },
+            { title: '15%', value: '_15' },
+          ],
           placeholder: 'Inpatient Copayment',
         },
       ],
@@ -82,7 +88,12 @@ const HealthcareServices = ({
         {
           key: 'outpatientCopayment',
           label: 'Outpatient Copayment',
-          data: ['0%', '10%', '15%', '20%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '10%', value: '_10' },
+            { title: '15%', value: '_15' },
+            { title: '20%', value: '_20' },
+          ],
           placeholder: 'Outpatient Copayment',
         },
       ],
@@ -96,7 +107,13 @@ const HealthcareServices = ({
         {
           key: 'prescriptionMedicinesCopayment',
           label: 'Prescription Medicines Copayment',
-          data: ['0%', '10%', '15%', '20%', '25%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '10%', value: '_10' },
+            { title: '15%', value: '_15' },
+            { title: '20%', value: '_20' },
+            { title: '25%', value: '_25' },
+          ],
           placeholder: 'Prescription Medicines Copayment',
         },
       ],
@@ -110,23 +127,28 @@ const HealthcareServices = ({
         {
           key: 'dentalCopayment',
           label: 'Dental Copayment',
-          data: ['0%', '10%', '20%', '30%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '10%', value: '_10' },
+            { title: '20%', value: '_20' },
+            { title: '30%', value: '_30' },
+          ],
           placeholder: 'Dental Copayment',
         },
         {
           key: 'dentalMoney',
           label: 'Dental Money',
           data: [
-            'Excluded',
-            'EGP 300',
-            'EGP 500',
-            'EGP 700',
-            'EGP 750',
-            'EGP 1,000',
-            'EGP 1,500',
-            'EGP 2,000',
-            'EGP 2,500',
-            'EGP 3,000',
+            { title: 'Excluded', value: '_excluded' },
+            { title: 'EGP 300', value: '_300' },
+            { title: 'EGP 500', value: '_500' },
+            { title: 'EGP 700', value: '_700' },
+            { title: 'EGP 750', value: '_750' },
+            { title: 'EGP 1,000', value: '_1000' },
+            { title: 'EGP 1,500', value: '_1500' },
+            { title: 'EGP 2,000', value: '_2000' },
+            { title: 'EGP 2,500', value: '_2500' },
+            { title: 'EGP 3,000', value: '_3000' },
           ],
           placeholder: 'Dental Money',
         },
@@ -141,23 +163,28 @@ const HealthcareServices = ({
         {
           key: 'opticalCopayment',
           label: 'Optical Copayment',
-          data: ['0%', '10%', '20%', '30%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '10%', value: '_10' },
+            { title: '20%', value: '_20' },
+            { title: '30%', value: '_30' },
+          ],
           placeholder: 'Optical Copayment',
         },
         {
           key: 'opticalAnnualFees',
           label: 'Optical Annual Fees',
           data: [
-            'Excluded',
-            'EGP 300',
-            'EGP 500',
-            'EGP 700',
-            'EGP 750',
-            'EGP 1,000',
-            'EGP 1,500',
-            'EGP 2,000',
-            'EGP 2,500',
-            'EGP 3,000',
+            { title: 'Excluded', value: '_excluded' },
+            { title: 'EGP 300', value: '_300' },
+            { title: 'EGP 500', value: '_500' },
+            { title: 'EGP 700', value: '_700' },
+            { title: 'EGP 750', value: '_750' },
+            { title: 'EGP 1,000', value: '_1000' },
+            { title: 'EGP 1,500', value: '_1500' },
+            { title: 'EGP 2,000', value: '_2000' },
+            { title: 'EGP 2,500', value: '_2500' },
+            { title: 'EGP 3,000', value: '_3000' },
           ],
           placeholder: 'Optical Annual Fees',
         },
@@ -172,7 +199,12 @@ const HealthcareServices = ({
         {
           key: 'physioTherapyCount',
           label: 'Physio Therapy Count',
-          data: ['Covered', 'Sessions 12', 'Sessions 24', 'Sessions 36'],
+          data: [
+            { title: 'Covered', value: '_covered' },
+            { title: 'Sessions 12', value: '_12' },
+            { title: 'Sessions 24', value: '_24' },
+            { title: 'Sessions 36', value: '_36' },
+          ],
           placeholder: 'Physio Therapy Count',
         },
       ],
@@ -187,21 +219,21 @@ const HealthcareServices = ({
           key: 'chronicAndPreExisting',
           label: 'Chronic And Pre Existing',
           data: [
-            'Excluded',
-            '2,500',
-            '5,000',
-            '7,500',
-            '10,000',
-            '15,000',
-            '20,000',
-            '25,000',
-            '30,000',
-            '40,000',
-            '50,000',
-            '75,000',
-            '100,000',
-            '150,000',
-            '200,000',
+            { title: 'Excluded', value: '_excluded' },
+            { title: '2,500', value: '_2500' },
+            { title: '5,000', value: '_5000' },
+            { title: '7,500', value: '_7500' },
+            { title: '10,000', value: '_10000' },
+            { title: '15,000', value: '_15000' },
+            { title: '20,000', value: '_20000' },
+            { title: '25,000', value: '_25000' },
+            { title: '30,000', value: '_30000' },
+            { title: '40,000', value: '_40000' },
+            { title: '50,000', value: '_50000' },
+            { title: '75,000', value: '_75000' },
+            { title: '100,000', value: '_100000' },
+            { title: '150,000', value: '_150000' },
+            { title: '200,000', value: '_200000' },
           ],
           placeholder: 'Chronic And Pre Existing',
         },
@@ -217,13 +249,13 @@ const HealthcareServices = ({
           key: 'maternityCare',
           label: 'Maternity Care',
           data: [
-            'Excluded',
-            'Wait 10 Month',
-            '3,000',
-            '5,000',
-            '7,000',
-            '10,000',
-            '15,000',
+            { title: 'Excluded', value: '_excluded' },
+            { title: 'Wait 10 Month', value: 'Wait 10 Month' }, // ← Fixed typo from _value to value
+            { title: '3,000', value: '_3000' },
+            { title: '5,000', value: '_5000' },
+            { title: '7,000', value: '_7000' },
+            { title: '10,000', value: '_10000' },
+            { title: '15,000', value: '_15000' },
           ],
           placeholder: 'Maternity Care',
         },
@@ -231,13 +263,12 @@ const HealthcareServices = ({
     },
   ];
 
-  // Plan name detection
   const getPlanKey = (title, id) => {
     const lower = title?.toLowerCase?.() || '';
     if (type === 'custom') return `plan${id}`;
-    if (lower.includes('white')) return 'whitePlan';
-    if (lower.includes('silver')) return 'silverPlan';
-    if (lower.includes('gold')) return 'goldPlan';
+    if (lower.includes('white')) return 'white';
+    if (lower.includes('silver')) return 'silver';
+    if (lower.includes('gold')) return 'gold';
     if (lower.includes('1')) return 'planOne';
     if (lower.includes('2')) return 'planTwo';
     if (lower.includes('3')) return 'planThree';
@@ -245,8 +276,6 @@ const HealthcareServices = ({
     return `plan${id}`;
   };
 
-  // 🔥 BUILD VALIDATION DATA
-  // Transform healthcare plans into validation-friendly format
   const validationPlans = pageplans.flatMap((plan) => {
     const planKey = getPlanKey(plan.header?.title || plan.title, plan.id);
 
@@ -261,18 +290,18 @@ const HealthcareServices = ({
     }));
   });
 
-  // 🔥 USE VALIDATION HOOK
   const { validateDropdowns, invalidFields, clearInvalidField } = useValidation(
     validationPlans,
     'defaultValue'
   );
 
-  // 🔥 HANDLE NEXT WITH VALIDATION
   const handleNext = () => {
     if (validateDropdowns()) {
       navigate(nextNavigation);
     }
   };
+
+  console.log('Healthcare Data:', healthcareData);
 
   return (
     <div className="flex flex-col gap-6">
@@ -322,9 +351,7 @@ const HealthcareServices = ({
                   clearInvalidField={clearInvalidField}
                   inputs={data.inputs.map((input) => ({
                     ...input,
-                    defaultValue:
-                      healthcareData?.[planKey]?.[input.key] ||
-                      input.placeholder,
+                    defaultValue: healthcareData?.[planKey]?.[input.key] || '',
                     onChange: (item) => handleChange(planKey, input.key, item),
                   }))}
                 />

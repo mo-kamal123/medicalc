@@ -40,7 +40,7 @@ const PlanCard = ({
                 <input
                   type="text"
                   placeholder={input.placeholder}
-                  // defaultValue={'' || input.defaultValue}
+                  defaultValue={input.defaultValue}
                   onChange={(e) => handleChange(e.target.value)}
                   className={`w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 ${
                     isInvalid

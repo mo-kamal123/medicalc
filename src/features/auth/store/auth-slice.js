@@ -17,7 +17,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state) => {
+    log_in: (state) => {
       state.loggedIn = true;
       addToLocalStorage('loggedIn', true);
     },
@@ -34,5 +34,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, getLocation } = authSlice.actions;
+export const { log_in, logout, getLocation } = authSlice.actions;
 export default authSlice.reducer;
