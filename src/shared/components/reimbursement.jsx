@@ -171,6 +171,7 @@ const Reimbursement = ({
     }
   };
   const data = transformData('mooo', packName, formData, planNames);
+  console.log( packName, formData, planNames);
   console.log(data);
   // console.log(`${type} reimbursementData:`, reimbursementData);
 

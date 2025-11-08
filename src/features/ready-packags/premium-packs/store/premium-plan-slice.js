@@ -3,28 +3,28 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialPremiumState = {
   premiumPlan: {
     planOne: {
-      annualLimit: '_25000',
-      appliedNetwork: 'A',
+      annuallimit: '_25000',
+      appliednetwork: 'A',
       geography: 'Egypt',
-      serviceAccessibility: 'Direct Access',
+      serviceaccessibility: 'Direct Access',
     },
     planTwo: {
-      annualLimit: '_50000',
-      appliedNetwork: 'A',
+      annuallimit: '_50000',
+      appliednetwork: 'A',
       geography: 'Worldwide',
-      serviceAccessibility: 'Direct Access',
+      serviceaccessibility: 'Direct Access',
     },
     planThree: {
-      annualLimit: '_75000',
-      appliedNetwork: 'B',
+      annuallimit: '_75000',
+      appliednetwork: 'B',
       geography: 'Mena',
-      serviceAccessibility: 'Pre-approval Required',
+      serviceaccessibility: 'Pre-approval Required',
     },
     planFour: {
-      annualLimit: '_100000',
-      appliedNetwork: 'A',
+      annuallimit: '_100000',
+      appliednetwork: 'A',
       geography: 'Worldwide',
-      serviceAccessibility: 'Direct Access',
+      serviceaccessibility: 'Direct Access',
     },
   },
   healthcareServices: {
@@ -39,7 +39,7 @@ const initialPremiumState = {
       opticalAnnualFees: '_500',
       physioTherapyCount: '_covered',
       chronicAndPreExisting: '_5000',
-      maternityCare: '_10',
+      maternityCare: '_3000',
     },
     planTwo: {
       roomType: 'PRIVATE',
@@ -71,7 +71,7 @@ const initialPremiumState = {
       roomType: 'LUX',
       inpatientCopayment: '_0',
       outpatientCopayment: '_15',
-      prescriptionMedicinesCopayment: '_5',
+      prescriptionMedicinesCopayment: '_10',
       dentalCopayment: '_0',
       dentalMoney: '_1500',
       opticalCopayment: '_0',
