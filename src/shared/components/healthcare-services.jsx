@@ -263,9 +263,12 @@ const HealthcareServices = ({
     },
   ];
 
-  const getPlanKey = (title, id) => {
+
+  // Get plan name from title
+  const getPlanKey = (title) => {
+    // if (type === 'custom') return title; // For custom, use exact title like "Plan 1"
+
     const lower = title?.toLowerCase?.() || '';
-    if (type === 'custom') return `plan${id}`;
     if (lower.includes('white')) return 'white';
     if (lower.includes('silver')) return 'silver';
     if (lower.includes('gold')) return 'gold';
@@ -273,7 +276,13 @@ const HealthcareServices = ({
     if (lower.includes('2')) return 'planTwo';
     if (lower.includes('3')) return 'planThree';
     if (lower.includes('4')) return 'planFour';
-    return `plan${id}`;
+    if (lower.includes('5')) return 'planFive';
+    if (lower.includes('6')) return 'planSix';
+    if (lower.includes('7')) return 'planSeven';
+    if (lower.includes('8')) return 'planEight';
+    if (lower.includes('9')) return 'planNine';
+    if (lower.includes('10')) return 'planTen';
+    return title;
   };
 
   const validationPlans = pageplans.flatMap((plan) => {
@@ -337,8 +346,8 @@ const HealthcareServices = ({
 
       <div className="grid grid-cols-3 gap-5">
         {pageplans.map((plan) => {
-          const planKey = getPlanKey(plan.header?.title || plan.title, plan.id);
-
+          const planKey = getPlanKey(plan.header?.title || plan.title);
+          console.log(planKey);
           return (
             <div key={plan.id} className="flex flex-col gap-10">
               <PlanCard header={plan.header || plan} />

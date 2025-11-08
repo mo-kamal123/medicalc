@@ -3,12 +3,13 @@ import PlanAgeTable from '../../ready-packags/standard-packs/components/plan-age
 import { generatePlans } from '../utils/plan-genrator';
 import { generatePlanMeta } from '../utils/generate-planMeta';
 import { useSearchParams } from 'react-router-dom';
-const CustomPlanSummaryByAge = ({ planCount }) => {
+const CustomPlanSummaryByAge = () => {
   const [searchParams] = useSearchParams();
   const count = Number(searchParams.get('count')) || 1;
   console.log(count);
-  const [plans] = useState(generatePlans(planCount));
-  const [PLAN_META] = useState(generatePlanMeta(planCount));
+  const [plans] = useState(generatePlans(count));
+  const [PLAN_META] = useState(generatePlanMeta(count));
+  console.log(PLAN_META);
   return (
     <div>
       <PlanAgeTable

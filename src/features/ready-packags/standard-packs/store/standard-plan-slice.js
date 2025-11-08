@@ -3,22 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   standardPlan: {
     white: {
-      annualLimit: '_10000',
-      appliedNetwork: 'B',
+      annuallimit: '_10000',
+      appliednetwork: 'B',
       geography: 'Egypt',
-      serviceAccessibility: 'Pre-approval Required',
+      serviceaccessibility: 'Pre-approval Required',
     },
     silver: {
-      annualLimit: '_50000',
-      appliedNetwork: 'A',
+      annuallimit: '_50000',
+      appliednetwork: 'A',
       geography: 'Egypt',
-      serviceAccessibility: 'Direct Access',
+      serviceaccessibility: 'Direct Access',
     },
     gold: {
-      annualLimit: '_100000',
-      appliedNetwork: 'A',
+      annuallimit: '_100000',
+      appliednetwork: 'A',
       geography: 'Egypt',
-      serviceAccessibility: 'Direct Access',
+      serviceaccessibility: 'Direct Access',
     },
   },
   healthcareServices: {
@@ -32,7 +32,7 @@ const initialState = {
       opticalCopayment: '_10',
       opticalAnnualFees: '_500',
       physioTherapyCount: '_12',
-      chronicAndPreExisting: '5,000',
+      chronicAndPreExisting: '_5000',
       maternityCare: 'Wait 10 Month',
     },
     silver: {
@@ -57,7 +57,7 @@ const initialState = {
       dentalMoney: '_1000',
       opticalCopayment: '_10',
       opticalAnnualFees: '_500',
-      physioTherapyCount: '_Coverd',
+      physioTherapyCount: '_covered',
       chronicAndPreExisting: '_15000',
       maternityCare: '_10000',
     },
