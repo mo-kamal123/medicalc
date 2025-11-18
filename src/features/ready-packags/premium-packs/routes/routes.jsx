@@ -145,7 +145,7 @@ export const premiumPacksRoutes = [
           <Suspense
             fallback={<Spinner fullScreen text="Loading installments..." />}
           >
-            <Installments nextPage={'/premium-package/summary'} />
+            <Installments nextPage={'/premium-package/summary'} type={'premium'} />
           </Suspense>
         ),
       },

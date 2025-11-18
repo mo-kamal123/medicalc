@@ -2,7 +2,7 @@ import React from 'react';
 import PlanByAge from '../../../../shared/components/PlanByAge';
 
 const StandardPlanByAge = () => {
-  return <PlanByAge />;
+  return <PlanByAge type={'standard'} />;
 };
 
 export default StandardPlanByAge;
