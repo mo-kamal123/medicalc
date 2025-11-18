@@ -1,6 +1,7 @@
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 import HealthcareServices from '../../../../shared/components/healthcare-services';
 import Breadcrumb from '../../../../shared/UI/breadcrumb';
+import { useSelector } from 'react-redux';
 
 const StandardHealthcareServices = () => {
   const plans = [
@@ -56,6 +57,9 @@ const StandardHealthcareServices = () => {
     { title: 'Summary', url: '/standard-package/summary', active: false },
   ];
 
+  const standardPlanData = useSelector((state) => state.standardPlan);
+
+  console.log(standardPlanData);
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />

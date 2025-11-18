@@ -15,9 +15,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateReimbursement as updateStandardReimbursement } from '../../features/ready-packags/standard-packs/store/standard-plan-slice';
 import { updateReimbursement as updatePremiumReimbursement } from '../../features/ready-packags/premium-packs/store/premium-plan-slice';
 import { updateReimbursement as updateCustomReimbursement } from '../../features/costum-packages/store/custom-plan-slice';
+import { transformData } from '../utils/formTransformation';
 
-const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
+/**
+ * Reimbursement Component
+ *
+ * Shared wizard step for entering reimbursement data across standard, premium
+ * and custom packages. Handles pagination, validation, Redux updates, and
+ * submits data via the provided callback.
+ */
+const Reimbursement = ({
+  plans,
+  planNames,
+  packName,
+  handleSubmit,
+  prevNavigation,
+  type,
+  isSubmitting = false,
+  submitError = '',
+}) => {
   const [page, setPage] = useState(1);
+  const [validationMessage, setValidationMessage] = useState('');
   const pageplans = usePagination(page, plans);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,6 +45,12 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
     if (type === 'premium') return state.premiumPlan.reimbursement;
     if (type === 'custom') return state.customPlan.reimbursement;
     return state.standardPlan.reimbursement; // default
+  });
+  // ✅ Get the right Redux data depending on type
+  const formData = useSelector((state) => {
+    if (type === 'premium') return state.premiumPlan;
+    if (type === 'custom') return state.customPlan;
+    return state.standardPlan; // default
   });
 
   // ✅ Use correct dispatch action per plan type
@@ -45,17 +69,10 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
       plan?.title?.toLowerCase?.() ||
       '';
 
-    // Standard
-    if (title.includes('white')) return 'whitePlan';
-    if (title.includes('silver')) return 'silverPlan';
-    if (title.includes('gold')) return 'goldPlan';
+    if (title.includes('white')) return 'white';
+    if (title.includes('silver')) return 'silver';
+    if (title.includes('gold')) return 'gold';
 
-    // Premium
-    if (title.includes('platinum')) return 'platinumPlan';
-    if (title.includes('diamond')) return 'diamondPlan';
-    if (title.includes('emerald')) return 'emeraldPlan';
-
-    // Custom
     if (title.includes('1')) return 'planOne';
     if (title.includes('2')) return 'planTwo';
     if (title.includes('3')) return 'planThree';
@@ -75,19 +92,35 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
         {
           key: 'reimbursement',
           label: 'Reimbursement',
-          data: ['0%', '70%', '80%', '100%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '70%', value: '_70' },
+            { title: '80%', value: '_80' },
+            { title: '100%', value: '_100' },
+          ],
           placeholder: 'Reimbursement',
         },
         {
           key: 'doctorVisitCopayment',
           label: 'Doctor Visit Copayment',
-          data: ['0%', '10%', '15%', '20%'],
+          data: [
+            { title: '0%', value: '_0' },
+            { title: '10%', value: '_10' },
+            { title: '15%', value: '_15' },
+            { title: '20%', value: '_20' },
+          ],
           placeholder: 'Doctor Visit Copayment',
         },
         {
           key: 'doctorVisitMoney',
           label: 'Doctor Visit Money',
-          data: ['EGP 100', 'EGP 150', 'EGP 200', 'EGP 300', 'EGP 400'],
+          data: [
+            { title: 'EGP 100', value: '_100' },
+            { title: 'EGP 150', value: '_150' },
+            { title: 'EGP 200', value: '_200' },
+            { title: 'EGP 300', value: '_300' },
+            { title: 'EGP 400', value: '_400' },
+          ],
           placeholder: 'Doctor Visit Money',
         },
       ],
@@ -140,15 +173,22 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
     validationPlans,
     'defaultValue'
   );
+  const data = transformData('mooo', packName, formData, planNames);
 
   // 🔥 HANDLE NEXT WITH VALIDATION
   const handleNext = () => {
     if (validateDropdowns()) {
-      navigate(nextNavigation);
+      setValidationMessage('');
+      handleSubmit(data);
+    } else {
+      setValidationMessage(
+        'Please fill out all required reimbursement inputs.'
+      );
+      console.warn('Reimbursement::handleNext validation failed');
     }
   };
-
-  console.log(`${type} reimbursementData:`, reimbursementData);
+  // Debug: snapshot payload before submitting to API
+  console.log(`Reimbursement::${type} payload`, data);
 
   return (
     <div className="flex flex-col gap-6">
@@ -184,7 +224,7 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
       )}
 
       {/* Render plans */}
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 md:gap-5">
         {pageplans.map((plan) => {
           const planKey = getPlanKey(plan);
 
@@ -202,8 +242,7 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
                   inputs={data.inputs.map((input) => ({
                     ...input,
                     defaultValue:
-                      reimbursementData?.[planKey]?.[input.key] ||
-                      input.placeholder,
+                      reimbursementData?.[planKey]?.[input.key] || '',
                     onChange: (item) => handleChange(planKey, input.key, item),
                   }))}
                 />
@@ -221,12 +260,27 @@ const Reimbursement = ({ plans, prevNavigation, nextNavigation, type }) => {
         >
           Previous
         </button>
-        <button
-          onClick={handleNext}
-          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl"
-        >
-          Next Step
-        </button>
+        <div className="flex flex-col gap-2 items-end">
+          {validationMessage && (
+            <p className="text-sm text-red-600 text-right">
+              {validationMessage}
+            </p>
+          )}
+          {submitError && (
+            <p className="text-sm text-red-600 text-right">{submitError}</p>
+          )}
+          <button
+            onClick={handleNext}
+            disabled={isSubmitting}
+            className={`flex items-center justify-center gap-2 px-5 py-2 rounded-xl transition-all ${
+              isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed text-white'
+                : 'bg-main text-white hover:bg-main/90'
+            }`}
+          >
+            {isSubmitting ? 'Submitting...' : 'Next Step'}
+          </button>
+        </div>
       </div>
     </div>
   );

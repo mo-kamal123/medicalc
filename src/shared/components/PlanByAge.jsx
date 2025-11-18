@@ -43,11 +43,11 @@ const PlanByAge = () => {
     <div className="flex flex-col gap-10">
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="flex items-center justify-center gap-5">
+      <div className="flex items-center justify-center gap-3">
         <NavLink
           to="summary"
           className={({ isActive }) =>
-            `border border-main p-3 px-6 rounded-4xl transition-colors ${
+            `border border-main md:p-3 md:px-6 md:text-base text-xs py-2 px-2 rounded-4xl transition-colors ${
               isActive ? 'bg-main text-white' : 'text-main'
             }`
           }
@@ -58,7 +58,7 @@ const PlanByAge = () => {
         <NavLink
           to="custom"
           className={({ isActive }) =>
-            `border border-main p-3 px-6 rounded-4xl transition-colors ${
+            `border border-main md:p-3 md:px-6 md:text-base text-xs py-2 px-2  rounded-4xl transition-colors ${
               isActive ? 'bg-main text-white' : 'text-main'
             }`
           }
