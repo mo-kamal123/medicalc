@@ -39,17 +39,17 @@ const AuthLayout = () => {
 
   // Otherwise, show the authentication layout (login form)
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center w-full sm:w-[95%] lg:w-[90%] m-auto min-h-svh lg:h-svh gap-5 lg:gap-10 px-4 sm:px-6 lg:px-0 py-6 lg:py-0">
+    <div className="flex flex-col items-center justify-center md:flex-row md:justify-between md:items-center w-full sm:w-[95%] md:w-[90%] m-auto min-h-svh lg:h-svh gap-5 lg:gap-10 px-4 sm:px-6 lg:px-0 py-6 lg:py-0">
       {/* Auth Content - Left side on desktop, full width on mobile */}
       <div className="auth-content w-full lg:w-1/2 flex flex-col items-center justify-center lg:justify-between gap-6 sm:gap-10 lg:gap-20 order-2 lg:order-1">
-        <img src={logo} alt="logo" className="w-32 sm:w-40 lg:w-auto h-auto" />
+        <img src={logo} alt="logo" className="w-32 sm:w-60 lg:w-auto h-auto" />
         <div className="w-full max-w-md lg:max-w-none">
           <Outlet />
         </div>
         <p className="text-label text-xs sm:text-sm">powered by Khusm</p>
       </div>
       {/* Auth Image - Right side on desktop, hidden on mobile */}
-      <div className="auth-img hidden lg:block lg:w-1/2 order-1 lg:order-2">
+      <div className="auth-img hidden md:block md:w-1/2 order-1 md:order-2">
         <img
           src={authImg}
           alt="login-img"
