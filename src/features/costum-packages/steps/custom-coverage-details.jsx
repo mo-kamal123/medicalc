@@ -37,7 +37,10 @@ const CustomCoverageDetails = () => {
 
   return (
     <div>
-      <CoverageDetails plans={plans} />
+      <CoverageDetails
+        plans={plans}
+        nextPage={'/custom-package/installments'}
+      />
     </div>
   );
 };

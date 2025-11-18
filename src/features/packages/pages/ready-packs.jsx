@@ -43,7 +43,7 @@ const ReadyPacks = () => {
     },
   ];
   return (
-    <div className="flex items-center justify-between w-[80%] m-auto">
+    <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-6 lg:gap-8 w-full lg:w-[80%] m-auto px-4 sm:px-6 lg:px-0 py-4 sm:py-6 lg:py-0">
       <PackageCard
         img={premium}
         header={'Premium Package'}

@@ -17,15 +17,25 @@ import { updateReimbursement as updatePremiumReimbursement } from '../../feature
 import { updateReimbursement as updateCustomReimbursement } from '../../features/costum-packages/store/custom-plan-slice';
 import { transformData } from '../utils/formTransformation';
 
+/**
+ * Reimbursement Component
+ *
+ * Shared wizard step for entering reimbursement data across standard, premium
+ * and custom packages. Handles pagination, validation, Redux updates, and
+ * submits data via the provided callback.
+ */
 const Reimbursement = ({
   plans,
   planNames,
   packName,
+  handleSubmit,
   prevNavigation,
-  nextNavigation,
   type,
+  isSubmitting = false,
+  submitError = '',
 }) => {
   const [page, setPage] = useState(1);
+  const [validationMessage, setValidationMessage] = useState('');
   const pageplans = usePagination(page, plans);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -163,17 +173,22 @@ const Reimbursement = ({
     validationPlans,
     'defaultValue'
   );
+  const data = transformData('mooo', packName, formData, planNames);
 
   // 🔥 HANDLE NEXT WITH VALIDATION
   const handleNext = () => {
     if (validateDropdowns()) {
-      navigate(nextNavigation);
+      setValidationMessage('');
+      handleSubmit(data);
+    } else {
+      setValidationMessage(
+        'Please fill out all required reimbursement inputs.'
+      );
+      console.warn('Reimbursement::handleNext validation failed');
     }
   };
-  const data = transformData('mooo', packName, formData, planNames);
-  console.log( packName, formData, planNames);
-  console.log(data);
-  // console.log(`${type} reimbursementData:`, reimbursementData);
+  // Debug: snapshot payload before submitting to API
+  console.log(`Reimbursement::${type} payload`, data);
 
   return (
     <div className="flex flex-col gap-6">
@@ -209,7 +224,7 @@ const Reimbursement = ({
       )}
 
       {/* Render plans */}
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 md:gap-5">
         {pageplans.map((plan) => {
           const planKey = getPlanKey(plan);
 
@@ -245,12 +260,27 @@ const Reimbursement = ({
         >
           Previous
         </button>
-        <button
-          onClick={handleNext}
-          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl"
-        >
-          Next Step
-        </button>
+        <div className="flex flex-col gap-2 items-end">
+          {validationMessage && (
+            <p className="text-sm text-red-600 text-right">
+              {validationMessage}
+            </p>
+          )}
+          {submitError && (
+            <p className="text-sm text-red-600 text-right">{submitError}</p>
+          )}
+          <button
+            onClick={handleNext}
+            disabled={isSubmitting}
+            className={`flex items-center justify-center gap-2 px-5 py-2 rounded-xl transition-all ${
+              isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed text-white'
+                : 'bg-main text-white hover:bg-main/90'
+            }`}
+          >
+            {isSubmitting ? 'Submitting...' : 'Next Step'}
+          </button>
+        </div>
       </div>
     </div>
   );

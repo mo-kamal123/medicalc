@@ -1,58 +1,64 @@
-import SummaryCard from '../../../../shared/UI/summary-card';
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
+import SummaryCard from '../../../../shared/UI/summary-card';
 
-const whitePlan = {
-  header: {
-    icon: <FaStar className="text-blue-400 text-2xl" />,
-    title: 'Standard White Plan',
-  },
-  inputs: [
-    {
-      label: 'Prescription Medication & Chronic',
-      data: ['10% Copayment'],
-      defaultValue: '10% Copayment',
-      placeholder: 'Prescription Medication & Chronic',
-    },
-  ],
-};
+const Mediactions = ({ data }) => {
+  if (!data) return null;
 
-const silverPlan = {
-  header: {
-    icon: <FaMedal className="text-gray-400 text-2xl" />,
-    title: 'Silver Plan',
-  },
-  inputs: [
+  const plans = [
     {
-      label: 'Prescription Medication & Chronic',
-      data: ['10% Copayment'],
-      defaultValue: '10% Copayment',
-      placeholder: 'Prescription Medication & Chronic',
+      header: {
+        icon: <FaStar className="text-blue-400 text-2xl" />,
+        title: 'Standard White Plan',
+      },
+      inputs: [
+        {
+          label: 'Prescription Medication & Chronic',
+          value: data.white.prescriptionMedicinesCopayment,
+        },
+      ],
     },
-  ],
-};
+    {
+      header: {
+        icon: <FaMedal className="text-gray-400 text-2xl" />,
+        title: 'Silver Plan',
+      },
+      inputs: [
+        {
+          label: 'Prescription Medication & Chronic',
+          value: data.silver.prescriptionMedicinesCopayment,
+        },
+      ],
+    },
+    {
+      header: {
+        icon: <FaCrown className="text-yellow-400 text-2xl" />,
+        title: 'Premium Gold Plan',
+      },
+      inputs: [
+        {
+          label: 'Prescription Medication & Chronic',
+          value: data.gold.prescriptionMedicinesCopayment,
+        },
+      ],
+    },
+  ];
 
-const goldPlan = {
-  header: {
-    icon: <FaCrown className="text-yellow-400 text-2xl" />,
-    title: 'Premium Gold Plan',
-  },
-  inputs: [
-    {
-      label: 'Prescription Medication & Chronic',
-      data: ['10% Copayment'],
-      defaultValue: '10% Copayment',
-      placeholder: 'Prescription Medication & Chronic',
-    },
-  ],
-};
-const Mediactions = () => {
   return (
     <div className="flex flex-col gap-5 w-full">
-      <h2 className="text-dark font-semibold text-2xl">Medications</h2>
+      <h2 className="text-gray-900 font-semibold text-2xl">Medications</h2>
       <div className="flex gap-5">
-        <SummaryCard header={whitePlan.header} inputs={whitePlan.inputs} />
-        <SummaryCard header={silverPlan.header} inputs={silverPlan.inputs} />
-        <SummaryCard header={goldPlan.header} inputs={goldPlan.inputs} />
+        {plans.map((plan, i) => (
+          <SummaryCard
+            key={i}
+            header={plan.header}
+            inputs={plan.inputs.map((input) => ({
+              label: input.label,
+              data: [input.value],
+              defaultValue: input.value,
+              placeholder: input.label,
+            }))}
+          />
+        ))}
       </div>
     </div>
   );

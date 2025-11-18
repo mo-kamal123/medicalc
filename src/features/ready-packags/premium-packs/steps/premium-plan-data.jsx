@@ -38,9 +38,9 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planOne.annualLimit,
+        defaultValue: premiumPlan.planOne.annuallimit,
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planOne', 'annualLimit', item),
+        onChange: (item) => handleChange('planOne', 'annuallimit', item),
       },
       {
         label: 'Applied Network',
@@ -49,9 +49,9 @@ const PremiumPlanData = () => {
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planOne.appliedNetwork,
+        defaultValue: premiumPlan.planOne.appliednetwork,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planOne', 'appliedNetwork', item),
+        onChange: (item) => handleChange('planOne', 'appliednetwork', item),
       },
       {
         label: 'Geography',
@@ -71,10 +71,10 @@ const PremiumPlanData = () => {
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planOne.serviceAccessibility,
+        defaultValue: premiumPlan.planOne.serviceaccessibility,
         placeholder: 'Service Accessibility',
         onChange: (item) =>
-          handleChange('planOne', 'serviceAccessibility', item),
+          handleChange('planOne', 'serviceaccessibility', item),
       },
     ],
   };
@@ -108,9 +108,9 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planTwo.annualLimit, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.annuallimit, // ✅ FIXED
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planTwo', 'annualLimit', item),
+        onChange: (item) => handleChange('planTwo', 'annuallimit', item),
       },
       {
         label: 'Applied Network',
@@ -119,9 +119,9 @@ const PremiumPlanData = () => {
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planTwo.appliedNetwork, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.appliednetwork, // ✅ FIXED
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planTwo', 'appliedNetwork', item),
+        onChange: (item) => handleChange('planTwo', 'appliednetwork', item),
       },
       {
         label: 'Geography',
@@ -141,10 +141,10 @@ const PremiumPlanData = () => {
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planTwo.serviceAccessibility, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.serviceaccessibility, // ✅ FIXED
         placeholder: 'Service Accessibility',
         onChange: (item) =>
-          handleChange('planTwo', 'serviceAccessibility', item),
+          handleChange('planTwo', 'serviceaccessibility', item),
       },
     ],
   };
@@ -178,9 +178,9 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planThree.annualLimit,
+        defaultValue: premiumPlan.planThree.annuallimit,
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planThree', 'annualLimit', item),
+        onChange: (item) => handleChange('planThree', 'annuallimit', item),
       },
       {
         label: 'Applied Network',
@@ -189,9 +189,9 @@ const PremiumPlanData = () => {
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planThree.appliedNetwork,
+        defaultValue: premiumPlan.planThree.appliednetwork,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planThree', 'appliedNetwork', item),
+        onChange: (item) => handleChange('planThree', 'appliednetwork', item),
       },
       {
         label: 'Geography',
@@ -211,10 +211,10 @@ const PremiumPlanData = () => {
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planThree.serviceAccessibility,
+        defaultValue: premiumPlan.planThree.serviceaccessibility,
         placeholder: 'Service Accessibility',
         onChange: (item) =>
-          handleChange('planThree', 'serviceAccessibility', item),
+          handleChange('planThree', 'serviceaccessibility', item),
       },
     ],
   };
@@ -248,9 +248,9 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planFour.annualLimit,
+        defaultValue: premiumPlan.planFour.annuallimit,
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planFour', 'annualLimit', item),
+        onChange: (item) => handleChange('planFour', 'annuallimit', item),
       },
       {
         label: 'Applied Network',
@@ -259,9 +259,9 @@ const PremiumPlanData = () => {
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planFour.appliedNetwork,
+        defaultValue: premiumPlan.planFour.appliednetwork,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planFour', 'appliedNetwork', item),
+        onChange: (item) => handleChange('planFour', 'appliednetwork', item),
       },
       {
         label: 'Geography',
@@ -281,10 +281,10 @@ const PremiumPlanData = () => {
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planFour.serviceAccessibility,
+        defaultValue: premiumPlan.planFour.serviceaccessibility,
         placeholder: 'Service Accessibility',
         onChange: (item) =>
-          handleChange('planFour', 'serviceAccessibility', item),
+          handleChange('planFour', 'serviceaccessibility', item),
       },
     ],
   };

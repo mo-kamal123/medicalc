@@ -23,7 +23,7 @@ const initialState = {
   },
   healthcareServices: {
     white: {
-      roomType: '',
+      roomType: 'LUX',
       inpatientCopayment: '_10',
       outpatientCopayment: '_15',
       prescriptionMedicinesCopayment: '_20',
@@ -33,7 +33,7 @@ const initialState = {
       opticalAnnualFees: '_500',
       physioTherapyCount: '_12',
       chronicAndPreExisting: '_5000',
-      maternityCare: 'Wait 10 Month',
+      maternityCare: 'Wait10Month',
     },
     silver: {
       roomType: 'PRIVATE',
@@ -57,7 +57,7 @@ const initialState = {
       dentalMoney: '_1000',
       opticalCopayment: '_10',
       opticalAnnualFees: '_500',
-      physioTherapyCount: '_covered',
+      physioTherapyCount: '_Covered',
       chronicAndPreExisting: '_15000',
       maternityCare: '_10000',
     },

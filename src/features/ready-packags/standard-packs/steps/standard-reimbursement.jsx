@@ -1,8 +1,21 @@
 import { FaStar, FaMedal, FaCrown } from 'react-icons/fa';
 import Reimbursement from '../../../../shared/components/reimbursement';
 import Breadcrumb from '../../../../shared/UI/breadcrumb';
+import { useCalculateTob } from '../../../../shared/api/useCalculateTob';
+import { useNavigate } from 'react-router-dom';
 
 const StandardReimbursement = () => {
+  const navigate = useNavigate();
+
+  const handleSuccess = () => {
+    navigate('/standard-package/plan-by-age/summary');
+  };
+  const {
+    mutate: calcateTob,
+    isPending,
+    isError,
+    error,
+  } = useCalculateTob(handleSuccess);
   const plans = [
     {
       id: 1,
@@ -68,8 +81,16 @@ const StandardReimbursement = () => {
         packName="standardPlan"
         plans={plans}
         planNames={plansNames}
+        handleSubmit={calcateTob}
+        isSubmitting={isPending}
+        submitError={
+          isError
+            ? error?.response?.data?.message ||
+              error?.message ||
+              'Failed to submit reimbursement data.'
+            : ''
+        }
         prevNavigation="/standard-package/healthcare-services"
-        nextNavigation="/standard-package/plan-by-age/summary"
       />
     </div>
   );

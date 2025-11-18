@@ -51,7 +51,7 @@ const PlanData = ({ plans, prevNavigation, nextNavigation }) => {
         </div>
       )}
 
-      <div className="grid grid-cols-3 w-full gap-10">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-10 md:gap-5">
         {pageplans.map((plan) => (
           <PlanCard
             key={plan.id}

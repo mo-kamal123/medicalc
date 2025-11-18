@@ -1,7 +1,20 @@
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../../../shared/UI/breadcrumb';
 import Reimbursement from '../../../../shared/components/reimbursement';
+import { useCalculateTob } from '../../../../shared/api/useCalculateTob';
 
 const PremiumReimbursement = () => {
+  const navigate = useNavigate();
+
+  const handleSuccess = () => {
+    navigate('/premium-package/plan-by-age/summary');
+  };
+  const {
+    mutate: calcateTob,
+    isPending,
+    isError,
+    error,
+  } = useCalculateTob(handleSuccess);
   const plans = [
     {
       id: 1,
@@ -64,7 +77,15 @@ const PremiumReimbursement = () => {
         packName="premiumPlan"
         plans={plans}
         planNames={plansNames}
-        nextNavigation={'/premium-package/plan-by-age/summary'}
+        handleSubmit={calcateTob}
+        isSubmitting={isPending}
+        submitError={
+          isError
+            ? error?.response?.data?.message ||
+              error?.message ||
+              'Failed to submit reimbursement data.'
+            : ''
+        }
         prevNavigation={'/premium-package/healthcare-services'}
       />
     </div>

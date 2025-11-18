@@ -1,10 +1,7 @@
 const SummaryCard = ({ header, inputs }) => {
   return (
     <div className="bg-white w-full p-7 rounded-xl shadow flex flex-col gap-10">
-      <div className="flex items-center gap-2 text-dark">
-        <p className="bg-[#EBEBEB3D] w-8 h-8 flex items-center justify-center rounded-lg">
-          {header.icon}
-        </p>
+      <div className="flex items-center gap-2 text-gray-900">
         <p className="text-xl font-semibold">{header.title}</p>
       </div>
       {inputs && (
@@ -12,7 +9,7 @@ const SummaryCard = ({ header, inputs }) => {
           <>
             {inputs.map((input, i) => (
               <div key={i} className="flex flex-col gap-2">
-                <label className="text-sm text-dark font-semibold">
+                <label className="text-sm text-gray-900 font-semibold">
                   {input.label}
                 </label>
                 <input
@@ -21,7 +18,7 @@ const SummaryCard = ({ header, inputs }) => {
                   // onChange={(e) =>
                   //   handleManualChange(planKey, ageKey, e.target.value)
                   // }
-                  className="w-full rounded-md p-2  focus:outline-none ring ring-main placeholder:text-sec"
+                  className="w-full rounded-md p-2  focus:outline-none border border-blue-400 placeholder:text-stone-700"
                   placeholder="Enter employees"
                   readOnly={true}
                 />

@@ -79,7 +79,10 @@ const StandardCoverageDetails = () => {
   return (
     <>
       <Breadcrumb items={breadcrumbItems} />
-      <CoverageDetails plans={plans} />;
+      <CoverageDetails
+        plans={plans}
+        nextPage={'/standard-package/installments'}
+      />
     </>
   );
 };
