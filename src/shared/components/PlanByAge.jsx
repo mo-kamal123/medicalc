@@ -2,41 +2,41 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import Breadcrumb from '../UI/breadcrumb';
 
-const PlanByAge = () => {
+const PlanByAge = ({type}) => {
   // Breadcrumbs — mark all steps before current as active
   const breadcrumbItems = [
-    { title: 'Plan Data', url: '/standard-package/plan-data', active: true },
+    { title: 'Plan Data', url: `/${type}-package/plan-data`, active: true },
     {
       title: 'Healthcare Services',
-      url: '/standard-package/healthcare-services',
+      url: `/${type}-package/healthcare-services`,
       active: true,
     },
     {
       title: 'Reimbursement Details',
-      url: '/standard-package/reimbursement-details',
+      url: `/${type}-package/reimbursement-details`,
       active: true,
     },
     {
       title: 'Plan Summary',
-      url: '/standard-package/plan-by-age/summary',
+      url: `/${type}-package/plan-by-age/summary`,
       active: true,
     },
     {
       title: 'Customize plan by age',
-      url: '/standard-package/plan-by-age/summary',
+      url: `/${type}-package/plan-by-age/custom`,
       active: true,
     },
     {
       title: 'Coverage & Expense Details',
-      url: '/standard-package/coverage-expense-details',
+      url: `/${type}-package/coverage-expense-details`,
       active: false,
     },
     {
       title: 'Installments',
-      url: '/standard-package/installments',
+      url: `/${type}-package/installments`,
       active: false,
     },
-    { title: 'Summary', url: '/standard-package/summary', active: false },
+    { title: 'Summary', url: `/${type}-package/summary`, active: false},
   ];
 
   return (

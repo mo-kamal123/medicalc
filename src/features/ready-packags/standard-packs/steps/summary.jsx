@@ -44,38 +44,38 @@ const Summary = ({ type = 'standard' }) => {
     type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ');
 
   const breadcrumbItems = [
-    { title: 'Plan Data', url: '/standard-package/plan-data', active: true },
+    { title: 'Plan Data', url: `/${type}-package/plan-data`, active: true },
     {
       title: 'Healthcare Services',
-      url: '/standard-package/healthcare-services',
+      url: `/${type}-package/healthcare-services`,
       active: true,
     },
     {
       title: 'Reimbursement Details',
-      url: '/standard-package/reimbursement-details',
+      url: `/${type}-package/reimbursement-details`,
       active: true,
     },
     {
       title: 'Plan Summary',
-      url: '/standard-package/plan-by-age/summary',
+      url: `/${type}-package/plan-by-age/summary`,
       active: true,
     },
     {
       title: 'Customize plan by age',
-      url: '/standard-package/plan-by-age/summary',
+      url: `/${type}-package/plan-by-age/summary`,
       active: true,
     },
     {
       title: 'Coverage & Expense Details',
-      url: '/standard-package/coverage-details',
+      url: `/${type}-package/coverage-details`,
       active: true,
     },
     {
       title: 'Installments',
-      url: '/standard-package/installments',
+      url: `/${type}-package/installments`,
       active: true,
     },
-    { title: 'Summary', url: '/standard-package/summary', active: true },
+    { title: 'Summary', url: `/${type}-package/summary`, active: true },
   ];
 
   const mergePDFs = async () => {
