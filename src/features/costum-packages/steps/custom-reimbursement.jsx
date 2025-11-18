@@ -1,30 +1,42 @@
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { generatePlans } from '../utils/plan-genrator';
 import Reimbursement from '../../../shared/components/reimbursement';
 import Breadcrumb from '../../../shared/UI/breadcrumb';
+import { useCalculateTob } from '../../../shared/api/useCalculateTob';
 
 const CustomReimbursement = () => {
   const [searchParams] = useSearchParams();
   const count = Number(searchParams.get('count')) || 1;
   const [plans] = useState(generatePlans(count));
-    // Get plan name from title
-    const getPlanKey = (title) => {
-        const lower = title?.toLowerCase?.() || '';
-      if (lower.includes('1')) return 'planOne';
-      if (lower.includes('2')) return 'planTwo';
-      if (lower.includes('3')) return 'planThree';
-      if (lower.includes('4')) return 'planFour';
-      if (lower.includes('5')) return 'planFive';
-      if (lower.includes('6')) return 'planSix';
-      if (lower.includes('7')) return 'planSeven';
-      if (lower.includes('8')) return 'planEight';
-      if (lower.includes('9')) return 'planNine';
-      if (lower.includes('10')) return 'planTen';
-      return title;
-    };
-  
-  const planNames = plans.map(plan => getPlanKey(plan.header.title))
+  const navigate = useNavigate();
+
+  const handleSuccess = () => {
+    navigate('/custom-package/plan-by-age/summary');
+  };
+  const {
+    mutate: calcateTob,
+    isPending,
+    isError,
+    error,
+  } = useCalculateTob(handleSuccess);
+  // Get plan name from title
+  const getPlanKey = (title) => {
+    const lower = title?.toLowerCase?.() || '';
+    if (lower.includes('1')) return 'planOne';
+    if (lower.includes('2')) return 'planTwo';
+    if (lower.includes('3')) return 'planThree';
+    if (lower.includes('4')) return 'planFour';
+    if (lower.includes('5')) return 'planFive';
+    if (lower.includes('6')) return 'planSix';
+    if (lower.includes('7')) return 'planSeven';
+    if (lower.includes('8')) return 'planEight';
+    if (lower.includes('9')) return 'planNine';
+    if (lower.includes('10')) return 'planTen';
+    return title;
+  };
+
+  const planNames = plans.map((plan) => getPlanKey(plan.header.title));
   const breadcrumbItems = [
     {
       title: 'Plan Data',
@@ -67,7 +79,8 @@ const CustomReimbursement = () => {
       active: false,
     },
   ];
-  console.log(plans, planNames);
+  // Debug: verify generated plans and normalized names for submission
+  console.log('CustomReimbursement::plans', plans, planNames);
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />
@@ -76,7 +89,15 @@ const CustomReimbursement = () => {
         packName={'customPlans'}
         planNames={planNames}
         plans={plans}
-        nextNavigation={`/custom-package/plan-by-age/summary?count=${count}`}
+        handleSubmit={calcateTob}
+        isSubmitting={isPending}
+        submitError={
+          isError
+            ? error?.response?.data?.message ||
+              error?.message ||
+              'Failed to submit reimbursement data.'
+            : ''
+        }
         prevNavigation={`/custom-package/healthcare-services?count=${count}`}
       />
     </div>

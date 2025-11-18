@@ -20,6 +20,7 @@ const authSlice = createSlice({
     log_in: (state) => {
       state.loggedIn = true;
       addToLocalStorage('loggedIn', true);
+      addToLocalStorage('loginTime', Date.now()); // <-- add this line
     },
     logout: (state) => {
       state.loggedIn = false;

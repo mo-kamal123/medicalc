@@ -22,21 +22,28 @@ const CustomPacks = () => {
   };
 
   return (
-    <div className="bg-white p-5 w-2/3 mt-5 m-auto rounded-xl flex flex-col items-center gap-5 justify-center">
-      <img className="w-60" src={custom} alt="custom image" />
-      <div className="w-[90%] m-auto flex flex-col items-start gap-10">
+    <div className="bg-white p-4 sm:p-5 w-full sm:w-[90%] md:w-2/3 mt-3 sm:mt-4 lg:mt-5 m-auto rounded-xl flex flex-col items-center gap-4 sm:gap-5 justify-center px-4 sm:px-6">
+      <img
+        className="w-40 sm:w-48 lg:w-60 h-auto"
+        src={custom}
+        alt="custom image"
+      />
+      <div className="w-full sm:w-[90%] m-auto flex flex-col items-start gap-6 sm:gap-8 lg:gap-10">
         <div className="w-full flex flex-col items-start gap-3">
-          <label htmlFor="programs-numbers" className="text-label">
+          <label
+            htmlFor="programs-numbers"
+            className="text-label text-sm sm:text-base"
+          >
             How many programs do you want to configure?
           </label>
           <div className="relative w-full">
-            <FaRegUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-main text-2xl" />
+            <FaRegUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-main text-xl sm:text-2xl" />
             <input
               type="number"
               id="programs-numbers"
               value={programCount}
               onChange={(e) => setProgramCount(e.target.value)}
-              className="border border-borders w-full p-3 pl-12 rounded-xl placeholder-sec"
+              className="border border-borders w-full p-2.5 sm:p-3 pl-10 sm:pl-12 rounded-xl placeholder-sec text-sm sm:text-base"
               placeholder="Enter number of programs"
             />
           </div>
@@ -44,7 +51,7 @@ const CustomPacks = () => {
 
         <button
           onClick={handleNext}
-          className="flex items-center justify-center gap-2 w-full bg-main text-white p-3 rounded-xl"
+          className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base"
         >
           Next
         </button>

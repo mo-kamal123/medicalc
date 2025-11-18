@@ -37,9 +37,9 @@ const initialPremiumState = {
       dentalMoney: '_500',
       opticalCopayment: '_10',
       opticalAnnualFees: '_500',
-      physioTherapyCount: '_covered',
+      physioTherapyCount: '_Covered',
       chronicAndPreExisting: '_5000',
-      maternityCare: '_3000',
+      maternityCare: 'Wait10Month',
     },
     planTwo: {
       roomType: 'PRIVATE',
@@ -52,7 +52,7 @@ const initialPremiumState = {
       opticalAnnualFees: '_500',
       physioTherapyCount: '_36',
       chronicAndPreExisting: '_10000',
-      maternityCare: '_5000',
+      maternityCare: '_3000',
     },
     planThree: {
       roomType: 'PRIVATE',
@@ -65,7 +65,7 @@ const initialPremiumState = {
       opticalAnnualFees: '_500',
       physioTherapyCount: '_24',
       chronicAndPreExisting: '_15000',
-      maternityCare: '_10000',
+      maternityCare: '_5000',
     },
     planFour: {
       roomType: 'LUX',
@@ -78,7 +78,7 @@ const initialPremiumState = {
       opticalAnnualFees: '_500',
       physioTherapyCount: '_12',
       chronicAndPreExisting: '_20000',
-      maternityCare: '_15000',
+      maternityCare: '_10000',
     },
   },
   reimbursement: {

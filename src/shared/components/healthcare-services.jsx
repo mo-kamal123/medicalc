@@ -139,7 +139,7 @@ const HealthcareServices = ({
           key: 'dentalMoney',
           label: 'Dental Money',
           data: [
-            { title: 'Excluded', value: '_excluded' },
+            { title: 'Excluded', value: '_Excluded' },
             { title: 'EGP 300', value: '_300' },
             { title: 'EGP 500', value: '_500' },
             { title: 'EGP 700', value: '_700' },
@@ -175,7 +175,7 @@ const HealthcareServices = ({
           key: 'opticalAnnualFees',
           label: 'Optical Annual Fees',
           data: [
-            { title: 'Excluded', value: '_excluded' },
+            { title: 'Excluded', value: '_Excluded' },
             { title: 'EGP 300', value: '_300' },
             { title: 'EGP 500', value: '_500' },
             { title: 'EGP 700', value: '_700' },
@@ -200,7 +200,7 @@ const HealthcareServices = ({
           key: 'physioTherapyCount',
           label: 'Physio Therapy Count',
           data: [
-            { title: 'Covered', value: '_covered' },
+            { title: 'Covered', value: '_Covered' },
             { title: 'Sessions 12', value: '_12' },
             { title: 'Sessions 24', value: '_24' },
             { title: 'Sessions 36', value: '_36' },
@@ -219,7 +219,7 @@ const HealthcareServices = ({
           key: 'chronicAndPreExisting',
           label: 'Chronic And Pre Existing',
           data: [
-            { title: 'Excluded', value: '_excluded' },
+            { title: 'Excluded', value: '_Excluded' },
             { title: '2,500', value: '_2500' },
             { title: '5,000', value: '_5000' },
             { title: '7,500', value: '_7500' },
@@ -249,8 +249,8 @@ const HealthcareServices = ({
           key: 'maternityCare',
           label: 'Maternity Care',
           data: [
-            { title: 'Excluded', value: '_excluded' },
-            { title: 'Wait 10 Month', value: 'Wait 10 Month' }, // ← Fixed typo from _value to value
+            { title: 'Excluded', value: '_Excluded' },
+            { title: 'Wait 10 Month', value: 'Wait10Month' }, // ← Fixed typo from _value to value
             { title: '3,000', value: '_3000' },
             { title: '5,000', value: '_5000' },
             { title: '7,000', value: '_7000' },
@@ -262,7 +262,6 @@ const HealthcareServices = ({
       ],
     },
   ];
-
 
   // Get plan name from title
   const getPlanKey = (title) => {
@@ -344,7 +343,7 @@ const HealthcareServices = ({
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 md:gap-5">
         {pageplans.map((plan) => {
           const planKey = getPlanKey(plan.header?.title || plan.title);
           console.log(planKey);

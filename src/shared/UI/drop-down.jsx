@@ -24,7 +24,7 @@ export default function Dropdown({
 
   // Get display text for selected value
   const getDisplayText = () => {
-    if (!selected) return placeholder;
+    if (selected === null || selected === undefined) return placeholder;
 
     if (isObjectData) {
       const item = data.find((d) => d.value === selected);
@@ -62,7 +62,7 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex justify-between items-center w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 ${
+        className={`flex justify-between items-center w-full px-4 py-2 border rounded-xl bg-white text-sec text-xs md:text-sm shadow-sm hover:shadow-md transition-all duration-200 ${
           isInvalid
             ? 'border-red-500'
             : isOpen
@@ -70,7 +70,13 @@ export default function Dropdown({
               : 'border-gray-300'
         }`}
       >
-        <span>{getDisplayText()}</span>
+        <span
+          className={
+            selected !== null && selected !== undefined ? 'text-gray-700' : ''
+          }
+        >
+          {getDisplayText()}
+        </span>
         <svg
           className={`w-5 h-5 transform transition-transform ${
             isOpen ? 'rotate-180' : 'rotate-0'

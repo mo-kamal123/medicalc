@@ -1,54 +1,152 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PlanCard from '../../../../shared/UI/plan-card';
 import { Link } from 'react-router-dom';
 import usePagination from '../../../../shared/hooks/usePagination';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { addEmployeesAges } from '../../../../shared/store/employees-ages-slice';
 
-const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
-  const defaultAgeGroups = [
-    '_0_17',
-    '_18_24',
-    '_25_29',
-    '_30_34',
-    '_35_39',
-    '_40_44',
-    '_45_49',
-    '_50_54',
-    '_55_59',
-    '_60_64',
-    '_65_69',
-    '_70_74',
-    '_75_79',
-    '_plus_80',
-  ];
+const AGE_GROUP_MAPPINGS = [
+  { display: '0-17', hyphen: '0-17', underscore: '_0_17' },
+  { display: '18-24', hyphen: '18-24', underscore: '_18_24' },
+  { display: '25-29', hyphen: '25-29', underscore: '_25_29' },
+  { display: '30-34', hyphen: '30-34', underscore: '_30_34' },
+  { display: '35-39', hyphen: '35-39', underscore: '_35_39' },
+  { display: '40-44', hyphen: '40-44', underscore: '_40_44' },
+  { display: '45-49', hyphen: '45-49', underscore: '_45_49' },
+  { display: '50-54', hyphen: '50-54', underscore: '_50_54' },
+  { display: '55-59', hyphen: '55-59', underscore: '_55_59' },
+  { display: '60-64', hyphen: '60-64', underscore: '_60_64' },
+  { display: '65-69', hyphen: '65-69', underscore: '_65_69' },
+  { display: '70-74', hyphen: '70-74', underscore: '_70_74' },
+  { display: '75-79', hyphen: '75-79', underscore: '_75_79' },
+  { display: '80+', hyphen: '80+', underscore: '_plus_80' },
+];
+
+/**
+ * PlanAgeTable Component
+ *
+ * Renders age distribution per plan for both summary (read-only) and custom
+ * (editable) flows. Also syncs the data with Redux for later steps.
+ */
+const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
+  const dispatch = useDispatch();
 
   const planKeys = Object.keys(PLAN_META);
   const [page, setPage] = useState(1);
-  const pageSize = 4;
+  const pageSize = 3;
 
-  // ✅ Paginated plan keys for current page
   const pagePlans = usePagination(page, planKeys, pageSize);
 
-  const [manualValues, setManualValues] = useState({});
-
-  const handleManualChange = (planKey, ageKey, value) => {
-    setManualValues((prev) => ({
-      ...prev,
-      [planKey]: {
-        ...prev[planKey],
-        [ageKey]: value,
-      },
+  // ✅ Initialize manual values in { data: [{ name, employees: {...} }] } format
+  const [manualValues, setManualValues] = useState(() => {
+    const initialData = planKeys.map((planKey) => ({
+      name: PLAN_META[planKey]?.name || planKey,
+      employees: AGE_GROUP_MAPPINGS.reduce((acc, group) => {
+        acc[group.underscore] = 0;
+        return acc;
+      }, {}),
     }));
+    return { data: initialData };
+  });
+
+  // ✅ Update manual values when plans (Excel upload) change
+  useEffect(() => {
+    if (!plans || type !== 'custom') return;
+
+    const updatedData = planKeys.map((planKey) => {
+      const employees = AGE_GROUP_MAPPINGS.reduce((acc, group) => {
+        const value =
+          plans[planKey]?.[group.hyphen] ??
+          plans[planKey]?.[group.underscore] ??
+          0;
+        acc[group.underscore] = value;
+        return acc;
+      }, {});
+      return {
+        name: PLAN_META[planKey]?.name || planKey,
+        employees,
+      };
+    });
+
+    const formatted = { data: updatedData };
+
+    // 🔥 Prevent infinite loop:
+    setManualValues((prev) => {
+      const same = JSON.stringify(prev) === JSON.stringify(formatted);
+      if (!same) {
+        dispatch(addEmployeesAges(formatted));
+        return formatted;
+      }
+      return prev;
+    });
+  }, [plans]);
+
+  // ✅ Handle manual input updates
+  const handleManualChange = (planName, ageKey, value) => {
+    const numericValue = value === '' ? 0 : Number(value);
+
+    setManualValues((prev) => {
+      const updated = {
+        data: prev.data.map((plan) =>
+          plan.name === planName
+            ? {
+                ...plan,
+                employees: {
+                  ...plan.employees,
+                  [ageKey]: numericValue,
+                },
+              }
+            : plan
+        ),
+      };
+
+      // Debug: surface granular updates to help troubleshoot manual editing issues
+      console.log('PlanAgeTable::manual update payload', {
+        planName,
+        ageKey,
+        numericValue,
+      });
+      console.log('PlanAgeTable::manual values snapshot', updated);
+
+      dispatch(addEmployeesAges(updated));
+      return updated;
+    });
   };
 
-  // ✅ Check if prev/next buttons should be disabled
+  // ✅ Get value - for SUMMARY mode use plans prop, for CUSTOM mode use manualValues
+  const getDisplayValue = (planKey, ageGroup) => {
+    if (type === 'summary') {
+      // For summary mode, get directly from plans prop
+      if (!plans || !plans[planKey]) return 0;
+      const value =
+        plans[planKey][ageGroup.hyphen] ?? plans[planKey][ageGroup.underscore];
+      return value ?? 0;
+    } else {
+      // For custom mode, get from manualValues
+      const planName = PLAN_META[planKey]?.name;
+      const plan = manualValues.data.find((p) => p.name === planName);
+      return plan?.employees?.[ageGroup.underscore] ?? 0;
+    }
+  };
+
+  const needsPagination = planKeys.length > pageSize;
   const isFirstPage = page === 1;
   const isLastPage = page * pageSize >= planKeys.length;
 
+  // Debug: capture component level snapshot for QA
+  console.log('PlanAgeTable Debug:', {
+    type,
+    plans,
+    planKeys,
+    PLAN_META,
+    manualValues: type === 'custom' ? manualValues : 'N/A (summary mode)',
+  });
+
   return (
-    <div className="p-6 min-h-screen flex flex-col gap-5">
-      {/* --- Pagination Controls --- */}
-      {planKeys.length > pageSize && (
+    <div className="md:p-6 min-h-screen flex flex-col gap-5">
+      {/* Pagination Controls */}
+      {needsPagination && (
         <div className="flex justify-between items-center w-full gap-3 mb-4">
           <p className="text-main text-2xl font-semibold">
             Swap or use arrows to explore more plans
@@ -76,9 +174,9 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
         </div>
       )}
 
-      {/* --- Table --- */}
+      {/* Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border-separate border-spacing-4">
+        <table className="min-w-[720px] w-full border-separate border-spacing-4">
           <thead>
             <tr>
               {pagePlans.map((planKey) => (
@@ -100,41 +198,48 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
             </tr>
           </thead>
           <tbody>
-            {defaultAgeGroups.map((ageKey) => (
-              <tr key={ageKey}>
+            {AGE_GROUP_MAPPINGS.map((ageGroup) => (
+              <tr key={ageGroup.underscore}>
                 {pagePlans.map((planKey) => {
-                  const value = plans?.[planKey]?.[ageKey];
-                  const manualValue = manualValues?.[planKey]?.[ageKey] ?? '';
+                  const displayValue = getDisplayValue(planKey, ageGroup);
+                  const planName = PLAN_META[planKey]?.name;
+
                   return (
                     <td
                       key={planKey}
                       className="bg-white p-4 rounded-xl shadow font-semibold"
                     >
-                      {value !== undefined ? (
-                        value.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
-                      ) : (
+                      {type === 'custom' ? (
                         <input
                           type="number"
-                          value={manualValue}
+                          value={displayValue}
                           onChange={(e) =>
-                            handleManualChange(planKey, ageKey, e.target.value)
+                            handleManualChange(
+                              planName,
+                              ageGroup.underscore,
+                              e.target.value
+                            )
                           }
-                          className="w-full rounded-md p-2  focus:outline-none font-medium placeholder:text-sec"
-                          placeholder="Enter value"
+                          className="w-full rounded-md p-2 focus:outline-none font-medium placeholder:text-sec border border-gray-200 text-center"
+                          placeholder="0"
+                          min="0"
                         />
+                      ) : (
+                        <div className="text-center text-sm md:text-lg">
+                          {typeof displayValue === 'number'
+                            ? displayValue.toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              })
+                            : displayValue}
+                        </div>
                       )}
                     </td>
                   );
                 })}
 
                 <td className="bg-white p-4 rounded-xl font-semibold shadow text-gray-800">
-                  {ageKey
-                    .replace(/^_/, '')
-                    .replace('_plus_', '80+')
-                    .replace(/_(\d+)/g, '-$1')}
+                  {ageGroup.display}
                 </td>
               </tr>
             ))}
@@ -142,17 +247,17 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META }) => {
         </table>
       </div>
 
-      {/* --- Navigation Buttons --- */}
+      {/* Navigation */}
       <div className="flex gap-5 justify-end w-full mb-10 mt-6">
         <Link
           to={-1}
-          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl hover:bg-main/10 transition-all"
         >
           Previous
         </Link>
         <Link
           to={navigation}
-          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl hover:bg-main/90 transition-all"
         >
           Next Step
         </Link>

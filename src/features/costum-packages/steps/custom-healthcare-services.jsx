@@ -22,7 +22,7 @@ const CustomHealthcareServices = () => {
       data: [
         { title: 'SHARED', value: 'SHARED' },
         { title: 'PRIVATE', value: 'PRIVATE' },
-        { title: 'LUX', value: 'LUX' }
+        { title: 'LUX', value: 'LUX' },
       ],
       placeholder: 'Room Type',
     },
@@ -32,7 +32,7 @@ const CustomHealthcareServices = () => {
         { title: '0%', value: '0%' },
         { title: '5%', value: '5%' },
         { title: '10%', value: '10%' },
-        { title: '15%', value: '15%' }
+        { title: '15%', value: '15%' },
       ],
       placeholder: 'Inpatient Copayment',
     },
@@ -42,7 +42,7 @@ const CustomHealthcareServices = () => {
         { title: '0%', value: '0%' },
         { title: '5%', value: '5%' },
         { title: '10%', value: '10%' },
-        { title: '15%', value: '15%' }
+        { title: '15%', value: '15%' },
       ],
       placeholder: 'Outpatient Copayment',
     },
@@ -52,7 +52,7 @@ const CustomHealthcareServices = () => {
         { title: '0%', value: '0%' },
         { title: '5%', value: '5%' },
         { title: '10%', value: '10%' },
-        { title: '15%', value: '15%' }
+        { title: '15%', value: '15%' },
       ],
       placeholder: 'Prescription Medicines Copayment',
     },
@@ -62,7 +62,7 @@ const CustomHealthcareServices = () => {
         { title: '0%', value: '0%' },
         { title: '5%', value: '5%' },
         { title: '10%', value: '10%' },
-        { title: '15%', value: '15%' }
+        { title: '15%', value: '15%' },
       ],
       placeholder: 'Dental Copayment',
     },
@@ -71,7 +71,7 @@ const CustomHealthcareServices = () => {
       data: [
         { title: 'EGP 500', value: 'EGP 500' },
         { title: 'EGP 750', value: 'EGP 750' },
-        { title: 'EGP 1000', value: 'EGP 1000' }
+        { title: 'EGP 1000', value: 'EGP 1000' },
       ],
       placeholder: 'Dental Money',
     },
@@ -80,7 +80,7 @@ const CustomHealthcareServices = () => {
       data: [
         { title: '0%', value: '0%' },
         { title: '5%', value: '5%' },
-        { title: '10%', value: '10%' }
+        { title: '10%', value: '10%' },
       ],
       placeholder: 'Optical Copayment',
     },
@@ -89,7 +89,7 @@ const CustomHealthcareServices = () => {
       data: [
         { title: 'EGP 500', value: 'EGP 500' },
         { title: 'EGP 750', value: 'EGP 750' },
-        { title: 'EGP 1000', value: 'EGP 1000' }
+        { title: 'EGP 1000', value: 'EGP 1000' },
       ],
       placeholder: 'Optical Annual Fees',
     },
@@ -98,7 +98,7 @@ const CustomHealthcareServices = () => {
       data: [
         { title: 'Sessions 12', value: 'Sessions 12' },
         { title: 'Sessions 24', value: 'Sessions 24' },
-        { title: 'Covered', value: 'Covered' }
+        { title: 'Covered', value: 'Covered' },
       ],
       placeholder: 'Physio Therapy Count',
     },
@@ -108,7 +108,7 @@ const CustomHealthcareServices = () => {
         { title: '5,000', value: '5,000' },
         { title: '10,000', value: '10,000' },
         { title: '15,000', value: '15,000' },
-        { title: '20,000', value: '20,000' }
+        { title: '20,000', value: '20,000' },
       ],
       placeholder: 'Chronic And Pre-existing',
     },
@@ -118,28 +118,27 @@ const CustomHealthcareServices = () => {
         { title: 'Wait 10 Month', value: 'Wait 10 Month' },
         { title: '5,000', value: '5,000' },
         { title: '10,000', value: '10,000' },
-        { title: '15,000', value: '15,000' }
+        { title: '15,000', value: '15,000' },
       ],
       placeholder: 'Maternity Care',
     },
   ];
 
-        // Get plan name from title
-        const getPlanKey = (title) => {
-          const lower = title?.toLowerCase?.() || '';
-        if (lower.includes('1')) return 'planOne';
-        if (lower.includes('2')) return 'plaTwo';
-        if (lower.includes('3')) return 'planThree';
-        if (lower.includes('4')) return 'planFour';
-        if (lower.includes('5')) return 'planFive';
-        if (lower.includes('6')) return 'planSix';
-        if (lower.includes('7')) return 'planSeven';
-        if (lower.includes('8')) return 'planEight';
-        if (lower.includes('9')) return 'planNine';
-        if (lower.includes('10')) return 'planTen';
-        return title;
-      };
-  
+  // Get plan name from title
+  const getPlanKey = (title) => {
+    const lower = title?.toLowerCase?.() || '';
+    if (lower.includes('1')) return 'planOne';
+    if (lower.includes('2')) return 'planTwo';
+    if (lower.includes('3')) return 'planThree';
+    if (lower.includes('4')) return 'planFour';
+    if (lower.includes('5')) return 'planFive';
+    if (lower.includes('6')) return 'planSix';
+    if (lower.includes('7')) return 'planSeven';
+    if (lower.includes('8')) return 'planEight';
+    if (lower.includes('9')) return 'planNine';
+    if (lower.includes('10')) return 'planTen';
+    return title;
+  };
 
   //Initialize empty healthcare plans if not already
   useEffect(() => {
