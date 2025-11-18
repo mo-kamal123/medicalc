@@ -60,7 +60,7 @@ const ClientForm = () => {
         <label htmlFor="logo" className="text-label text-sm sm:text-base">
           Client Logo
         </label>
-        <DragAndDrop changeLogo={setClientData} allowedTypes={allowedTypes} />
+        <DragAndDrop headeing='click here to browse or drop you file' desc='upload client logo' changeLogo={setClientData} allowedTypes={allowedTypes} />
       </div>
       <button
         type="submit"

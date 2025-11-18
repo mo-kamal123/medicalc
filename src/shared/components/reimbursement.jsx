@@ -261,14 +261,6 @@ const Reimbursement = ({
           Previous
         </button>
         <div className="flex flex-col gap-2 items-end">
-          {validationMessage && (
-            <p className="text-sm text-red-600 text-right">
-              {validationMessage}
-            </p>
-          )}
-          {submitError && (
-            <p className="text-sm text-red-600 text-right">{submitError}</p>
-          )}
           <button
             onClick={handleNext}
             disabled={isSubmitting}

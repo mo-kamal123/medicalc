@@ -416,12 +416,6 @@ const ageGroupMappings = [
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📧 Support
-
-For issues or questions:
-- Email: support@insurancecalculator.com
-- Issues: [GitHub Issues](https://github.com/your-org/insurance-calculator/issues)
-
 ## 🙏 Acknowledgments
 
 - React Icons for icon components
