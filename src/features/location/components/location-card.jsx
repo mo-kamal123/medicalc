@@ -17,16 +17,17 @@ const LocationCard = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-
-        console.log(latitude, longitude);
-        // Dispatch actual location to Redux
         dispatch(getLocation({ latitude, longitude }));
-
-        // Navigate to home (or wherever you need)
         navigate('/');
       },
       (error) => {
-        alert('Unable to retrieve location: ' + error.message);
+        if (error.code === error.PERMISSION_DENIED) {
+          alert(
+            'Location access was denied. Please enable location permissions in your browser settings to continue.'
+          );
+        } else {
+          alert('Unable to retrieve location: ' + error.message);
+        }
       }
     );
   };

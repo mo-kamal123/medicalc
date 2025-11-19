@@ -3,10 +3,6 @@ import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import Breadcrumb from '../../../../shared/UI/breadcrumb';
-// import GeneralBenefited from '../components/general-benefited';
-// import InpatientBenefit from '../components/inpatient-benefite';
-// import OutpatientBenefit from '../components/outpatient-benefit';
-// import Mediactions from '../components/mediactions';
 import autoTable from 'jspdf-autotable';
 import SummaryCard from '../../../../shared/UI/summary-card';
 import useSummary from '../../../../shared/api/useSummary';
@@ -94,52 +90,73 @@ const Summary = ({ type = 'standard' }) => {
       align: 'center',
     });
 
-    // Client name under the header
+    // Client name
     tablePdfDoc.setFontSize(12);
     tablePdfDoc.setFont('helvetica', 'bold');
-    tablePdfDoc.text(clientName, pageWidth / 2, 25, {
-      align: 'center',
-    });
+    tablePdfDoc.text(clientName, pageWidth / 2, 25, { align: 'center' });
 
     let currentY = 35;
 
-    for (const table of plansSummaryData.data.tables) {
-      tablePdfDoc.setFontSize(14);
-      tablePdfDoc.setFont('helvetica', 'bold');
-      tablePdfDoc.text(table.sectionTitle, 10, currentY);
-      currentY += 6;
+    // Custom table distribution per page
+    const pagesDistribution = [3, 4, 1]; // number of tables per page
+    let tableIndex = 0;
 
-      const rows = table.rows.map((row) => [
-        row.category,
-        ...table.headers.slice(1).map((header) => {
-          const program = row.programs.find((p) => p.name === header);
-          return program ? program.value : '';
-        }),
-      ]);
+    for (let i = 0; i < pagesDistribution.length; i++) {
+      const tablesOnThisPage = pagesDistribution[i];
 
-      autoTable(tablePdfDoc, {
-        startY: currentY,
-        head: [
-          table.headers.map((h) =>
-            h === 'Category' ? h : getPlanDisplayName(h)
-          ),
-        ],
-        body: rows,
-        theme: 'grid',
-        headStyles: {
-          fillColor: [60, 121, 231],
-          textColor: 255,
-          fontStyle: 'bold',
-        },
-        styles: { font: 'helvetica', fontSize: 11, cellPadding: 3 },
-        margin: { left: 10, right: 10 },
-        didDrawPage: (data) => {
-          currentY = data.cursor.y + 12;
-        },
-      });
+      for (
+        let j = 0;
+        j < tablesOnThisPage &&
+        tableIndex < plansSummaryData.data.tables.length;
+        j++, tableIndex++
+      ) {
+        const table = plansSummaryData.data.tables[tableIndex];
+
+        // Table title
+        tablePdfDoc.setFontSize(14);
+        tablePdfDoc.setFont('helvetica', 'bold');
+        tablePdfDoc.text(table.sectionTitle, 10, currentY);
+        currentY += 6;
+
+        const rows = table.rows.map((row) => [
+          row.category,
+          ...table.headers.slice(1).map((header) => {
+            const program = row.programs.find((p) => p.name === header);
+            return program ? program.value : '';
+          }),
+        ]);
+
+        autoTable(tablePdfDoc, {
+          startY: currentY,
+          head: [
+            table.headers.map((h) =>
+              h === 'Category' ? h : getPlanDisplayName(h)
+            ),
+          ],
+          body: rows,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [60, 121, 231],
+            textColor: 255,
+            fontStyle: 'bold',
+          },
+          styles: { font: 'helvetica', fontSize: 11, cellPadding: 3 },
+          margin: { left: 10, right: 10 },
+          didDrawPage: (data) => {
+            currentY = data.cursor.y + 12; // update Y after table
+          },
+          pageBreak: 'avoid', // prevent splitting individual tables
+        });
+      }
+
+      // Add new page if there are more tables
+      if (tableIndex < plansSummaryData.data.tables.length) {
+        tablePdfDoc.addPage();
+        currentY = 20; // reset for new page
+      }
     }
 
-    // 🔥 Convert table PDF into bytes (IMPORTANT)
+    // 🔥 Convert table PDF into bytes
     const tablePdfBytes = tablePdfDoc.output('arraybuffer');
 
     // Load existing PDFs
