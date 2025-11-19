@@ -39,9 +39,9 @@ const CoverageDetails = ({ nextPage }) => {
   const [coverageState, setCoverageState] = useState({
     calculationId: calculationId || '',
     data: employeesages?.data ? [...employeesages.data] : [],
-    exception: { servicescount: '', memberscount: '', total: '' },
-    exceedmoney: { servicescount: '', memberscount: '', total: '' },
-    critical: { servicescount: '', memberscount: '', total: '' },
+    exception: { servicescount: '0', memberscount: '0', total: '0' },
+    exceedmoney: { servicescount: '0', memberscount: '0', total: '0' },
+    critical: { servicescount: '0', memberscount: '0', total: '0' },
     adminfees: '18',
     cardMoney: '55',
   });
