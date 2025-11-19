@@ -29,7 +29,7 @@ const PackageCard = ({ img, header, plans, btnTitle, navigate }) => {
       </div>
       <Link
         to={navigate}
-        className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base mt-auto"
+        className="flex items-center justify-center gap-2 w-full bg-main text-white hover:bg-blue-700 transition-colors p-2.5 sm:p-3 rounded-xl text-sm sm:text-base mt-auto"
       >
         {btnTitle}
       </Link>

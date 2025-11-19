@@ -1,77 +1,53 @@
 /**
- * Form Transformation Utility
- *
- * Utility functions for transforming form data into the required format
- * for API calls and calculations.
+ * Extracts .value if object exists, otherwise returns primitive
  */
+const extractValue = (field) => {
+  if (!field) return '';
+  return typeof field === 'object' && field.value !== undefined
+    ? field.value
+    : field;
+};
 
-/**
- * Transform Data
- *
- * Transforms client data, plan information, and related data into a structured format
- * for submission to calculation APIs.
- *
- * Combines:
- * - Client information (name)
- * - Plan data (annual limits, networks, geography, service accessibility)
- * - Healthcare services (room type, copayments, benefits)
- * - Reimbursement details (pricing terms, payment cycles)
- *
- * @param {string} clientName - Name of the client
- * @param {string} planType - Type of plan (e.g., 'standardPlan', 'premiumPlan', 'customPlan')
- * @param {Object} data - Raw form data containing plan, healthcare, and reimbursement information
- * @param {Array<string>} plans - Array of plan names (e.g., ['white', 'silver', 'gold'])
- * @returns {Object} Transformed data object with client name and limits array
- *
- * @example
- * const transformed = transformData(
- *   'John Doe',
- *   'standardPlan',
- *   {
- *     standardPlan: { white: { annuallimit: '50000', ... }, ... },
- *     healthcareServices: { white: { roomType: 'private', ... }, ... },
- *     reimbursement: { white: { reimbursement: '_70', ... }, ... }
- *   },
- *   ['white', 'silver', 'gold']
- * );
- */
 export const transformData = (clientName, planType, data, plans) => {
   const limits = plans.map((plan) => {
-    const planData = {
-      mainData: data?.[planType]?.[plan] || {},
-      healthcare: data?.healthcareServices?.[plan] || {},
-      reimbursement: data?.reimbursement?.[plan] || {},
-    };
+    const main = data?.[planType]?.[plan] || {};
+    const healthcare = data?.healthcareServices?.[plan] || {};
+    const reimbursement = data?.reimbursement?.[plan] || {};
 
     return {
       name: plan,
-      limit: planData.mainData?.annuallimit || '',
+
+      // Annual limit (first use value, fallback to raw)
+      limit: extractValue(main?.annuallimit),
+
       benefits: {
-        roomType: planData.healthcare?.roomType || '',
-        inpatientCopayment: planData.healthcare?.inpatientCopayment || '',
-        chronicAndPreExisting: planData.healthcare?.chronicAndPreExisting || '',
-        maternaty: planData.healthcare?.maternityCare || '',
-        ambulatoryCopayment: planData.healthcare?.outpatientCopayment || '',
-        physioTherapyCount: planData.healthcare?.physioTherapyCount || '',
-        prescriptionMedicinesCopayment:
-          planData.healthcare?.prescriptionMedicinesCopayment || '',
-        doctorVisitCopayment:
-          planData.reimbursement?.doctorVisitCopayment || '',
-        doctorVisitMoney: planData.reimbursement?.doctorVisitMoney || '',
-        Reimbursement: planData.reimbursement?.reimbursement || '',
-        dentalMoney: planData.healthcare?.dentalMoney || '',
-        dentalCopayment: planData.healthcare?.dentalCopayment || '',
-        opticalAnnualFees: planData.healthcare?.opticalAnnualFees || '',
-        opticalCopayment: planData.healthcare?.opticalCopayment || '',
+        roomType: extractValue(healthcare?.roomType),
+        inpatientCopayment: extractValue(healthcare?.inpatientCopayment),
+        chronicAndPreExisting: extractValue(healthcare?.chronicAndPreExisting),
+        maternaty: extractValue(healthcare?.maternityCare),
+        ambulatoryCopayment: extractValue(healthcare?.outpatientCopayment),
+        physioTherapyCount: extractValue(healthcare?.physioTherapyCount),
+        prescriptionMedicinesCopayment: extractValue(
+          healthcare?.prescriptionMedicinesCopayment
+        ),
+        doctorVisitCopayment: extractValue(reimbursement?.doctorVisitCopayment),
+        doctorVisitMoney: extractValue(reimbursement?.doctorVisitMoney),
+        Reimbursement: extractValue(reimbursement?.reimbursement),
+        dentalMoney: extractValue(healthcare?.dentalMoney),
+        dentalCopayment: extractValue(healthcare?.dentalCopayment),
+        opticalAnnualFees: extractValue(healthcare?.opticalAnnualFees),
+        opticalCopayment: extractValue(healthcare?.opticalCopayment),
       },
+
       reimbursement: {
-        pricingTerms: planData.reimbursement?.pricingTerms || '',
-        labAndScan: planData.reimbursement?.laboratoryAndScans || '',
-        paymentCycle: planData.reimbursement?.paymentCycle || '',
+        pricingTerms: extractValue(reimbursement?.pricingTerms),
+        labAndScan: extractValue(reimbursement?.laboratoryAndScans),
+        paymentCycle: extractValue(reimbursement?.paymentCycle),
       },
-      serviceAccessibility: planData.mainData?.serviceaccessibility || '',
-      network: planData.mainData?.appliednetwork || '',
-      geography: planData.mainData?.geography || '',
+
+      serviceAccessibility: extractValue(main?.serviceaccessibility),
+      network: extractValue(main?.appliednetwork),
+      geography: extractValue(main?.geography),
     };
   });
 

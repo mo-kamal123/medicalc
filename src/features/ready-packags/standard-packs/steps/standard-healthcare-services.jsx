@@ -59,7 +59,7 @@ const StandardHealthcareServices = () => {
 
   const standardPlanData = useSelector((state) => state.standardPlan);
 
-  console.log(standardPlanData);
+  // console.log(standardPlanData);
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />

@@ -34,6 +34,7 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
 
   const planKeys = Object.keys(PLAN_META);
   const [page, setPage] = useState(1);
+  const [error, setError] = useState('');
   const pageSize = 3;
 
   const pagePlans = usePagination(page, planKeys, pageSize);
@@ -49,6 +50,28 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
     }));
     return { data: initialData };
   });
+
+  // ✅ Check if manual data has any values
+  const hasManualData = () => {
+    if (type !== 'custom') return true;
+
+    return manualValues.data.some((plan) =>
+      Object.values(plan.employees).some((value) => value > 0)
+    );
+  };
+
+  // ✅ Validate before navigation
+  const handleNavigation = (e) => {
+    if (type === 'custom' && !hasManualData()) {
+      e.preventDefault();
+      setError(
+        'Please enter employee data for at least one age group before proceeding.'
+      );
+      return false;
+    }
+    setError('');
+    return true;
+  };
 
   // ✅ Update manual values when plans (Excel upload) change
   useEffect(() => {
@@ -101,6 +124,11 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         ),
       };
 
+      // Clear error when user starts entering data
+      if (error && numericValue > 0) {
+        setError('');
+      }
+
       // Debug: surface granular updates to help troubleshoot manual editing issues
       console.log('PlanAgeTable::manual update payload', {
         planName,
@@ -145,6 +173,26 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
 
   return (
     <div className="md:p-6 min-h-screen flex flex-col gap-5">
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+          <div className="flex items-center">
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="font-medium">{error}</span>
+          </div>
+        </div>
+      )}
+
       {/* Pagination Controls */}
       {needsPagination && (
         <div className="flex justify-between items-center w-full gap-3 mb-4">
@@ -257,7 +305,12 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         </Link>
         <Link
           to={navigation}
-          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl hover:bg-main/90 transition-all"
+          onClick={handleNavigation}
+          className={`flex items-center justify-center gap-2 px-5 py-2 rounded-xl transition-all ${
+            type === 'custom' && !hasManualData()
+              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+              : 'bg-main text-white hover:bg-blue-700'
+          }`}
         >
           Next Step
         </Link>

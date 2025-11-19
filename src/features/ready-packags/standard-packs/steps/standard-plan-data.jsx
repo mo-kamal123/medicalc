@@ -9,7 +9,7 @@ const StandardPlanData = () => {
   const standardPlanData = useSelector(
     (state) => state.standardPlan.standardPlan
   );
-
+  console.log(standardPlanData);
   // Dispatch Redux action when user changes a field
   const handleChange = (planName, key, value) => {
     dispatch(updateStandardPlan({ planName, key, value }));
@@ -24,6 +24,7 @@ const StandardPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -45,42 +46,45 @@ const StandardPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: standardPlanData.white.annuallimit,
+        defaultValue: standardPlanData.white.annuallimit.title,
+        state: 'read only',
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('white', 'annuallimit', item),
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: standardPlanData.white.appliednetwork,
+        defaultValue: standardPlanData.white.appliednetwork.title,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('white', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: standardPlanData.white.geography,
+        defaultValue: standardPlanData.white.geography.title,
         placeholder: 'Geography',
-        onChange: (item) => handleChange('white', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: standardPlanData.white.serviceaccessibility,
+        defaultValue: standardPlanData.white.serviceaccessibility.title,
         placeholder: 'Service Accessibility',
-        onChange: (item) => handleChange('white', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };
@@ -94,6 +98,7 @@ const StandardPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -115,43 +120,45 @@ const StandardPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: standardPlanData.silver.annuallimit,
+        defaultValue: standardPlanData.silver.annuallimit.title,
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('silver', 'annuallimit', item),
+        state: 'read only',
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: standardPlanData.silver.appliednetwork,
+        defaultValue: standardPlanData.silver.appliednetwork.title,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('silver', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: standardPlanData.silver.geography,
+        defaultValue: standardPlanData.silver.geography.title,
         placeholder: 'Geography',
-        onChange: (item) => handleChange('silver', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: standardPlanData.silver.serviceaccessibility,
+        defaultValue: standardPlanData.silver.serviceaccessibility.title,
         placeholder: 'Service Accessibility',
-        onChange: (item) =>
-          handleChange('silver', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };
@@ -165,6 +172,7 @@ const StandardPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -186,42 +194,45 @@ const StandardPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: standardPlanData.gold.annuallimit,
+        defaultValue: standardPlanData.gold.annuallimit.title,
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('gold', 'annuallimit', item),
+        state: 'read only',
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: standardPlanData.gold.appliednetwork,
+        defaultValue: standardPlanData.gold.appliednetwork.title,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('gold', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: standardPlanData.gold.geography,
+        defaultValue: standardPlanData.gold.geography.title,
         placeholder: 'Geography',
-        onChange: (item) => handleChange('gold', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: standardPlanData.gold.serviceaccessibility,
+        defaultValue: standardPlanData.gold.serviceaccessibility.title,
         placeholder: 'Service Accessibility',
-        onChange: (item) => handleChange('gold', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };

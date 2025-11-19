@@ -67,13 +67,13 @@ const PlanData = ({ plans, prevNavigation, nextNavigation }) => {
       <div className="flex gap-5 justify-end w-full mb-10">
         <button
           onClick={() => navigate(prevNavigation)}
-          className="border border-main text-main px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl hover:bg-main/10 transition-all"
         >
           Previous
         </button>
         <button
           onClick={handleNext}
-          className="bg-main text-white px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all"
         >
           Next Step
         </button>

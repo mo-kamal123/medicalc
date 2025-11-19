@@ -6,6 +6,7 @@ const PlanCard = ({
   invalidFields = {},
   planId,
   clearInvalidField,
+  children,
 }) => {
   return (
     <div className="bg-white w-full p-7 rounded-xl shadow flex flex-col gap-10">
@@ -42,6 +43,7 @@ const PlanCard = ({
                   placeholder={input.placeholder}
                   defaultValue={input.defaultValue}
                   onChange={(e) => handleChange(e.target.value)}
+                  readOnly={input.state === 'read only'}
                   className={`w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 ${
                     isInvalid
                       ? 'border-red-500'
@@ -69,6 +71,7 @@ const PlanCard = ({
           </div>
         );
       })}
+      {children}
     </div>
   );
 };
