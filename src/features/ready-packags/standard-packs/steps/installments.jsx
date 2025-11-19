@@ -148,8 +148,8 @@ const Installments = ({ nextPage, type }) => {
           </div>
 
           {/* Frequency + Count Dropdowns */}
-          <div className="flex flex-col md:flex-row items-start gap-6 w-full">
-            <div className="flex flex-col gap-2 w-full md:w-1/2">
+          <div className="flex flex-col md:flex-row gap-6 w-full">
+            <div className="flex flex-col gap-2 w-full ">
               <label className="text-sm text-dark font-semibold">
                 Payment Frequency
               </label>
@@ -161,7 +161,7 @@ const Installments = ({ nextPage, type }) => {
               />
             </div>
 
-            <div className="flex flex-col gap-2 w-full md:w-1/2">
+            {/* <div className="flex flex-col gap-2 w-full md:w-1/2">
               <label className="text-sm text-dark font-semibold">
                 Number Of Payments
               </label>
@@ -171,7 +171,7 @@ const Installments = ({ nextPage, type }) => {
                 placeholder={'Select number of payments'}
                 onChange={handleInstallmentsCountChange}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

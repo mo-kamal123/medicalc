@@ -146,7 +146,10 @@ export const customPacksRoutes = [
           <Suspense
             fallback={<Spinner fullScreen text="Loading installments..." />}
           >
-            <Installments nextPage={'/custom-package/summary'} type={'custom'} />
+            <Installments
+              nextPage={'/custom-package/summary'}
+              type={'custom'}
+            />
           </Suspense>
         ),
       },

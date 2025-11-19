@@ -32,6 +32,10 @@ const HealthcareServices = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // READ-ONLY RULE -------------------------------------
+  const isReadOnly = type === 'standard' || type === 'premium';
+  // -----------------------------------------------------
+
   const healthcareData = useSelector((state) => {
     if (type === 'premium') return state.premiumPlan.healthcareServices;
     if (type === 'custom') return state.customPlan.healthcareServices;
@@ -46,6 +50,7 @@ const HealthcareServices = ({
         : updateStandardHealthcare;
 
   const handleChange = (planName, key, value) => {
+    if (isReadOnly) return; // ← Prevent change when locked
     dispatch(updateAction({ planName, key, value }));
   };
 
@@ -250,7 +255,7 @@ const HealthcareServices = ({
           label: 'Maternity Care',
           data: [
             { title: 'Excluded', value: '_Excluded' },
-            { title: 'Wait 10 Month', value: 'Wait10Month' }, // ← Fixed typo from _value to value
+            { title: 'Wait 10 Month', value: 'Wait10Month' },
             { title: '3,000', value: '_3000' },
             { title: '5,000', value: '_5000' },
             { title: '7,000', value: '_7000' },
@@ -285,14 +290,16 @@ const HealthcareServices = ({
   };
 
   const validationPlans = pageplans.flatMap((plan) => {
-    const planKey = getPlanKey(plan.header?.title || plan.title, plan.id);
+    const planKey = getPlanKey(plan.header?.title || plan.title);
 
     return planData.map((section) => ({
       id: `${plan.id}-${section.header.title}`,
       inputs: section.inputs.map((input) => ({
         ...input,
-        label: input.label,
-        defaultValue: healthcareData?.[planKey]?.[input.key] || '',
+        defaultValue:
+          healthcareData?.[planKey]?.[input.key]?.title ??
+          healthcareData?.[planKey]?.[input.key] ??
+          '',
         placeholder: input.placeholder,
       })),
     }));
@@ -309,10 +316,9 @@ const HealthcareServices = ({
     }
   };
 
-  console.log('Healthcare Data:', healthcareData);
-
   return (
     <div className="flex flex-col gap-6">
+      {/* Pagination header */}
       {plans.length > 3 && (
         <div className="flex justify-between items-center w-full gap-3">
           <p className="text-main text-2xl font-semibold">
@@ -346,10 +352,11 @@ const HealthcareServices = ({
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 md:gap-5">
         {pageplans.map((plan) => {
           const planKey = getPlanKey(plan.header?.title || plan.title);
-          console.log(planKey);
+
           return (
             <div key={plan.id} className="flex flex-col gap-10">
               <PlanCard header={plan.header || plan} />
+
               {planData.map((data) => (
                 <PlanCard
                   key={data.header.title}
@@ -359,8 +366,15 @@ const HealthcareServices = ({
                   clearInvalidField={clearInvalidField}
                   inputs={data.inputs.map((input) => ({
                     ...input,
-                    defaultValue: healthcareData?.[planKey]?.[input.key] || '',
-                    onChange: (item) => handleChange(planKey, input.key, item),
+                    defaultValue:
+                      healthcareData?.[planKey]?.[input.key]?.title ??
+                      healthcareData?.[planKey]?.[input.key] ??
+                      '',
+                    onChange: isReadOnly
+                      ? undefined
+                      : (item) => handleChange(planKey, input.key, item),
+                    state: isReadOnly ? 'read only' : 'editable',
+                    type: isReadOnly ? 'input' : input.type || 'dropdown', // ← ADDED
                   }))}
                 />
               ))}
@@ -369,16 +383,17 @@ const HealthcareServices = ({
         })}
       </div>
 
+      {/* Navigation Buttons */}
       <div className="flex gap-5 justify-end w-full mb-10">
         <button
           onClick={() => navigate(prevNavigation)}
-          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl hover:bg-main/10 transition-all"
         >
           Previous
         </button>
         <button
           onClick={handleNext}
-          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 bg-main text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all"
         >
           Next Step
         </button>

@@ -40,18 +40,22 @@ const Reimbursement = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Determine if inputs should be read-only
+  const isReadOnly = type === 'standard' || type === 'premium';
+
   // ✅ Get the right Redux data depending on type
   const reimbursementData = useSelector((state) => {
     if (type === 'premium') return state.premiumPlan.reimbursement;
     if (type === 'custom') return state.customPlan.reimbursement;
     return state.standardPlan.reimbursement; // default
   });
-  // ✅ Get the right Redux data depending on type
+
   const formData = useSelector((state) => {
     if (type === 'premium') return state.premiumPlan;
     if (type === 'custom') return state.customPlan;
     return state.standardPlan; // default
   });
+  const clientName = useSelector((state) => state.client.name);
 
   // ✅ Use correct dispatch action per plan type
   const handleChange = (planName, key, value) => {
@@ -173,13 +177,15 @@ const Reimbursement = ({
     validationPlans,
     'defaultValue'
   );
-  const data = transformData('mooo', packName, formData, planNames);
+  const data = transformData(clientName, packName, formData, planNames);
 
   // 🔥 HANDLE NEXT WITH VALIDATION
   const handleNext = () => {
-    if (validateDropdowns()) {
+    if (validateDropdowns() && clientName) {
       setValidationMessage('');
       handleSubmit(data);
+    } else if (!clientName) {
+      navigate('/client-info');
     } else {
       setValidationMessage(
         'Please fill out all required reimbursement inputs.'
@@ -187,6 +193,7 @@ const Reimbursement = ({
       console.warn('Reimbursement::handleNext validation failed');
     }
   };
+
   // Debug: snapshot payload before submitting to API
   console.log(`Reimbursement::${type} payload`, data);
 
@@ -241,9 +248,18 @@ const Reimbursement = ({
                   clearInvalidField={clearInvalidField}
                   inputs={data.inputs.map((input) => ({
                     ...input,
+                    // ⭐ DEFAULT VALUE APPENDED WITH .title
                     defaultValue:
-                      reimbursementData?.[planKey]?.[input.key] || '',
-                    onChange: (item) => handleChange(planKey, input.key, item),
+                      reimbursementData?.[planKey]?.[input.key]?.title || '',
+
+                    // ⭐ ONCHANGE REMOVED IF READONLY
+                    onChange: isReadOnly
+                      ? undefined
+                      : (item) => handleChange(planKey, input.key, item),
+
+                    // ⭐ STATE AND TYPE HANDLING
+                    state: isReadOnly ? 'read only' : 'editable',
+                    type: isReadOnly ? 'input' : input.type || 'dropdown',
                   }))}
                 />
               ))}
@@ -256,7 +272,7 @@ const Reimbursement = ({
       <div className="flex gap-5 justify-end w-full mb-10">
         <button
           onClick={() => navigate(prevNavigation)}
-          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl"
+          className="flex items-center justify-center gap-2 border-main text-main border px-5 py-2 rounded-xl hover:bg-main/10 transition-all"
         >
           Previous
         </button>
@@ -267,7 +283,7 @@ const Reimbursement = ({
             className={`flex items-center justify-center gap-2 px-5 py-2 rounded-xl transition-all ${
               isSubmitting
                 ? 'bg-gray-400 cursor-not-allowed text-white'
-                : 'bg-main text-white hover:bg-main/90'
+                : 'bg-main text-white hover:bg-blue-700'
             }`}
           >
             {isSubmitting ? 'Submitting...' : 'Next Step'}

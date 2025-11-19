@@ -12,7 +12,11 @@ const ClientForm = () => {
     logo: '',
     calculationId: '',
   });
+  const [errors, setErrors] = useState({
+    name: '',
+  });
   const dispatch = useDispatch();
+
   // Allowed file types
   const allowedTypes = [
     'image/png',
@@ -21,15 +25,40 @@ const ClientForm = () => {
     'image/gif',
     'image/svg+xml',
   ];
-  console.log(clientData);
+
+  const validateForm = () => {
+    const newErrors = { name: '' };
+
+    if (!clientData.name.trim()) {
+      newErrors.name = 'Client name is required';
+    } else if (clientData.name.length < 3) {
+      newErrors.name = 'Client name must be at least 3 characters long';
+    }
+
+    setErrors(newErrors);
+    return !newErrors.name; // Return true if no errors
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (clientData.name.length > 2 && clientData.logo) {
+
+    if (validateForm()) {
       dispatch(addClientData(clientData));
       navigate('/select-package/ready');
       console.log(clientData);
     }
   };
+
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    setClientData((prev) => ({ ...prev, name: value }));
+
+    // Clear error when user starts typing
+    if (errors.name && value.length >= 3) {
+      setErrors((prev) => ({ ...prev, name: '' }));
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -48,23 +77,34 @@ const ClientForm = () => {
           <input
             type="text"
             id="client-name"
-            className="border border-borders w-full p-2.5 sm:p-3 pl-10 sm:pl-12 rounded-xl placeholder-sec text-sm sm:text-base"
+            className={`border w-full p-2.5 sm:p-3 pl-10 sm:pl-12 rounded-xl placeholder-sec text-sm sm:text-base ${
+              errors.name ? 'border-red-500' : 'border-borders'
+            }`}
             placeholder="Client Name"
-            onChange={(e) =>
-              setClientData((prev) => ({ ...prev, name: e.target.value }))
-            }
+            onChange={handleNameChange}
+            value={clientData.name}
           />
         </div>
+        {errors.name && (
+          <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.name}</p>
+        )}
       </div>
+
       <div className="flex flex-col gap-2">
         <label htmlFor="logo" className="text-label text-sm sm:text-base">
           Client Logo
         </label>
-        <DragAndDrop headeing='click here to browse or drop you file' desc='upload client logo' changeLogo={setClientData} allowedTypes={allowedTypes} />
+        <DragAndDrop
+          headeing="click here to browse or drop you file"
+          desc="upload client logo"
+          changeLogo={setClientData}
+          allowedTypes={allowedTypes}
+        />
       </div>
+
       <button
         type="submit"
-        className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base"
+        className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base hover:bg-blue-700 transition-colors"
       >
         Next
       </button>

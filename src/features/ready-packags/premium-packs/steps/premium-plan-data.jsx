@@ -17,6 +17,7 @@ const PremiumPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -38,43 +39,45 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planOne.annuallimit,
+        defaultValue: premiumPlan.planOne.annuallimit.title,
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planOne', 'annuallimit', item),
+        state: 'read only',
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planOne.appliednetwork,
+        defaultValue: premiumPlan.planOne.appliednetwork.title,
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planOne', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: premiumPlan.planOne.geography,
+        defaultValue: premiumPlan.planOne.geography.title,
         placeholder: 'Geography',
-        onChange: (item) => handleChange('planOne', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planOne.serviceaccessibility,
+        defaultValue: premiumPlan.planOne.serviceaccessibility.title,
         placeholder: 'Service Accessibility',
-        onChange: (item) =>
-          handleChange('planOne', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };
@@ -87,6 +90,7 @@ const PremiumPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -108,43 +112,45 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planTwo.annuallimit, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.annuallimit.title, // ✅ FIXED
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planTwo', 'annuallimit', item),
+        state: 'read only',
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planTwo.appliednetwork, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.appliednetwork.title, // ✅ FIXED
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planTwo', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: premiumPlan.planTwo.geography, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.geography.title, // ✅ FIXED
         placeholder: 'Geography',
-        onChange: (item) => handleChange('planTwo', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planTwo.serviceaccessibility, // ✅ FIXED
+        defaultValue: premiumPlan.planTwo.serviceaccessibility.title, // ✅ FIXED
         placeholder: 'Service Accessibility',
-        onChange: (item) =>
-          handleChange('planTwo', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };
@@ -157,6 +163,7 @@ const PremiumPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -178,43 +185,45 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planThree.annuallimit,
+        defaultValue: premiumPlan.planThree.annuallimit.title, // ✅ FIXED
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planThree', 'annuallimit', item),
+        state: 'read only',
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planThree.appliednetwork,
+        defaultValue: premiumPlan.planThree.appliednetwork.title, // ✅ FIXED
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planThree', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: premiumPlan.planThree.geography,
+        defaultValue: premiumPlan.planThree.geography.title, // ✅ FIXED
         placeholder: 'Geography',
-        onChange: (item) => handleChange('planThree', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planThree.serviceaccessibility,
+        defaultValue: premiumPlan.planThree.serviceaccessibility.title, // ✅ FIXED
         placeholder: 'Service Accessibility',
-        onChange: (item) =>
-          handleChange('planThree', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };
@@ -227,6 +236,7 @@ const PremiumPlanData = () => {
     inputs: [
       {
         label: 'Annual Limit',
+        type: 'input',
         data: [
           { title: '5,000', value: '_5000' },
           { title: '10,000', value: '_10000' },
@@ -248,43 +258,45 @@ const PremiumPlanData = () => {
           { title: '400,000', value: '_400000' },
           { title: '500,000', value: '_500000' },
         ],
-        defaultValue: premiumPlan.planFour.annuallimit,
+        defaultValue: premiumPlan.planFour.annuallimit.title, // ✅ FIXED
         placeholder: 'Annual Limit',
-        onChange: (item) => handleChange('planFour', 'annuallimit', item),
+        state: 'read only',
       },
       {
         label: 'Applied Network',
+        type: 'input',
         data: [
           { title: 'A', value: 'A' },
           { title: 'B', value: 'B' },
           { title: 'C', value: 'C' },
         ],
-        defaultValue: premiumPlan.planFour.appliednetwork,
+        defaultValue: premiumPlan.planFour.appliednetwork.title, // ✅ FIXED
         placeholder: 'Applied Network',
-        onChange: (item) => handleChange('planFour', 'appliednetwork', item),
+        state: 'read only',
       },
       {
         label: 'Geography',
+        type: 'input',
         data: [
           { title: 'Egypt', value: 'Egypt' },
           { title: 'Worldwide', value: 'Worldwide' },
           { title: 'Mena', value: 'Mena' },
         ],
-        defaultValue: premiumPlan.planFour.geography,
+        defaultValue: premiumPlan.planFour.geography.title, // ✅ FIXED
         placeholder: 'Geography',
-        onChange: (item) => handleChange('planFour', 'geography', item),
+        state: 'read only',
       },
       {
         label: 'Service Accessibility',
+        type: 'input',
         data: [
           { title: 'Direct Access', value: 'Direct Access' },
           { title: 'Pre-approval Required', value: 'Pre-approval Required' },
           { title: 'Referral Required', value: 'Referral Required' },
         ],
-        defaultValue: premiumPlan.planFour.serviceaccessibility,
+        defaultValue: premiumPlan.planFour.serviceaccessibility.title, // ✅ FIXED
         placeholder: 'Service Accessibility',
-        onChange: (item) =>
-          handleChange('planFour', 'serviceaccessibility', item),
+        state: 'read only',
       },
     ],
   };
