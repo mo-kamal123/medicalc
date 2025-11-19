@@ -18,6 +18,7 @@ A comprehensive React-based web application for calculating and managing insuran
 ## 🎯 Overview
 
 This application enables insurance providers and HR departments to:
+
 - Calculate insurance premiums for multiple plans across different age groups
 - Customize employee distributions by age
 - Compare different insurance plans side-by-side
@@ -27,6 +28,7 @@ This application enables insurance providers and HR departments to:
 ## ✨ Features
 
 ### Core Functionality
+
 - **Multi-Plan Support**: Handle up to 10 different insurance plans simultaneously
 - **Age-Based Premium Calculation**: Premiums calculated for 14 distinct age groups (0-17, 18-24, ..., 80+)
 - **Two Operation Modes**:
@@ -36,6 +38,7 @@ This application enables insurance providers and HR departments to:
 - **Real-time Updates**: Instant recalculation as you modify employee counts
 
 ### User Experience
+
 - Responsive design optimized for desktop and mobile
 - Visual plan differentiation with color-coded icons
 - Intuitive table-based interface
@@ -83,18 +86,21 @@ project-root/
 ## 🚀 Installation
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or yarn
 
 ### Steps
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-org/insurance-calculator.git
    cd insurance-calculator
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
@@ -102,6 +108,7 @@ project-root/
    ```
 
 3. **Required packages**
+
    ```bash
    npm install react react-dom react-redux @reduxjs/toolkit
    npm install react-router-dom
@@ -109,6 +116,7 @@ project-root/
    ```
 
 4. **Start development server**
+
    ```bash
    npm run dev
    # or
@@ -151,7 +159,7 @@ Input employee counts for premium calculation:
 Your Excel file should follow this structure:
 
 | Age Group | Plan 1 | Plan 2 | Plan 3 |
-|-----------|--------|--------|--------|
+| --------- | ------ | ------ | ------ |
 | 0-17      | 5      | 3      | 2      |
 | 18-24     | 10     | 8      | 6      |
 | 25-29     | 15     | 12     | 10     |
@@ -201,6 +209,7 @@ const { plans, PLAN_META } = transformApiDataToPlans(apiData, 'custom');
 ```
 
 **Output Structure:**
+
 ```javascript
 plans = {
   planOne: {
@@ -254,12 +263,14 @@ dispatch(addEmployeesAges({
 The main table component that displays plans and age groups.
 
 **Props:**
+
 - `plans` (Object): Premium or employee count data
 - `PLAN_META` (Object): Plan metadata (icons, colors, names)
 - `navigation` (String): Next page route
 - `type` (String): 'summary' or 'custom'
 
 **Features:**
+
 - Pagination for multiple plans
 - Editable inputs in custom mode
 - Formatted number display in summary mode
@@ -270,6 +281,7 @@ The main table component that displays plans and age groups.
 Displays pre-calculated premium rates.
 
 **Key Functions:**
+
 - Fetches calculation data from Redux store
 - Transforms API data for display
 - Shows formatted premium values
@@ -279,6 +291,7 @@ Displays pre-calculated premium rates.
 Allows manual employee count entry.
 
 **Key Functions:**
+
 - Initializes all age groups with zeros
 - Handles manual input changes
 - Supports Excel data import
@@ -289,7 +302,9 @@ Allows manual employee count entry.
 ### Redux Slices
 
 #### 1. calculationResult
+
 Stores API response data:
+
 ```javascript
 {
   calculationId: 110,
@@ -298,7 +313,9 @@ Stores API response data:
 ```
 
 #### 2. clientData
+
 Stores client-specific information:
+
 ```javascript
 {
   calculationId: 110,
@@ -307,7 +324,9 @@ Stores client-specific information:
 ```
 
 #### 3. employeesAges
+
 Stores employee distribution:
+
 ```javascript
 {
   data: [
@@ -342,6 +361,7 @@ Body: {
 ### Response Handling
 
 The application expects:
+
 - Valid JSON responses
 - Consistent age group naming (`_0_17`, `_18_24`, etc.)
 - Plan names in camelCase (`planOne`, `planTwo`, etc.)
@@ -356,15 +376,15 @@ Update the configuration in `transformApiDataToPlans`:
 const planIcons = {
   planOne: <FaCrown />,
   planTwo: <FaMedal />,
-  planEleven: <FaTrophy />,  // Add new plan
+  planEleven: <FaTrophy />, // Add new plan
 };
 
 const planColors = {
-  planEleven: 'text-emerald-400',  // Add new color
+  planEleven: 'text-emerald-400', // Add new color
 };
 
 const planDisplayNames = {
-  planEleven: 'Premium Plan',  // Add display name
+  planEleven: 'Premium Plan', // Add display name
 };
 ```
 
@@ -375,7 +395,7 @@ Update `ageGroupMappings` in `PlanAgeTable.jsx`:
 ```javascript
 const ageGroupMappings = [
   { display: '0-17', hyphen: '0-17', underscore: '_0_17' },
-  { display: '18-25', hyphen: '18-25', underscore: '_18_25' },  // Modified
+  { display: '18-25', hyphen: '18-25', underscore: '_18_25' }, // Modified
   // Add or modify age groups as needed
 ];
 ```
@@ -385,14 +405,17 @@ const ageGroupMappings = [
 ### Common Issues
 
 **Problem:** Plans are overwriting each other
+
 - **Cause:** Using `limit` as key when multiple plans share the same limit
 - **Solution:** Use `name` as the unique key
 
 **Problem:** Custom mode shows premium values instead of zeros
+
 - **Cause:** Not passing `type='custom'` to transform function
 - **Solution:** Ensure `transformApiDataToPlans(data, 'custom')`
 
 **Problem:** Excel import not working
+
 - **Cause:** Age group format mismatch
 - **Solution:** Verify Excel headers match `ageGroupMappings`
 

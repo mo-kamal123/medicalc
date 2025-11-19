@@ -15,23 +15,13 @@ import { useSelector } from 'react-redux';
 import { useCalculateBenefits } from '../api/useCalculateBenefits';
 import AsyncState from '../UI/async-state';
 
-/**
- * CoverageDetails Component
- *
- * Collects exception, exceed, critical and additional expense data before
- * triggering the pooled benefits calculation. Handles redirect guards, validation,
- * loading/error states and renders the summary response in a responsive grid.
- *
- * @param {Object} props
- * @param {string} props.nextPage - Route path the wizard should navigate to on success.
- * @returns {JSX.Element|null}
- */
 const CoverageDetails = ({ nextPage }) => {
   const calculationId = useSelector((state) => state.client.calculationId);
   const employeesages = useSelector((state) => state.employeesAges);
   const navigate = useNavigate();
-  // Debug: ensure employees ages exist before rendering the page
+
   console.log('CoverageDetails::employeesages', employeesages);
+
   /* -----------------------------------------------
      🔥 REDIRECT GUARD - Must be BEFORE useState
   ------------------------------------------------ */
@@ -45,48 +35,52 @@ const CoverageDetails = ({ nextPage }) => {
     }
   }, [calculationId, employeesages, navigate]);
 
-  // ✅ Initialize state BEFORE any conditional returns
+  // State for coverage details
   const [coverageState, setCoverageState] = useState({
     calculationId: calculationId || '',
     data: employeesages?.data ? [...employeesages.data] : [],
-    exception: {
-      servicescount: '',
-      memberscount: '',
-      total: '',
-    },
-    exceedmoney: {
-      servicescount: '',
-      memberscount: '',
-      total: '',
-    },
-    critical: {
-      servicescount: '',
-      memberscount: '',
-      total: '',
-    },
-    adminfees: '',
-    cardMoney: '',
+    exception: { servicescount: '', memberscount: '', total: '' },
+    exceedmoney: { servicescount: '', memberscount: '', total: '' },
+    critical: { servicescount: '', memberscount: '', total: '' },
+    adminfees: '18',
+    cardMoney: '55',
   });
 
-  // ✅ Handlers to update state sections
+  // State for additional expense errors
+  const [additionalErrors, setAdditionalErrors] = useState({
+    cardMoney: '',
+    adminfees: '',
+  });
+
+  // Handlers to update state sections
   const updateSection = (section, key, value) => {
     setCoverageState((prev) => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        [key]: value,
-      },
+      [section]: { ...prev[section], [key]: value },
     }));
   };
 
   const updateExpense = (key, value) => {
-    setCoverageState((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+    setCoverageState((prev) => ({ ...prev, [key]: value }));
+
+    // Validation logic
+    setAdditionalErrors((prev) => {
+      const errors = { ...prev };
+      if (key === 'adminfees') {
+        const fee = parseFloat(value);
+        errors.adminfees = !value
+          ? 'Admin Fees is required'
+          : fee > 100
+            ? 'Admin Fee cannot be more than 100 EGP'
+            : '';
+      } else if (key === 'cardMoney') {
+        errors.cardMoney = !value ? 'Printed card price is required' : '';
+      }
+      return errors;
+    });
   };
 
-  // ✅ Define UI cards
+  // UI plan cards
   const planData = [
     {
       header: {
@@ -150,16 +144,7 @@ const CoverageDetails = ({ nextPage }) => {
     },
   ];
 
-  // ✅ Prepare validation plan
   const validationPlans = [
-    ...planData.map((plan) => ({
-      id: plan.header.title,
-      inputs: plan.inputs.map((input) => ({
-        ...input,
-        defaultValue: coverageState[plan.sectionKey]?.[input.key] ?? '',
-        placeholder: input.placeholder,
-      })),
-    })),
     {
       id: 'Additional Expenses',
       inputs: [
@@ -172,14 +157,12 @@ const CoverageDetails = ({ nextPage }) => {
     },
   ];
 
-  // ✅ Initialize validation hook
   const { validateDropdowns, invalidFields, clearInvalidField } = useValidation(
     validationPlans,
     'defaultValue'
   );
 
   const handleSuccess = () => {
-    // Debug: confirm calculation success
     console.log(
       'CoverageDetails::handleSuccess ✅ Benefits calculation successful!'
     );
@@ -203,17 +186,21 @@ const CoverageDetails = ({ nextPage }) => {
     'Error calculating benefits. Please try again.';
 
   const handleNext = () => {
-    // Debug: print current summary payload before submission
-    console.log('CoverageDetails::handleNext current plans response:', plans);
-    if (validateDropdowns()) {
-      console.log(
-        'CoverageDetails::handleNext ✅ Validation passed:',
-        coverageState
+    // Validate additional expenses
+    const hasErrors = Object.values(additionalErrors).some((err) => err);
+    if (!validateDropdowns() || hasErrors) {
+      console.warn(
+        'CoverageDetails::handleNext ❌ Validation failed',
+        additionalErrors
       );
-      calculateBenefits(coverageState);
-    } else {
-      console.warn('CoverageDetails::handleNext ❌ Validation failed');
+      return;
     }
+
+    console.log(
+      'CoverageDetails::handleNext ✅ Validation passed:',
+      coverageState
+    );
+    calculateBenefits(coverageState);
   };
 
   const renderPlanSummary = useMemo(() => {
@@ -234,7 +221,6 @@ const CoverageDetails = ({ nextPage }) => {
         <h2 className="text-2xl font-semibold mb-6 text-main">
           Coverage Summary
         </h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mb-10">
           {plans.programs.map((program, idx) => (
             <div
@@ -268,58 +254,12 @@ const CoverageDetails = ({ nextPage }) => {
             </div>
           ))}
         </div>
-
-        <div className="bg-white rounded-xl shadow-lg p-8 w-full mx-auto">
-          <h3 className="text-2xl font-bold mb-6 text-center text-main">
-            Overall Summary
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Total Employees:</span>
-              <span>{plans.summary.totalEmployees}</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Pool per Employee:</span>
-              <span>{plans.summary.poolPerEmployee.toFixed(2)} EGP</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Overall Total:</span>
-              <span>{plans.summary.overallTotal.toFixed(2)} EGP</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Admin Fees %:</span>
-              <span>{plans.summary.adminFeesPercent.toFixed(2)}%</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Admin Fees Amount:</span>
-              <span>{plans.summary.adminFeesAmount.toFixed(2)} EGP</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Total Card Fees:</span>
-              <span>{plans.summary.totalCardFees} EGP</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Total with Admin Fees:</span>
-              <span className="font-bold text-main">
-                {plans.summary.totalWithAdminFees.toFixed(2)} EGP
-              </span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span className="font-semibold">Total Contract Amount:</span>
-              <span className="font-bold text-main text-lg">
-                {plans.summary.totalAmountOfContract.toFixed(2)} EGP
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }, [plans]);
 
-  if (isInitialDataMissing) {
-    return null;
-  }
-  // Add debugging
+  if (isInitialDataMissing) return null;
+
   console.log('CoverageDetails::Coverage State snapshot:', coverageState);
   console.log('CoverageDetails::Plans Response:', plans);
   console.log('CoverageDetails::isPending:', isPending);
@@ -329,15 +269,12 @@ const CoverageDetails = ({ nextPage }) => {
     <div>
       <h2 className="text-xl font-semibold my-5">Pooled Benefit Details</h2>
 
-      {/* Exception / Exceed / Critical */}
+      {/* Exception / Exceed / Critical - NOT REQUIRED */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 w-full">
         {planData.map((plan) => (
           <div key={plan.header.title} className="flex-1">
             <PlanCard
               header={plan.header}
-              invalidFields={invalidFields}
-              clearInvalidField={clearInvalidField}
-              planId={plan.header.title}
               inputs={plan.inputs.map((input) => ({
                 ...input,
                 type: 'input',
@@ -350,9 +287,9 @@ const CoverageDetails = ({ nextPage }) => {
         ))}
       </div>
 
-      {/* Additional Expenses */}
+      {/* Additional Expenses - REQUIRED */}
       <h2 className="text-xl font-semibold my-5">Additional Expenses</h2>
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 w-full">
+      <div className="w-full">
         <PlanCard
           header={{
             icon: (
@@ -363,23 +300,50 @@ const CoverageDetails = ({ nextPage }) => {
           planId="Additional Expenses"
           invalidFields={invalidFields}
           clearInvalidField={clearInvalidField}
-          inputs={[
-            {
-              label: 'Printed card price per person (EGP)',
-              placeholder: 'Printed card price per person (EGP)',
-              type: 'input',
-              defaultValue: coverageState.cardMoney ?? '',
-              onChange: (val) => updateExpense('cardMoney', val),
-            },
-            {
-              label: 'Admin Fees',
-              placeholder: 'Admin Fees',
-              type: 'input',
-              defaultValue: coverageState.adminfees ?? '',
-              onChange: (val) => updateExpense('adminfees', val),
-            },
-          ]}
-        />
+          inputs={[]}
+        >
+          <div className="flex flex-row gap-5 w-full">
+            {/* Printed Card Price */}
+            <div className="w-full flex flex-col">
+              <input
+                type="text"
+                placeholder="Printed card price per person (EGP)"
+                value={coverageState.cardMoney ?? ''}
+                onChange={(e) => updateExpense('cardMoney', e.target.value)}
+                className={`w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none ${
+                  additionalErrors.cardMoney
+                    ? 'border-red-500'
+                    : 'border-gray-300 focus:border-main'
+                }`}
+              />
+              {additionalErrors.cardMoney && (
+                <span className="text-red-500 text-sm mt-1">
+                  {additionalErrors.cardMoney}
+                </span>
+              )}
+            </div>
+
+            {/* Admin Fees */}
+            <div className="w-full flex flex-col">
+              <input
+                type="text"
+                placeholder="Admin Fees"
+                value={coverageState.adminfees ?? ''}
+                onChange={(e) => updateExpense('adminfees', e.target.value)}
+                className={`w-full px-4 py-2 border rounded-xl bg-white text-sec text-sm shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none ${
+                  additionalErrors.adminfees
+                    ? 'border-red-500'
+                    : 'border-gray-300 focus:border-main'
+                }`}
+              />
+              {additionalErrors.adminfees && (
+                <span className="text-red-500 text-sm mt-1">
+                  {additionalErrors.adminfees}
+                </span>
+              )}
+            </div>
+          </div>
+        </PlanCard>
       </div>
 
       <AsyncState
@@ -404,7 +368,6 @@ const CoverageDetails = ({ nextPage }) => {
         </Link>
 
         {plans ? (
-          // If plans exist, show Next button
           <Link
             to={nextPage}
             className="flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-main hover:bg-main/90 text-white transition-all"
@@ -412,7 +375,6 @@ const CoverageDetails = ({ nextPage }) => {
             Next
           </Link>
         ) : (
-          // If no plans, show Calculate Benefits button
           <button
             onClick={handleNext}
             disabled={isPending}

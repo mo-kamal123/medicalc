@@ -10,22 +10,25 @@ const transformApiDataToPlans = (apiResponse) => {
   const PLAN_META = {};
 
   const planIcons = {
-    Gold: <FaCrown className="text-yellow-400 text-2xl" />,
-    Silver: <FaMedal className="text-gray-400 text-2xl" />,
-    White: <FaStar className="text-blue-400 text-2xl" />,
+    gold: <FaCrown className="text-yellow-400 text-2xl" />,
+    silver: <FaMedal className="text-gray-400 text-2xl" />,
+    white: <FaStar className="text-blue-400 text-2xl" />,
   };
 
   const planColors = {
-    Gold: 'text-yellow-400',
-    Silver: 'text-gray-400',
-    White: 'text-blue-400',
+    gold: 'text-yellow-400',
+    silver: 'text-gray-400',
+    white: 'text-blue-400',
   };
-
+  const capitalizeFirstLetter = (str) => {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
   apiResponse.data.forEach((plan) => {
     const { name, limit, premiums } = plan;
     plans[limit] = premiums;
     PLAN_META[limit] = {
-      name,
+      name: capitalizeFirstLetter(name),
       color: planColors[name] || 'text-gray-600',
       icon: planIcons[name] || null,
     };

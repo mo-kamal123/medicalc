@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import Breadcrumb from '../UI/breadcrumb';
 
-const PlanByAge = ({type}) => {
+const PlanByAge = ({ type }) => {
   // Breadcrumbs — mark all steps before current as active
   const breadcrumbItems = [
     { title: 'Plan Data', url: `/${type}-package/plan-data`, active: true },
@@ -36,7 +36,7 @@ const PlanByAge = ({type}) => {
       url: `/${type}-package/installments`,
       active: false,
     },
-    { title: 'Summary', url: `/${type}-package/summary`, active: false},
+    { title: 'Summary', url: `/${type}-package/summary`, active: false },
   ];
 
   return (

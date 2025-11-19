@@ -1,7 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 
-const DragAndDrop = ({ allowedTypes, onFileDrop, changeLogo, headeing= 'Click Browse File to upload', desc='excel files only' }) => {
+const DragAndDrop = ({
+  allowedTypes,
+  onFileDrop,
+  changeLogo,
+  headeing = 'Click Browse File to upload',
+  desc = 'excel files only',
+}) => {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
