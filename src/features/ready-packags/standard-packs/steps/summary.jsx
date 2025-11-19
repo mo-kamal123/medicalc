@@ -122,7 +122,7 @@ const Summary = ({ type = 'standard' }) => {
           row.category,
           ...table.headers.slice(1).map((header) => {
             const program = row.programs.find((p) => p.name === header);
-            return program ? program.value : '';
+            return program && program.value ? program.value : '-';
           }),
         ]);
 
@@ -242,7 +242,7 @@ const Summary = ({ type = 'standard' }) => {
                       inputs={row.programs.map((program) => ({
                         label: getPlanDisplayName(program.name),
                         data: [program.value],
-                        defaultValue: program.value,
+                        defaultValue: program.value || "`-",
                         placeholder: program.name,
                       }))}
                     />
