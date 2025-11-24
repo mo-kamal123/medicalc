@@ -3,33 +3,71 @@ import locationImg from '../assets/locationImg.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getLocation } from '../../auth/store/auth-slice';
+import { useState } from 'react';
 
 const LocationCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [blocked, setBlocked] = useState(false);
 
-  const handleGetLocation = () => {
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser.');
+  // Reset trick (works only if user clicked "Deny", NOT "Never allow")
+  function resetGeolocationPermission(callback) {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = 'https://example.com';
+
+    iframe.onload = () => {
+      try {
+        iframe.contentWindow.navigator.geolocation.getCurrentPosition(
+          () => {
+            callback();
+            document.body.removeChild(iframe);
+          },
+          () => {
+            callback();
+            document.body.removeChild(iframe);
+          }
+        );
+      } catch (e) {
+        callback();
+        document.body.removeChild(iframe);
+      }
+    };
+
+    document.body.appendChild(iframe);
+  }
+
+  const handleGetLocation = async () => {
+    // STEP 1: Check browser permission status
+    const permission = await navigator.permissions.query({
+      name: 'geolocation',
+    });
+
+    if (permission.state === 'denied') {
+      // User selected "Never allow"
+      setBlocked(true);
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        dispatch(getLocation({ latitude, longitude }));
-        navigate('/');
-      },
-      (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-          alert(
-            'Location access was denied. Please enable location permissions in your browser settings to continue.'
-          );
-        } else {
-          alert('Unable to retrieve location: ' + error.message);
+    // STEP 2: Attempt to reset if allowed
+    resetGeolocationPermission(() => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          dispatch(getLocation({ latitude, longitude }));
+          navigate('/');
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            alert(
+              'Location is required. Please click "Allow" in the popup to continue.'
+            );
+          } else {
+            alert('Unable to retrieve location: ' + error.message);
+          }
         }
-      }
-    );
+      );
+    });
   };
 
   return (
@@ -39,22 +77,45 @@ const LocationCard = () => {
         src={locationImg}
         alt="location Img"
       />
+
       <h3 className="text-lg sm:text-xl lg:text-2xl text-dark font-semibold">
         Please allow location permissions to start using services
       </h3>
-      <p className="text-sec text-xs sm:text-sm">
-        To use the TPA Calculator, MediConsult Consulting needs access to your
-        location
-      </p>
-      <button
-        onClick={handleGetLocation}
-        className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base"
-      >
-        <span className="text-xl sm:text-2xl">
-          <IoLocationSharp />
-        </span>
-        Enable Location
-      </button>
+
+      {blocked ? (
+        <p className="text-red-500 text-sm">
+          Location is blocked in your browser. Please enable it manually from
+          browser settings.
+        </p>
+      ) : (
+        <p className="text-sec text-xs sm:text-sm">
+          To use the TPA Calculator, MediConsult Consulting needs access to your
+          location
+        </p>
+      )}
+
+      {blocked && (
+        <button
+          onClick={() =>
+            window.open('chrome://settings/content/location', '_blank')
+          }
+          className="w-full bg-red-500 text-white p-2.5 rounded-xl"
+        >
+          Open Location Settings
+        </button>
+      )}
+
+      {!blocked && (
+        <button
+          onClick={handleGetLocation}
+          className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base"
+        >
+          <span className="text-xl sm:text-2xl">
+            <IoLocationSharp />
+          </span>
+          Enable Location
+        </button>
+      )}
     </div>
   );
 };

@@ -160,7 +160,6 @@ const Reimbursement = ({
   // 🔥 BUILD VALIDATION DATA
   const validationPlans = pageplans.flatMap((plan) => {
     const planKey = getPlanKey(plan);
-
     return planData.map((section) => ({
       id: `${plan.id}-${section.header.title}`,
       inputs: section.inputs.map((input) => ({
@@ -250,7 +249,9 @@ const Reimbursement = ({
                     ...input,
                     // ⭐ DEFAULT VALUE APPENDED WITH .title
                     defaultValue:
-                      reimbursementData?.[planKey]?.[input.key]?.title || '',
+                      reimbursementData?.[planKey]?.[input.key]?.title ||
+                      reimbursementData?.[planKey]?.[input.key] ||
+                      '',
 
                     // ⭐ ONCHANGE REMOVED IF READONLY
                     onChange: isReadOnly
