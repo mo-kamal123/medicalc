@@ -204,7 +204,7 @@ const Summary = ({ type = 'standard' }) => {
         </h1>
         <button
           onClick={mergePDFs}
-          className="bg-blue-400 text-white w-full md:w-fit p-4 rounded md:text-lg font-semibold self-end"
+          className="bg-main text-white w-full px-6 py-3 rounded-xl md:w-fit p-4  md:text-lg font-semibold self-end"
         >
           Download {packageLabel} PDF
         </button>
@@ -228,7 +228,7 @@ const Summary = ({ type = 'standard' }) => {
           ) : (
             tables.map((table) => (
               <div key={table.sectionTitle} className="flex flex-col gap-5">
-                <h2 className="text-main font-semibold text-2xl text-center border border-borders bg-white w-full p-7 rounded-xl shadow">
+                <h2 className="text-main font-semibold text-2xl text-center bg-white w-full p-7 rounded-xl shadow">
                   {table.sectionTitle}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full">
@@ -242,7 +242,7 @@ const Summary = ({ type = 'standard' }) => {
                       inputs={row.programs.map((program) => ({
                         label: getPlanDisplayName(program.name),
                         data: [program.value],
-                        defaultValue: program.value || "`-",
+                        defaultValue: program.value || '-',
                         placeholder: program.name,
                       }))}
                     />
