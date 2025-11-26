@@ -23,15 +23,22 @@ const AGE_GROUP_MAPPINGS = [
   { display: '80+', hyphen: '80+', underscore: '_plus_80' },
 ];
 
-/**
- * PlanAgeTable Component
- *
- * Renders age distribution per plan for both summary (read-only) and custom
- * (editable) flows. Also syncs the data with Redux for later steps.
- */
+// Map raw plan names to normalized keys
+const PLAN_KEY_MAP = {
+  'Plan 1': 'planOne',
+  'Plan 2': 'planTwo',
+  'Plan 3': 'planThree',
+  'Plan 4': 'planFour',
+  'Plan 5': 'planFive',
+  'Plan 6': 'planSix',
+  'Plan 7': 'planSeven',
+  'Plan 8': 'planEight',
+  'Plan 9': 'planNine',
+  'Plan 10': 'planTen',
+};
+
 const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
   const dispatch = useDispatch();
-
   const planKeys = Object.keys(PLAN_META);
   const [page, setPage] = useState(1);
   const [error, setError] = useState('');
@@ -39,10 +46,13 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
 
   const pagePlans = usePagination(page, planKeys, pageSize);
 
-  // ✅ Initialize manual values in { data: [{ name, employees: {...} }] } format
+  // Initialize manualValues with normalized plan names
   const [manualValues, setManualValues] = useState(() => {
     const initialData = planKeys.map((planKey) => ({
-      name: PLAN_META[planKey]?.name || planKey,
+      name:
+        PLAN_KEY_MAP[PLAN_META[planKey]?.name] ||
+        PLAN_META[planKey]?.name ||
+        planKey,
       employees: AGE_GROUP_MAPPINGS.reduce((acc, group) => {
         acc[group.underscore] = 0;
         return acc;
@@ -51,16 +61,13 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
     return { data: initialData };
   });
 
-  // ✅ Check if manual data has any values
   const hasManualData = () => {
     if (type !== 'custom') return true;
-
     return manualValues.data.some((plan) =>
       Object.values(plan.employees).some((value) => value > 0)
     );
   };
 
-  // ✅ Validate before navigation
   const handleNavigation = (e) => {
     if (type === 'custom' && !hasManualData()) {
       e.preventDefault();
@@ -73,7 +80,7 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
     return true;
   };
 
-  // ✅ Update manual values when plans (Excel upload) change
+  // Update manual values when plans (Excel upload) change
   useEffect(() => {
     if (!plans || type !== 'custom') return;
 
@@ -86,15 +93,18 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         acc[group.underscore] = value;
         return acc;
       }, {});
+
       return {
-        name: PLAN_META[planKey]?.name || planKey,
+        name:
+          PLAN_KEY_MAP[PLAN_META[planKey]?.name] ||
+          PLAN_META[planKey]?.name ||
+          planKey,
         employees,
       };
     });
 
     const formatted = { data: updatedData };
 
-    // 🔥 Prevent infinite loop:
     setManualValues((prev) => {
       const same = JSON.stringify(prev) === JSON.stringify(formatted);
       if (!same) {
@@ -105,7 +115,6 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
     });
   }, [plans]);
 
-  // ✅ Handle manual input updates
   const handleManualChange = (planName, ageKey, value) => {
     const numericValue = value === '' ? 0 : Number(value);
 
@@ -124,35 +133,24 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         ),
       };
 
-      // Clear error when user starts entering data
-      if (error && numericValue > 0) {
-        setError('');
-      }
-
-      // Debug: surface granular updates to help troubleshoot manual editing issues
-      console.log('PlanAgeTable::manual update payload', {
-        planName,
-        ageKey,
-        numericValue,
-      });
-      console.log('PlanAgeTable::manual values snapshot', updated);
+      if (error && numericValue > 0) setError('');
 
       dispatch(addEmployeesAges(updated));
       return updated;
     });
   };
 
-  // ✅ Get value - for SUMMARY mode use plans prop, for CUSTOM mode use manualValues
   const getDisplayValue = (planKey, ageGroup) => {
     if (type === 'summary') {
-      // For summary mode, get directly from plans prop
       if (!plans || !plans[planKey]) return 0;
-      const value =
-        plans[planKey][ageGroup.hyphen] ?? plans[planKey][ageGroup.underscore];
-      return value ?? 0;
+      return (
+        plans[planKey][ageGroup.hyphen] ??
+        plans[planKey][ageGroup.underscore] ??
+        0
+      );
     } else {
-      // For custom mode, get from manualValues
-      const planName = PLAN_META[planKey]?.name;
+      const planName =
+        PLAN_KEY_MAP[PLAN_META[planKey]?.name] || PLAN_META[planKey]?.name;
       const plan = manualValues.data.find((p) => p.name === planName);
       return plan?.employees?.[ageGroup.underscore] ?? 0;
     }
@@ -162,18 +160,8 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
   const isFirstPage = page === 1;
   const isLastPage = page * pageSize >= planKeys.length;
 
-  // Debug: capture component level snapshot for QA
-  console.log('PlanAgeTable Debug:', {
-    type,
-    plans,
-    planKeys,
-    PLAN_META,
-    manualValues: type === 'custom' ? manualValues : 'N/A (summary mode)',
-  });
-
   return (
     <div className="md:p-6 min-h-screen flex flex-col gap-5">
-      {/* Error Message */}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
           <div className="flex items-center">
@@ -193,7 +181,6 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         </div>
       )}
 
-      {/* Pagination Controls */}
       {needsPagination && (
         <div className="flex justify-between items-center w-full gap-3 mb-4">
           <p className="text-main text-2xl font-semibold">
@@ -202,18 +189,14 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
           <div className="flex items-center gap-3">
             <button
               disabled={isFirstPage}
-              className={`${
-                isFirstPage ? 'bg-[#D8D8D8]' : 'bg-main'
-              } text-white p-2 rounded transition-all duration-200`}
+              className={`${isFirstPage ? 'bg-[#D8D8D8]' : 'bg-main'} text-white p-2 rounded transition-all duration-200`}
               onClick={() => setPage((prev) => prev - 1)}
             >
               <FaArrowLeft />
             </button>
             <button
               disabled={isLastPage}
-              className={`${
-                isLastPage ? 'bg-[#D8D8D8]' : 'bg-main'
-              } text-white p-2 rounded transition-all duration-200`}
+              className={`${isLastPage ? 'bg-[#D8D8D8]' : 'bg-main'} text-white p-2 rounded transition-all duration-200`}
               onClick={() => setPage((prev) => prev + 1)}
             >
               <FaArrowRight />
@@ -222,7 +205,6 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         </div>
       )}
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-[720px] w-full border-separate border-spacing-4">
           <thead>
@@ -235,7 +217,10 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
                   <PlanCard
                     header={{
                       icon: PLAN_META[planKey]?.icon,
-                      title: PLAN_META[planKey]?.name,
+                      title: PLAN_META[planKey]?.name
+                        ? PLAN_META[planKey].name.charAt(0).toUpperCase() +
+                          PLAN_META[planKey].name.slice(1)
+                        : '',
                     }}
                   />
                 </th>
@@ -250,7 +235,9 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
               <tr key={ageGroup.underscore}>
                 {pagePlans.map((planKey) => {
                   const displayValue = getDisplayValue(planKey, ageGroup);
-                  const planName = PLAN_META[planKey]?.name;
+                  const planName =
+                    PLAN_KEY_MAP[PLAN_META[planKey]?.name] ||
+                    PLAN_META[planKey]?.name;
 
                   return (
                     <td
@@ -285,7 +272,6 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
                     </td>
                   );
                 })}
-
                 <td className="bg-white p-4 rounded-xl font-semibold shadow text-gray-800">
                   {ageGroup.display}
                 </td>
@@ -295,7 +281,6 @@ const PlanAgeTable = ({ navigation, plans, PLAN_META, type = 'summary' }) => {
         </table>
       </div>
 
-      {/* Navigation */}
       <div className="flex gap-5 justify-end w-full mb-10 mt-6">
         <Link
           to={-1}

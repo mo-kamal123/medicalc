@@ -78,9 +78,23 @@ const transformApiDataToPlans = (apiResponse, type) => {
       // For SUMMARY type: Use actual premium values from API
       plans[name] = premiums;
     }
-
+    // Get plan name from title
+    const getPlanKey = (title) => {
+      const lower = title?.toLowerCase?.() || '';
+      if (lower.includes('1')) return 'planOne';
+      if (lower.includes('2')) return 'planTwo';
+      if (lower.includes('3')) return 'planThree';
+      if (lower.includes('4')) return 'planFour';
+      if (lower.includes('5')) return 'planFive';
+      if (lower.includes('6')) return 'planSix';
+      if (lower.includes('7')) return 'planSeven';
+      if (lower.includes('8')) return 'planEight';
+      if (lower.includes('9')) return 'planNine';
+      if (lower.includes('10')) return 'planTen';
+      return title;
+    };
     PLAN_META[name] = {
-      name: planDisplayNames[name] || name,
+      name: getPlanKey(name),
       limit,
       color: planColors[name] || 'text-gray-600',
       icon: planIcons[name] || <FaStar className="text-gray-400 text-2xl" />,

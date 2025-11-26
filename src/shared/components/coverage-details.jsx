@@ -21,6 +21,7 @@ const CoverageDetails = ({ nextPage }) => {
   const navigate = useNavigate();
 
   console.log('CoverageDetails::employeesages', employeesages);
+  console.warn('.........................' + employeesages);
 
   /* -----------------------------------------------
      🔥 REDIRECT GUARD - Must be BEFORE useState
@@ -238,7 +239,7 @@ const CoverageDetails = ({ nextPage }) => {
                       ) : (
                         <FaStar className="text-blue-400 text-2xl" />
                       ),
-                    title: `${program.name} `,
+                    title: `${program.name.charAt(0).toUpperCase() + program.name.slice(1).toLowerCase()} `,
                   }}
                 />
               </div>

@@ -178,6 +178,10 @@ const Reimbursement = ({
   );
   const data = transformData(clientName, packName, formData, planNames);
 
+  console.log(clientName);
+  console.log(packName);
+  console.log(formData);
+  console.log(planNames);
   // 🔥 HANDLE NEXT WITH VALIDATION
   const handleNext = () => {
     if (validateDropdowns() && clientName) {

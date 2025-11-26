@@ -7,7 +7,17 @@ const extractValue = (field) => {
     ? field.value
     : field;
 };
+// ✅ Plan key detection logic
+const getPlanKey = (plan) => {
+  const title =
+    plan?.header?.title?.toLowerCase?.() || plan?.title?.toLowerCase?.() || '';
 
+  if (plan.includes('white')) return 'White';
+  if (plan.includes('silver')) return 'Silver';
+  if (plan.includes('gold')) return 'Gold';
+
+  return plan;
+};
 export const transformData = (clientName, planType, data, plans) => {
   const limits = plans.map((plan) => {
     const main = data?.[planType]?.[plan] || {};
@@ -15,7 +25,7 @@ export const transformData = (clientName, planType, data, plans) => {
     const reimbursement = data?.reimbursement?.[plan] || {};
 
     return {
-      name: plan,
+      name: getPlanKey(plan),
 
       // Annual limit (first use value, fallback to raw)
       limit: extractValue(main?.annuallimit),
