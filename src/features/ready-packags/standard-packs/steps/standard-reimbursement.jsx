@@ -20,7 +20,7 @@ const StandardReimbursement = () => {
     {
       id: 1,
       icon: <FaStar className="text-blue-400 text-2xl" />,
-      title: 'Standard White Plan',
+      title: 'White Plan',
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ const StandardReimbursement = () => {
     {
       id: 3,
       icon: <FaCrown className="text-yellow-400 text-2xl" />,
-      title: 'Premium Gold Plan',
+      title: 'Gold Plan',
     },
   ];
 

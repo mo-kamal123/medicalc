@@ -46,7 +46,7 @@ const PremiumPlanSummaryByAge = () => {
   const navigate = useNavigate();
 
   const calculationData = useSelector((state) => state.calculationResult);
-
+  console.log(calculationData);
   const [plans, setPlans] = useState(null);
   const [planMeta, setPlanMeta] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,6 +63,7 @@ const PremiumPlanSummaryByAge = () => {
 
       setPlans(transformedPlans);
       setPlanMeta(PLAN_META);
+      console.log(transformedPlans);
 
       if (calculationData.calculationId) {
         dispatch(

@@ -10,9 +10,9 @@ const transformApiDataToPlans = (apiResponse) => {
   const PLAN_META = {};
 
   const planIcons = {
-    gold: <FaCrown className="text-yellow-400 text-2xl" />,
-    silver: <FaMedal className="text-gray-400 text-2xl" />,
-    white: <FaStar className="text-blue-400 text-2xl" />,
+    Gold: <FaCrown className="text-yellow-400 text-2xl" />,
+    Silver: <FaMedal className="text-gray-400 text-2xl" />,
+    White: <FaStar className="text-blue-400 text-2xl" />,
   };
 
   const planColors = {
