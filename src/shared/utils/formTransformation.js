@@ -9,8 +9,8 @@ const extractValue = (field) => {
 };
 // ✅ Plan key detection logic
 const getPlanKey = (plan) => {
-  const title =
-    plan?.header?.title?.toLowerCase?.() || plan?.title?.toLowerCase?.() || '';
+  // const title =
+  //   plan?.header?.title?.toLowerCase?.() || plan?.title?.toLowerCase?.() || '';
 
   if (plan.includes('white')) return 'White';
   if (plan.includes('silver')) return 'Silver';

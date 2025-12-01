@@ -123,11 +123,11 @@ const standardPlanSlice = createSlice({
         state.healthcareServices[planName] = {};
       }
       state.healthcareServices[planName][key] = value;
-      console.log(state.healthcareServices);
+      // console.log(state.healthcareServices);
     },
     setHealthcareServices(state, action) {
       state.healthcareServices = action.payload;
-      console.log(state.healthcareServices);
+      // console.log(state.healthcareServices);
     },
     updateReimbursement(state, action) {
       const { planName, key, value } = action.payload;
@@ -135,12 +135,12 @@ const standardPlanSlice = createSlice({
         state.reimbursement[planName] = {};
       }
       state.reimbursement[planName][key] = value;
-      console.log('Updated Reimbursement:', state.reimbursement);
+      // console.log('Updated Reimbursement:', state.reimbursement);
     },
 
     setReimbursement(state, action) {
       state.reimbursement = action.payload;
-      console.log('Set Reimbursement:', state.reimbursement);
+      // console.log('Set Reimbursement:', state.reimbursement);
     },
     resetForm() {
       return initialState;

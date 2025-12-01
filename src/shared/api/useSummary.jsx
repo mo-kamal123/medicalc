@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-// import { addSummaryResult } from '../store/summary-slice';  // Replace with your actual Redux action
 import { fetchSummary } from './summary';
 import { useSelector } from 'react-redux';
 
@@ -24,7 +23,7 @@ const useSummary = () => {
     },
     onSuccess: (data) => {
       // Debug: confirm summary payload was fetched successfully
-      console.log('useSummary::onSuccess payload', data);
+      // console.log('useSummary::onSuccess payload', data);
       // Dispatch to Redux to save summary result
       // dispatch(addSummaryResult(data));
     },

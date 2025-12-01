@@ -22,7 +22,7 @@ import { CalculationBenefits } from './calc-Benefits-api';
  *
  * @example
  * const { mutate: calculateBenefits, isLoading } = useCalculateBenefits((data) => {
- *   console.log('Benefits calculation complete:', data);
+ *   // console.log('Benefits calculation complete:', data);
  * });
  *
  * // Trigger calculation
@@ -36,25 +36,19 @@ export const useCalculateBenefits = (onSuccessCallBack) => {
     // Success handler - called when calculation is successful
     onSuccess: (data) => {
       // Log calculation result for debugging
-      console.log('Benefits Calculation result:', data);
+      // console.log('Benefits Calculation result:', data);
 
       // Execute optional success callback if provided
       // Useful for navigation or additional logic after successful calculation
       if (onSuccessCallBack) {
         onSuccessCallBack(data);
       }
-
-      // ✅ Optional: Show success toast notification
-      // toast.success('Benefits calculation completed successfully!');
     },
 
     // Error handler - called when calculation fails
     onError: (error) => {
       // Log error for debugging
       console.error('Benefits Calculation error:', error);
-
-      // ❌ Optional: Show error toast notification
-      // toast.error(error.response?.data?.message || 'Benefits calculation failed');
     },
 
     // Disable automatic retries for calculations

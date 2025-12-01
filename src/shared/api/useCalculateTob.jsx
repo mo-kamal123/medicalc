@@ -26,7 +26,7 @@ import { addCalculationResult } from '../store/calculation-result-slice';
  *
  * @example
  * const { mutate: calculateTob, isLoading } = useCalculateTob((data) => {
- *   console.log('Calculation complete:', data);
+ *   // console.log('Calculation complete:', data);
  * });
  *
  * // Trigger calculation
@@ -42,7 +42,7 @@ export const useCalculateTob = (onSuccessCallBack) => {
     // Success handler - called when calculation is successful
     onSuccess: (data) => {
       // Log calculation result for debugging
-      console.log('TOB Calculation result:', data);
+      // console.log('TOB Calculation result:', data);
 
       // Store calculation result in Redux state for access across components
       dispatch(addCalculationResult(data));
@@ -52,18 +52,12 @@ export const useCalculateTob = (onSuccessCallBack) => {
       if (onSuccessCallBack) {
         onSuccessCallBack(data);
       }
-
-      // ✅ Optional: Show success toast notification
-      // toast.success('Calculation completed successfully!');
     },
 
     // Error handler - called when calculation fails
     onError: (error) => {
       // Log error for debugging
       console.error('TOB Calculation error:', error);
-
-      // ❌ Optional: Show error toast notification
-      // toast.error(error.response?.data?.message || 'Calculation failed');
     },
 
     // Disable automatic retries for calculations

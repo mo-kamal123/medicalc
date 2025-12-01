@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import PlanAgeTable from '../../ready-packags/standard-packs/components/plan-age-table';
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateClientData } from '../../client/store/client-slice';
@@ -36,18 +35,6 @@ const transformApiDataToPlans = (apiResponse, type) => {
     planTen: 'text-indigo-400',
   };
 
-  const planDisplayNames = {
-    planOne: 'Plan 1',
-    planTwo: 'Plan 2',
-    planThree: 'Plan 3',
-    planFour: 'Plan 4',
-    planFive: 'Plan 5',
-    planSix: 'Plan 6',
-    planSeven: 'Plan 7',
-    planEight: 'Plan 8',
-    planNine: 'Plan 9',
-    planTen: 'Plan 10',
-  };
   const ageGroups = [
     '_0_17',
     '_18_24',
@@ -148,8 +135,8 @@ const CustomCustomizeByAge = () => {
       </div>
     );
   }
-  console.log(plans);
-  console.log(PLAN_META);
+  // console.log(plans);
+  // console.log(PLAN_META);
   return (
     <div>
       {/* <PlanAgeTable

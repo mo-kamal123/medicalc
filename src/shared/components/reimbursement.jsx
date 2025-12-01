@@ -32,7 +32,6 @@ const Reimbursement = ({
   prevNavigation,
   type,
   isSubmitting = false,
-  submitError = '',
 }) => {
   const [page, setPage] = useState(1);
   const [validationMessage, setValidationMessage] = useState('');
@@ -178,10 +177,10 @@ const Reimbursement = ({
   );
   const data = transformData(clientName, packName, formData, planNames);
 
-  console.log(clientName);
-  console.log(packName);
-  console.log(formData);
-  console.log(planNames);
+  // console.log(clientName);
+  // console.log(packName);
+  // console.log(formData);
+  // console.log(planNames);
   // 🔥 HANDLE NEXT WITH VALIDATION
   const handleNext = () => {
     if (validateDropdowns() && clientName) {
@@ -198,7 +197,7 @@ const Reimbursement = ({
   };
 
   // Debug: snapshot payload before submitting to API
-  console.log(`Reimbursement::${type} payload`, data);
+  // console.log(`Reimbursement::${type} payload`, data);
 
   return (
     <div className="flex flex-col gap-6">

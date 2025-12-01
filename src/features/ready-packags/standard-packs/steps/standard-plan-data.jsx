@@ -1,19 +1,17 @@
 import { FaCrown, FaMedal, FaStar } from 'react-icons/fa';
 import PlanData from '../../../../shared/components/plan-data';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateStandardPlan } from '../store/standard-plan-slice';
+import { useSelector } from 'react-redux';
 import Breadcrumb from '../../../../shared/UI/breadcrumb';
 
 const StandardPlanData = () => {
-  const dispatch = useDispatch();
   const standardPlanData = useSelector(
     (state) => state.standardPlan.standardPlan
   );
-  console.log(standardPlanData);
+  // console.log(standardPlanData);
   // Dispatch Redux action when user changes a field
-  const handleChange = (planName, key, value) => {
-    dispatch(updateStandardPlan({ planName, key, value }));
-  };
+  // const handleChange = (planName, key, value) => {
+  //   dispatch(updateStandardPlan({ planName, key, value }));
+  // };
 
   const white = {
     id: 1,
@@ -239,7 +237,7 @@ const StandardPlanData = () => {
 
   const plans = [white, silver, gold];
 
-  console.log('Redux Plan Data:', standardPlanData);
+  // console.log('Redux Plan Data:', standardPlanData);
 
   const breadcrumbItems = [
     { title: 'Plan Data', url: '/standard-package/plan-data', active: true },

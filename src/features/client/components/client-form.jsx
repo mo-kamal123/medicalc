@@ -45,7 +45,7 @@ const ClientForm = () => {
     if (validateForm()) {
       dispatch(addClientData(clientData));
       navigate('/select-package/ready');
-      console.log(clientData);
+      // console.log(clientData);
     }
   };
 

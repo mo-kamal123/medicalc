@@ -49,7 +49,7 @@ const DragAndDrop = ({
 
     setFile(file);
     changeLogo((prev) => ({ ...prev, logo: file }));
-    console.log('✅ File selected:', file.name);
+    // console.log('✅ File selected:', file.name);
   };
 
   return (
