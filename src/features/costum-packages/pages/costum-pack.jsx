@@ -7,7 +7,7 @@ const CustomPack = () => {
     <div className="flex flex-col items-center gap-10 w-full h-full">
       <Header
         heading={'Custom Package'}
-        desc={'Gold: 100K EGP, Silver: 50K EGP, White: 20K EGP'}
+        desc={'fill the required information to create your custom package'}
       />
       <div className="w-full">
         <Outlet />

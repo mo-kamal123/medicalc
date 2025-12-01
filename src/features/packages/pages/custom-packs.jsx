@@ -7,14 +7,15 @@ const CustomPacks = () => {
   const [programCount, setProgramCount] = useState('');
   const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.preventDefault();
     if (
       !programCount ||
       isNaN(programCount) ||
       programCount <= 0 ||
       programCount > 10
     ) {
-      alert('Please enter a valid number of programs.');
+      alert('The number of programs must be more than 0 and smaller than 11.');
       return;
     }
 
@@ -22,7 +23,10 @@ const CustomPacks = () => {
   };
 
   return (
-    <div className="bg-white p-4 sm:p-5 w-full sm:w-[90%] md:w-2/3 mt-3 sm:mt-4 lg:mt-5 m-auto rounded-xl flex flex-col items-center gap-4 sm:gap-5 justify-center px-4 sm:px-6">
+    <form
+      onSubmit={handleNext}
+      className="bg-white p-4 sm:p-5 w-full sm:w-[90%] md:w-2/3 mt-3 sm:mt-4 lg:mt-5 m-auto rounded-xl flex flex-col items-center gap-4 sm:gap-5 justify-center px-4 sm:px-6"
+    >
       <img
         className="w-40 sm:w-48 lg:w-60 h-auto"
         src={custom}
@@ -49,14 +53,11 @@ const CustomPacks = () => {
           </div>
         </div>
 
-        <button
-          onClick={handleNext}
-          className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base"
-        >
+        <button className="flex items-center justify-center gap-2 w-full bg-main text-white p-2.5 sm:p-3 rounded-xl text-sm sm:text-base">
           Next
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

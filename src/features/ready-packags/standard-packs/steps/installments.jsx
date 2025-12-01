@@ -258,7 +258,7 @@ const Installments = ({ nextPage, type }) => {
       <div className="flex justify-center my-5">
         <Link
           to={nextPage}
-          className={`flex items-center justify-center gap-2 bg-main text-white px-6 py-3 rounded-xl ${
+          className={`flex items-center justify-center gap-2 bg-main/90 text-white px-6 py-3 rounded-xl hover:bg-main transition-all ${
             isPending ? 'opacity-60 pointer-events-none' : ''
           }`}
         >

@@ -19,15 +19,16 @@ const Navbar = () => {
   return (
     <nav className="bg-white flex flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl">
       <div className="flex items-center justify-between gap-3 sm:gap-5 flex-wrap">
-        <Link
-          to={'/select-package/ready'}
-          className="flex items-center gap-2 p-2 sm:p-3 bg-main text-white rounded-md text-sm sm:text-base whitespace-nowrap"
+        <button
+          onClick={() => navigate('/client-info', { replace: true })}
+          className="flex items-center gap-2 p-2 sm:p-3 bg-main/80 hover:bg-main transition-all duration-200 text-white rounded-md text-sm sm:text-base whitespace-nowrap cursor-pointer "
         >
           <p className="text-lg sm:text-xl">
             <FaArrowLeft />
           </p>
+          Home
           <span className="hidden xs:inline">Back To Map</span>
-        </Link>
+        </button>
         <p className="hidden sm:block border-l px-3 sm:px-4 py-2 border-borders font-semibold text-sm sm:text-base">
           Smart Self-Management Calculator
         </p>
@@ -39,12 +40,12 @@ const Navbar = () => {
         </p>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 bg-delete text-white rounded-md text-sm sm:text-base whitespace-nowrap"
+          className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 bg-delete cursor-pointer hover:bg-red-500 transition-all duration-300 text-white rounded-md text-sm sm:text-base whitespace-nowrap"
         >
           <p className="text-xl sm:text-2xl">
             <CiLogout />
           </p>
-          <span className="hidden sm:inline">Logout</span>
+          <span className="hidden sm:inline ">Logout</span>
         </button>
       </div>
     </nav>
