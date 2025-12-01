@@ -204,7 +204,7 @@ const Summary = ({ type = 'standard' }) => {
         </h1>
         <button
           onClick={mergePDFs}
-          className="bg-main text-white w-full px-6 py-3 rounded-xl md:w-fit p-4  md:text-lg font-semibold self-end"
+          className="bg-main text-white w-full px-6 py-3 rounded-xl md:w-fit p-4  md:text-lg font-semibold self-end cursor-pointer hover:bg-blue-600 transition-all duration-300 "
         >
           Download {packageLabel} PDF
         </button>

@@ -28,9 +28,18 @@ export default function Dropdown({
 
     if (isObjectData) {
       const item = data.find((d) => d.value === selected);
-      return item ? item.title : placeholder;
+      if (item && item.title) {
+        // Ensure title is always a string
+        return typeof item.title === 'string'
+          ? item.title
+          : String(item.title || placeholder);
+      }
+      return placeholder;
     }
-    return selected;
+    // Ensure non-object data is also a string
+    return typeof selected === 'string'
+      ? selected
+      : String(selected || placeholder);
   };
 
   const handleSelect = (item) => {
@@ -107,7 +116,13 @@ export default function Dropdown({
                     : ''
                 }`}
               >
-                {isObjectData ? item.title : item}
+                {isObjectData
+                  ? typeof item.title === 'string'
+                    ? item.title
+                    : String(item.title || 'Unknown')
+                  : typeof item === 'string'
+                    ? item
+                    : String(item || 'Unknown')}
               </li>
             ))
           ) : (
