@@ -80,7 +80,7 @@ const CustomReimbursement = () => {
     },
   ];
   // Debug: verify generated plans and normalized names for submission
-  console.log('CustomReimbursement::plans', plans, planNames);
+  // console.log('CustomReimbursement::plans', plans, planNames);
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />

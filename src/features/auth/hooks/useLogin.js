@@ -45,22 +45,14 @@ export const useLogin = () => {
       // Update Redux auth state to mark user as logged in
       dispatch(log_in());
 
-      // TODO: Remove console.log in production
-      console.log('Login successful, token stored');
-
-      // ✅ Optional: Show success toast notification
-      // toast.success('Login successful!', {
-      //   description: 'Welcome back 👋',
-      // });
+      // TODO: Remove // console.log in production
+      // console.log('Login successful, token stored');
     },
 
     // Error handler - called when login fails
     onError: (error) => {
       // Log error for debugging
       console.error('Login error:', error);
-
-      // ❌ Optional: Show error toast notification
-      // toast.error(error.response?.data?.message || 'Login failed');
     },
 
     // Disable automatic retries for login

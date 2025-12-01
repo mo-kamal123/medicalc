@@ -23,7 +23,7 @@ import { installments } from './installments-api';
  *
  * @example
  * const { mutate: calculateInstallments, isLoading } = useCalculateInstallments((data) => {
- *   console.log('Installments calculation complete:', data);
+ *   // console.log('Installments calculation complete:', data);
  * });
  *
  * // Trigger calculation
@@ -37,25 +37,19 @@ export const useCalculateInstallments = (onSuccessCallBack) => {
     // Success handler - called when calculation is successful
     onSuccess: (data) => {
       // Log calculation result for debugging
-      console.log('Installments Calculation result:', data);
+      // console.log('Installments Calculation result:', data);
 
       // Execute optional success callback if provided
       // Useful for navigation or additional logic after successful calculation
       if (onSuccessCallBack) {
         onSuccessCallBack(data);
       }
-
-      // ✅ Optional: Show success toast notification
-      // toast.success('Installments calculation completed successfully!');
     },
 
     // Error handler - called when calculation fails
     onError: (error) => {
       // Log error for debugging
       console.error('Installments Calculation error:', error);
-
-      // ❌ Optional: Show error toast notification
-      // toast.error(error.response?.data?.message || 'Installments calculation failed');
     },
 
     // Disable automatic retries for calculations

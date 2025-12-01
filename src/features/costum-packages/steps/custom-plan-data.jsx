@@ -107,7 +107,7 @@ const CustomPlanData = () => {
       }, {});
 
       dispatch(setCustomPlans(generatedObject));
-      console.log(generatedObject);
+      // console.log(generatedObject);
     }
   }, [baseInputs, count, customPlans, dispatch]);
 
@@ -137,7 +137,7 @@ const CustomPlanData = () => {
     };
   });
 
-  console.log(customPlans);
+  // console.log(customPlans);
   const breadcrumbItems = [
     {
       title: 'Plan Data',

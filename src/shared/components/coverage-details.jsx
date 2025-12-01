@@ -20,8 +20,8 @@ const CoverageDetails = ({ nextPage }) => {
   const employeesages = useSelector((state) => state.employeesAges);
   const navigate = useNavigate();
 
-  console.log('CoverageDetails::employeesages', employeesages);
-  console.warn('.........................' + employeesages);
+  // console.log('CoverageDetails::employeesages', employeesages);
+  // console.warn('.........................' + employeesages);
 
   /* -----------------------------------------------
      🔥 REDIRECT GUARD - Must be BEFORE useState
@@ -164,9 +164,7 @@ const CoverageDetails = ({ nextPage }) => {
   );
 
   const handleSuccess = () => {
-    console.log(
-      'CoverageDetails::handleSuccess ✅ Benefits calculation successful!'
-    );
+    // console.log(  'CoverageDetails::handleSuccess ✅ Benefits calculation successful!');
     // navigate(nextPage);
   };
 
@@ -197,10 +195,10 @@ const CoverageDetails = ({ nextPage }) => {
       return;
     }
 
-    console.log(
-      'CoverageDetails::handleNext ✅ Validation passed:',
-      coverageState
-    );
+    //  console.log(
+    //   'CoverageDetails::handleNext ✅ Validation passed:',
+    //   coverageState
+    // );
     calculateBenefits(coverageState);
   };
 
@@ -261,10 +259,10 @@ const CoverageDetails = ({ nextPage }) => {
 
   if (isInitialDataMissing) return null;
 
-  console.log('CoverageDetails::Coverage State snapshot:', coverageState);
-  console.log('CoverageDetails::Plans Response:', plans);
-  console.log('CoverageDetails::isPending:', isPending);
-  console.log('CoverageDetails::isError:', isError);
+  // console.log('CoverageDetails::Coverage State snapshot:', coverageState);
+  // console.log('CoverageDetails::Plans Response:', plans);
+  // console.log('CoverageDetails::isPending:', isPending);
+  // console.log('CoverageDetails::isError:', isError);
 
   return (
     <div>

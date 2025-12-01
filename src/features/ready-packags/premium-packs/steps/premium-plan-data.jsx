@@ -1,16 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PlanData from '../../../../shared/components/plan-data';
-import { updatePremiumPlan } from '../store/premium-plan-slice';
 import Breadcrumb from '../../../../shared/UI/breadcrumb';
 
 const PremiumPlanData = () => {
-  const dispatch = useDispatch();
   const premiumPlan = useSelector((state) => state.premiumPlan.premiumPlan);
 
   // Dispatch Redux action when user changes a field
-  const handleChange = (planName, key, value) => {
-    dispatch(updatePremiumPlan({ planName, key, value }));
-  };
+  // const handleChange = (planName, key, value) => {
+  //   dispatch(updatePremiumPlan({ planName, key, value }));
+  // };
   const programOne = {
     id: 1,
     header: { title: 'Plan 1' },
@@ -336,7 +334,7 @@ const PremiumPlanData = () => {
     },
     { title: 'Summary', url: '/premium-package/summary', active: false },
   ];
-  console.log(premiumPlan);
+  // console.log(premiumPlan);
   return (
     <div className="flex flex-col gap-5">
       <Breadcrumb items={breadcrumbItems} />

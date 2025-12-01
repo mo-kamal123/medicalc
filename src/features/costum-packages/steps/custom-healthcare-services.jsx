@@ -178,7 +178,7 @@ const CustomHealthcareServices = () => {
       }),
     };
   });
-  console.log(healthcareServices);
+  // console.log(healthcareServices);
   const breadcrumbItems = [
     {
       title: 'Plan Data',

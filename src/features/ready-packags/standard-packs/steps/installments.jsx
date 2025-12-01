@@ -61,7 +61,7 @@ const Installments = ({ nextPage, type }) => {
     (state) => state.calculationResult.calculationId
   );
   // Debug: ensure calculation id exists before firing API calls
-  console.log('Installments::calculationId', calculationId);
+  // console.log('Installments::calculationId', calculationId);
   // ---- API Hook ----
   const {
     mutate: calculateInstallments,
@@ -103,9 +103,9 @@ const Installments = ({ nextPage, type }) => {
     if (value === 'SemiAnnual') setInstallmentsCount(2);
   };
 
-  const handleInstallmentsCountChange = (value) => {
-    setInstallmentsCount(Number(value));
-  };
+  // const handleInstallmentsCountChange = (value) => {
+  //   setInstallmentsCount(Number(value));
+  // };
 
   if (!calculationId) {
     return (

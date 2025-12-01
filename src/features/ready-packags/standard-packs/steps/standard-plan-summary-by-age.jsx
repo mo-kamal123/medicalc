@@ -60,7 +60,7 @@ const StandardPlanSummaryByAge = () => {
     // Check if required data is missing
     if (!calculationData.data || calculationData.data.length === 0) {
       // Debug: detect when no plan data is available before redirecting
-      console.log('Missing data, redirecting...', calculationData);
+      // console.log('Missing data, redirecting...', calculationData);
       navigate('/', { replace: true });
       return;
     }
